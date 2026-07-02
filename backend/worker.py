@@ -41,11 +41,15 @@ def get_pitch_simple(y, sr):
 def run(adviser_id, user_id, voice_url):
     try:
         # ── 1. Load Model ──────────────────────────────────────────────────
+        import torch
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        compute_type = "float16" if device == "cuda" else "int8"
+        
         model = WhisperModel(
             "large-v3",
-            device="cpu",
-            compute_type="int8",
-            cpu_threads=2,        # prevent memory thrashing
+            device=device,
+            compute_type=compute_type,
+            cpu_threads=4 if device == "cpu" else 0,
             num_workers=1
         )
 

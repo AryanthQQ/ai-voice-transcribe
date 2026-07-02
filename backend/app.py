@@ -39,10 +39,13 @@ app.add_middleware(
 def read_root():
     return {"status": "ok", "message": "SpeechIQ AI Backend is running successfully!"}
 
-# large-v3 + int8 = Best accuracy, optimized for CPU
-MODEL_SIZE = "large-v3"
-print("Loading Faster-Whisper Model: large-v3 on CPU (int8)...")
-model = WhisperModel("large-v3", device="cpu", compute_type="int8")
+# large-v3 for best accuracy
+import torch
+device = "cuda" if torch.cuda.is_available() else "cpu"
+compute_type = "float16" if device == "cuda" else "int8"
+
+print(f"Loading Faster-Whisper Model: large-v3 on {device.upper()} ({compute_type})...")
+model = WhisperModel("large-v3", device=device, compute_type=compute_type)
 print("Model loaded successfully!")
 
 HF_TOKEN = os.getenv("HF_TOKEN")
