@@ -16,18 +16,16 @@ import {
 import { cn } from "./utils/cn";
 import { Dashboard } from "./views/Dashboard";
 import { Analyze } from "./views/Analyze";
-import { History as HistoryView } from "./views/History";
 import { Insights } from "./views/Insights";
 import { Roadmap } from "./views/Roadmap";
 import { AgentMonitor } from "./views/AgentMonitor";
 
-type ViewId = "dashboard" | "analyze" | "monitor" | "history" | "insights" | "roadmap";
+type ViewId = "dashboard" | "analyze" | "monitor" | "insights" | "roadmap";
 
 const NAV: { id: ViewId; label: string; icon: typeof LayoutDashboard; title: string; subtitle: string }[] = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, title: "Overview", subtitle: "Real-time speech analytics across your contact center" },
   { id: "analyze", label: "Transcribe and Analyze", icon: AudioLines, title: "Transcribe and Analyze", subtitle: "Run the Whisper pipeline with the live detection engine" },
   { id: "monitor", label: "Call Monitor (n8n)", icon: Webhook, title: "Friendship Call Monitor", subtitle: "n8n-ready: adviser_id, user_id & voice_url transcription" },
-  { id: "history", label: "Call History", icon: History, title: "Call History", subtitle: "Search and review every analyzed interaction" },
   { id: "insights", label: "Insights", icon: BarChart3, title: "Insights", subtitle: "Language coverage, trends and peak risk windows" },
   { id: "roadmap", label: "Roadmap", icon: Map, title: "Project Roadmap", subtitle: "From prototype to enterprise-grade SaaS" },
 ];
@@ -149,10 +147,9 @@ export default function App() {
 
         <main className="px-5 py-6 lg:px-8">
           <div className="mx-auto max-w-[1400px]">
-            {view === "dashboard" && <Dashboard onOpenHistory={() => go("history")} />}
+            {view === "dashboard" && <Dashboard />}
             {view === "analyze" && <Analyze />}
             {view === "monitor" && <AgentMonitor />}
-            {view === "history" && <HistoryView onAnalyze={() => go("analyze")} />}
             {view === "insights" && <Insights />}
             {view === "roadmap" && <Roadmap />}
           </div>

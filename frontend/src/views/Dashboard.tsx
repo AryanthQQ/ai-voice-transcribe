@@ -54,7 +54,7 @@ function ChartTooltip({ active, payload, label }: any) {
 
 const PIE_COLORS = CATEGORY_BREAKDOWN.map((c) => CATEGORY_META[c.category].color);
 
-export function Dashboard({ onOpenHistory }: { onOpenHistory: () => void }) {
+export function Dashboard() {
   const totalCategory = CATEGORY_BREAKDOWN.reduce((s, c) => s + c.count, 0);
   const recent = CALL_HISTORY.slice(0, 5);
 
@@ -265,14 +265,6 @@ export function Dashboard({ onOpenHistory }: { onOpenHistory: () => void }) {
           title="Recent Flagged Calls"
           subtitle="Latest analyzed interactions requiring review"
           icon={<Languages size={18} />}
-          action={
-            <button
-              onClick={onOpenHistory}
-              className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-200"
-            >
-              View all →
-            </button>
-          }
         />
         <div className="divide-y divide-slate-100 px-2 pb-2 pt-2">
           {recent.map((c) => (

@@ -258,6 +258,36 @@ from deep_translator import GoogleTranslator
 from transliterate import hindi_to_hinglish
 from gender_detector import detect_speaker_gender
 from pitch_diarize import pitch_diarize
+from emailer import send_violation_alert_email
+
+def load_bad_words():
+    bad_words_path = os.path.join(os.path.dirname(__file__), "bad_words.txt")
+    if not os.path.exists(bad_words_path):
+        return []
+    with open(bad_words_path, 'r', encoding='utf-8') as f:
+        return [line.strip().lower() for line in f if line.strip()]
+
+BAD_WORDS_LIST = load_bad_words()
+
+def check_for_violations(turns):
+    incidents = []
+    for turn in turns:
+        text = turn.get("text", "").lower()
+        violations_found = []
+        for bw in BAD_WORDS_LIST:
+            # simple substring or word boundary match
+            import re
+            if re.search(r'\b' + re.escape(bw) + r'\b', text):
+                violations_found.append(bw)
+        
+        if violations_found:
+            incidents.append({
+                "time": turn.get("time", "0:00"),
+                "speaker": turn.get("speaker", "Unknown"),
+                "text": turn.get("text", ""),
+                "violations": list(set(violations_found))
+            })
+    return incidents
 
 def process_mixed_text(text: str) -> str:
     # 1. Translate South Indian/Other scripts to English
@@ -299,6 +329,32 @@ async def analyze_call(request: Request):
             user_id,
             voice_url
         )
+        
+        if payload.get("success") and "transcript" in payload:
+            incidents = check_for_violations(payload["transcript"])
+            if incidents:
+                print(f"🚨 Violations found! Sending email alert...")
+                all_violations = []
+                for inc in incidents:
+                    all_violations.extend(inc["violations"])
+                
+                alert_data = {
+                    "user_id": user_id,
+                    "adviser_id": adviser_id,
+                    "violations": list(set(all_violations)),
+                    "incidents": incidents,
+                    "transcript": payload.get("full_text", ""),
+                    "audio_url": voice_url
+                }
+                
+                import threading
+                threading.Thread(target=send_violation_alert_email, args=(alert_data,)).start()
+            else:
+                print("✅ Voice is normal. No bad words used. Ignoring & moving to next.")
+                
+            # Add incidents to payload so frontend can see it during testing
+            payload["incidents"] = incidents
+            
         return payload
 
     except Exception as e:
