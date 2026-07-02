@@ -1,0 +1,26 @@
+import re
+from indic_transliteration import sanscript
+from indic_transliteration.sanscript import transliterate
+
+def hindi_to_hinglish(text: str) -> str:
+    """
+    Accurately transliterates Devanagari text to Roman Hindi (Hinglish/ITRANS).
+    """
+    if not text:
+        return text
+        
+    try:
+        # Transliterate Devanagari to standard ITRANS (Roman)
+        hinglish = transliterate(text, sanscript.DEVANAGARI, sanscript.ITRANS)
+        
+        # Clean up ITRANS-specific artifacts (e.g., upper case indicates specific sounds in ITRANS,
+        # but for readability, we lowercase it. And 'aa' -> 'a', etc. can be tweaked if needed)
+        hinglish = hinglish.lower()
+        hinglish = hinglish.replace('aa', 'a')
+        hinglish = hinglish.replace('ii', 'i')
+        hinglish = hinglish.replace('uu', 'u')
+        
+        return hinglish
+    except Exception as e:
+        print(f"Transliteration error: {e}")
+        return text
