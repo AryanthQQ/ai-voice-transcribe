@@ -13,6 +13,8 @@ from faster_whisper import WhisperModel
 import librosa
 from sklearn.cluster import KMeans
 from transliterate import hindi_to_hinglish
+from dotenv import load_dotenv
+from pyannote.audio import Pipeline
 
 
 def get_pitch_simple(y, sr):
@@ -44,6 +46,9 @@ def run(adviser_id, user_id, voice_url):
         import torch
         device = "cuda" if torch.cuda.is_available() else "cpu"
         compute_type = "float16" if device == "cuda" else "int8"
+        
+        load_dotenv()
+        hf_token = os.getenv("HF_TOKEN")
         
         model = WhisperModel(
             "large-v3",
@@ -101,67 +106,151 @@ def run(adviser_id, user_id, voice_url):
             print("WORKER_RESULT:" + json.dumps(result))
             return
 
-        # ── 4. Load audio for diarization ─────────────────────────────────
+        # ── 4. Load audio for pitch processing ────────────────────────────
         y, sr = librosa.load(temp_path, sr=16000, mono=True)
 
-        # ── 5. Feature extraction: MFCC + pitch per segment ────────────────
-        mfcc_features = []
-        pitch_per_segment = []
+        # ── 5. Pyannote Diarization ───────────────────────────────────────
+        diarization_pipeline = None
+        if hf_token:
+            try:
+                diarization_pipeline = Pipeline.from_pretrained(
+                    "pyannote/speaker-diarization-3.1",
+                    use_auth_token=hf_token
+                )
+                if device == "cuda":
+                    diarization_pipeline.to(torch.device("cuda"))
+            except Exception as e:
+                print("Failed to load Pyannote:", str(e))
 
-        for seg in whisper_segments:
-            s = int(seg['start'] * sr)
-            e = int(seg['end'] * sr)
-            chunk = y[s:e]
-
-            if len(chunk) < sr * 0.1:
-                mfcc_features.append(np.zeros(13))
-                pitch_per_segment.append(0.0)
-                continue
-
-            mfcc = librosa.feature.mfcc(y=chunk, sr=sr, n_mfcc=13)
-            mfcc_features.append(np.mean(mfcc, axis=1))
-            pitch_per_segment.append(get_pitch_simple(chunk, sr))
-
-        X = np.array(mfcc_features)
-
-        # ── 6. K-Means Diarization ─────────────────────────────────────────
-        if len(whisper_segments) == 1:
-            labels = [0]
-        else:
-            n_clusters = min(2, len(whisper_segments))
-            kmeans = KMeans(n_clusters=n_clusters, n_init=10, random_state=0)
-            labels = kmeans.fit_predict(X).tolist()
-
-        # ── 7. Map clusters → Agent / Customer using pitch ─────────────────
-        cluster_pitches = {0: [], 1: []}
-        for i, lbl in enumerate(labels):
-            p = pitch_per_segment[i]
-            if p > 0:
-                cluster_pitches[lbl].append(p)
-
-        avg0 = float(np.mean(cluster_pitches[0])) if cluster_pitches[0] else 0.0
-        avg1 = float(np.mean(cluster_pitches[1])) if cluster_pitches[1] else 0.0
-
-        # Higher pitch = Agent (female), lower = Customer (male)
-        if avg0 >= avg1:
-            cluster_to_role = {0: "Agent", 1: "Customer"}
-        else:
-            cluster_to_role = {0: "Customer", 1: "Agent"}
-
-        # ── 8. Build conversation turns ───────────────────────────────────
-        turns = []
-        for i, seg in enumerate(whisper_segments):
-            speaker = cluster_to_role.get(labels[i], "Agent")
-            mins = int(seg["start"] // 60)
-            secs = int(seg["start"] % 60)
-            if turns and turns[-1]["speaker"] == speaker:
-                turns[-1]["text"] += " " + seg["text"]
-            else:
-                turns.append({
-                    "speaker": speaker,
-                    "text": seg["text"],
-                    "time": f"{mins}:{secs:02d}"
+        if diarization_pipeline:
+            diarization = diarization_pipeline(temp_path)
+            pyannote_segments = []
+            for turn, _, speaker in diarization.itertracks(yield_label=True):
+                pyannote_segments.append({
+                    "start": turn.start,
+                    "end": turn.end,
+                    "speaker": speaker
                 })
+
+            # Figure out pitch for each speaker to map Agent vs Customer
+            speaker_pitches = {}
+            for p_seg in pyannote_segments:
+                s = int(p_seg['start'] * sr)
+                e = int(p_seg['end'] * sr)
+                chunk = y[s:e]
+                if len(chunk) > sr * 0.1:
+                    pitch = get_pitch_simple(chunk, sr)
+                    if pitch > 0:
+                        spk = p_seg['speaker']
+                        speaker_pitches.setdefault(spk, []).append(pitch)
+
+            # Calculate avg pitch per speaker
+            avg_pitch = {}
+            for spk, pitches in speaker_pitches.items():
+                avg_pitch[spk] = float(np.mean(pitches))
+
+            # Map Agent and Customer
+            if len(avg_pitch) >= 2:
+                # sort by pitch descending
+                sorted_speakers = sorted(avg_pitch.keys(), key=lambda k: avg_pitch[k], reverse=True)
+                cluster_to_role = {sorted_speakers[0]: "Agent", sorted_speakers[1]: "Customer"}
+                for spk in sorted_speakers[2:]:
+                    cluster_to_role[spk] = "Unknown"
+            elif len(avg_pitch) == 1:
+                spk = list(avg_pitch.keys())[0]
+                cluster_to_role = {spk: "Agent" if avg_pitch[spk] > 160 else "Customer"}
+            else:
+                cluster_to_role = {}
+
+            # Map whisper segments to pyannote speakers
+            turns = []
+            for w_seg in whisper_segments:
+                w_mid = (w_seg['start'] + w_seg['end']) / 2
+                
+                best_speaker = "Unknown"
+                for p_seg in pyannote_segments:
+                    if p_seg['start'] <= w_mid <= p_seg['end']:
+                        best_speaker = cluster_to_role.get(p_seg['speaker'], p_seg['speaker'])
+                        break
+                
+                if best_speaker == "Unknown":
+                    # Fallback to nearest
+                    nearest_speaker = None
+                    min_dist = float('inf')
+                    for p_seg in pyannote_segments:
+                        dist = min(abs(w_mid - p_seg['start']), abs(w_mid - p_seg['end']))
+                        if dist < min_dist:
+                            min_dist = dist
+                            nearest_speaker = p_seg['speaker']
+                    if nearest_speaker:
+                        best_speaker = cluster_to_role.get(nearest_speaker, nearest_speaker)
+
+                mins = int(w_seg["start"] // 60)
+                secs = int(w_seg["start"] % 60)
+                
+                if turns and turns[-1]["speaker"] == best_speaker:
+                    turns[-1]["text"] += " " + w_seg["text"]
+                else:
+                    turns.append({
+                        "speaker": best_speaker,
+                        "text": w_seg["text"],
+                        "time": f"{mins}:{secs:02d}"
+                    })
+        else:
+            # --- FALLBACK: K-Means Diarization if Pyannote fails ---
+            mfcc_features = []
+            pitch_per_segment = []
+
+            for seg in whisper_segments:
+                s = int(seg['start'] * sr)
+                e = int(seg['end'] * sr)
+                chunk = y[s:e]
+
+                if len(chunk) < sr * 0.1:
+                    mfcc_features.append(np.zeros(13))
+                    pitch_per_segment.append(0.0)
+                    continue
+
+                mfcc = librosa.feature.mfcc(y=chunk, sr=sr, n_mfcc=13)
+                mfcc_features.append(np.mean(mfcc, axis=1))
+                pitch_per_segment.append(get_pitch_simple(chunk, sr))
+
+            X = np.array(mfcc_features)
+
+            if len(whisper_segments) == 1:
+                labels = [0]
+            else:
+                n_clusters = min(2, len(whisper_segments))
+                kmeans = KMeans(n_clusters=n_clusters, n_init=10, random_state=0)
+                labels = kmeans.fit_predict(X).tolist()
+
+            cluster_pitches = {0: [], 1: []}
+            for i, lbl in enumerate(labels):
+                p = pitch_per_segment[i]
+                if p > 0:
+                    cluster_pitches[lbl].append(p)
+
+            avg0 = float(np.mean(cluster_pitches[0])) if cluster_pitches[0] else 0.0
+            avg1 = float(np.mean(cluster_pitches[1])) if cluster_pitches[1] else 0.0
+
+            if avg0 >= avg1:
+                cluster_to_role = {0: "Agent", 1: "Customer"}
+            else:
+                cluster_to_role = {0: "Customer", 1: "Agent"}
+
+            turns = []
+            for i, seg in enumerate(whisper_segments):
+                speaker = cluster_to_role.get(labels[i], "Agent")
+                mins = int(seg["start"] // 60)
+                secs = int(seg["start"] % 60)
+                if turns and turns[-1]["speaker"] == speaker:
+                    turns[-1]["text"] += " " + seg["text"]
+                else:
+                    turns.append({
+                        "speaker": speaker,
+                        "text": seg["text"],
+                        "time": f"{mins}:{secs:02d}"
+                    })
 
         # ── 9. Output result ───────────────────────────────────────────────
         result = {
