@@ -42,6 +42,21 @@ def get_pitch_simple(y, sr):
 
 def run(adviser_id, user_id, voice_url):
     try:
+        # ── 0. Initialize Vertex AI (Gemini) ───────────────────────────────
+        gemini_model = None
+        gcp_cred_path = os.path.join(os.path.dirname(__file__), "gcp-credentials.json")
+        if os.path.exists(gcp_cred_path):
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = gcp_cred_path
+            try:
+                import vertexai
+                from vertexai.generative_models import GenerativeModel
+                with open(gcp_cred_path, "r") as f:
+                    cred_data = json.load(f)
+                    project_id = cred_data.get("project_id", "ai-modal-492711")
+                vertexai.init(project=project_id, location="us-central1")
+                gemini_model = GenerativeModel("gemini-1.5-flash")
+            except Exception as e:
+                print("Failed to init Vertex AI:", e)
         # ── 1. Load Model ──────────────────────────────────────────────────
         import torch
         device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -252,13 +267,43 @@ def run(adviser_id, user_id, voice_url):
                         "time": f"{mins}:{secs:02d}"
                     })
 
-        # ── 9. Output result ───────────────────────────────────────────────
+        # ── 9. Vertex AI Gemini Translation & Summary ──────────────────────
+        summary_text = ""
+        if gemini_model and turns:
+            try:
+                prompt = f"""
+Here is a transcript of a call. Translate each turn's text into professional English, fixing grammatical errors while preserving the original meaning.
+Return ONLY a valid JSON array of objects with exactly "speaker", "time", and "text" fields. Do not include markdown blocks like ```json.
+Transcript:
+{json.dumps(turns)}
+"""
+                response = gemini_model.generate_content(prompt)
+                resp_text = response.text.strip()
+                if resp_text.startswith("```json"):
+                    resp_text = resp_text[7:]
+                if resp_text.startswith("```"):
+                    resp_text = resp_text[3:]
+                if resp_text.endswith("```"):
+                    resp_text = resp_text[:-3]
+                
+                translated_turns = json.loads(resp_text.strip())
+                if isinstance(translated_turns, list):
+                    turns = translated_turns
+                    
+                # Generate summary
+                summary_prompt = f"Summarize this call in 2-3 sentences based on the following transcript:\n{json.dumps(turns)}"
+                summary_resp = gemini_model.generate_content(summary_prompt)
+                summary_text = summary_resp.text.strip()
+            except Exception as e:
+                print("Gemini processing failed:", e)
+
+        # ── 10. Output result ───────────────────────────────────────────────
         result = {
             "success": True,
             "transcript": turns,
             "full_text": full_text,
             "language": info.language,
-            "summary": ""
+            "summary": summary_text
         }
         print("WORKER_RESULT:" + json.dumps(result))
 
