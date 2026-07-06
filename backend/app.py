@@ -394,8 +394,8 @@ async def analyze_call(request: Request):
             voice_url
         )
         
-        if payload.get("success") and "transcript" in payload:
-            incidents = check_for_violations(payload["transcript"])
+        if payload.get("success") and "turns" in payload:
+            incidents = check_for_violations(payload["turns"])
             if incidents:
                 print(f"[ALERT] Violations found! Sending email alert...")
                 all_violations = []

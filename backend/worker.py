@@ -338,7 +338,8 @@ Transcript:
         # ── 10. Output result ───────────────────────────────────────────────
         result = {
             "success": True,
-            "transcript": turns,
+            "transcript": full_text, # Frontend expects a string here
+            "turns": turns,          # Array of segments
             "full_text": full_text,
             "language": info.language,
             "summary": summary_text
