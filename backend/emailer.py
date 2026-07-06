@@ -19,8 +19,8 @@ def send_violation_alert_email(alert_data: dict) -> dict:
     alert_email = os.environ.get("ALERT_EMAIL")
 
     if not smtp_host or not smtp_user or not smtp_pass or not alert_email:
-        print("⚠️  SMTP not configured. Alert email will be logged but not sent.")
-        print(f"📧 Would send violation alert to: {alert_email or '(not set)'}")
+        print("[WARNING] SMTP not configured. Alert email will be logged but not sent.")
+        print(f"[EMAIL] Would send violation alert to: {alert_email or '(not set)'}")
         print(f"   Violations: {', '.join(alert_data.get('violations', []))}")
         print(f"   User: {alert_data.get('user_id')} | Advisor: {alert_data.get('adviser_id')}")
         return {
@@ -116,8 +116,8 @@ def send_violation_alert_email(alert_data: dict) -> dict:
         server.send_message(msg)
         server.quit()
         
-        print(f"✅ Violation alert email sent to {alert_email}")
+        print(f"[SUCCESS] Violation alert email sent to {alert_email}")
         return {"success": True}
     except Exception as e:
-        print("❌ Failed to send alert email:", str(e))
+        print("[ERROR] Failed to send alert email:", str(e))
         return {"success": False, "error": str(e)}

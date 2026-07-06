@@ -397,7 +397,7 @@ async def analyze_call(request: Request):
         if payload.get("success") and "transcript" in payload:
             incidents = check_for_violations(payload["transcript"])
             if incidents:
-                print(f"🚨 Violations found! Sending email alert...")
+                print(f"[ALERT] Violations found! Sending email alert...")
                 all_violations = []
                 for inc in incidents:
                     all_violations.extend(inc["violations"])
@@ -414,7 +414,7 @@ async def analyze_call(request: Request):
                 import threading
                 threading.Thread(target=send_violation_alert_email, args=(alert_data,)).start()
             else:
-                print("✅ Voice is normal. No bad words used. Ignoring & moving to next.")
+                print("[SAFE] Voice is normal. No bad words used. Ignoring & moving to next.")
                 
             # Add incidents to payload so frontend can see it during testing
             payload["incidents"] = incidents
