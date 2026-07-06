@@ -31,6 +31,8 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+worker_out*.txt
+worker_err*.txt
 
 # OS Files
 .DS_Store
@@ -40,3 +42,6 @@ Thumbs.db
 temp_audio_*.mp3
 *.wav
 *.mp3
+
+# Secret Credentials
+backend/gcp-credentials.json

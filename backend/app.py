@@ -8,7 +8,7 @@ if sys.stdout.encoding != "utf-8":
 if sys.stderr.encoding != "utf-8":
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
-from fastapi import FastAPI, File, UploadFile, Form, Request
+from fastapi import FastAPI, File, UploadFile, Form, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from faster_whisper import WhisperModel
 import os
@@ -51,6 +51,30 @@ print("Model loaded successfully!")
 HF_TOKEN = os.getenv("HF_TOKEN")
 if not HF_TOKEN:
     print("WARNING: HF_TOKEN not found in .env.")
+
+from google import genai
+
+client = None
+gcp_cred_path = os.path.join(os.path.dirname(__file__), "gcp-credentials.json")
+if os.path.exists(gcp_cred_path):
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = gcp_cred_path
+    try:
+        with open(gcp_cred_path, "r") as f:
+            cred_data = json.load(f)
+            project_id = cred_data.get("project_id", "ai-modal-492711")
+        client = genai.Client(vertexai=True, project=project_id, location="us-central1")
+        print("[GEMINI] genai client initialized successfully!")
+    except Exception as e:
+        print("[GEMINI] Failed to initialize genai client:", e)
+
+def call_gemini(prompt: str, model="gemini-2.5-flash-lite") -> str:
+    if not client:
+        raise ValueError("Gemini client not initialized")
+    response = client.models.generate_content(
+        model=model,
+        contents=prompt
+    )
+    return response.text.strip()
 
 import numpy as np
 def fast_diarize(audio_path: str, whisper_segments: list) -> list:
@@ -142,7 +166,7 @@ async def transcribe(
         print(f"Transcribing: {original_name} ({file_size_kb:.1f} KB), lang={language}, ext=.{ext}")
         
         if not prompt:
-            prompt = "Hello! यह एक साधारण बातचीत है।"
+            prompt = "हाँ, ठीक है, जी, अच्छा।"
 
         # ── FIX 2: Disable aggressive VAD — it was silently dropping valid audio ─
         # vad_filter=True was cutting out short pauses and quiet voices.
@@ -187,11 +211,9 @@ async def transcribe(
 
             for segment in segments_gen:
                 raw = segment.text.strip()
-                hinglish_text = hindi_to_hinglish(raw).strip()
-                final_text = hinglish_text if hinglish_text else raw
                 print(f"  [{segment.start:.1f}s] {raw[:40]}")
-                segments.append({"start": segment.start, "end": segment.end, "text": final_text})
-                full_text += final_text + " "
+                segments.append({"start": segment.start, "end": segment.end, "text": raw})
+                full_text += raw + " "
 
         else:
             print(f"Language '{detected_lang}' detected — translating to English...")
@@ -235,6 +257,45 @@ async def transcribe(
             print(f"Diarization error: {e}")
             turns = [{"speaker": "agent", "text": full_text, "time": "0:00"}]
 
+        # ── Gemini Transliteration for Hindi / Regional Languages ──
+        gemini_success = False
+        if detected_lang in ["hi", "ur", "ne", "mr"] and client and turns:
+            try:
+                print("Running Gemini transliteration for app.py transcribe...")
+                prompt = f"""
+Analyze this call transcript where the text is in Devanagari script (Hindi/Marathi/etc.).
+For each turn, you must:
+1. Transliterate the "text" field into clean, modern, natural Roman Hinglish (e.g. convert "लड़की" to "ladki", "व्हाट्सएप" to "whatsapp", "स्कैनर" to "scanner", "प्रॉब्लम" to "problem"). Do NOT use academic dot notation (like la.daka or vatasaba).
+2. Translate the "text" field into professional English and put it in a new field called "english".
+Return ONLY a valid JSON array of objects with exactly "speaker", "time", "text" (for Roman Hinglish), and "english" (for English translation) fields. Do not include markdown blocks like ```json.
+Transcript:
+{json.dumps(turns)}
+"""
+                resp_text = call_gemini(prompt)
+                if resp_text.startswith("```json"):
+                    resp_text = resp_text[7:]
+                if resp_text.startswith("```"):
+                    resp_text = resp_text[3:]
+                if resp_text.endswith("```"):
+                    resp_text = resp_text[:-3]
+                
+                translated_turns = json.loads(resp_text.strip())
+                if isinstance(translated_turns, list):
+                    turns = translated_turns
+                    gemini_success = True
+                    # Reconstruct full_text in Hinglish
+                    full_text = " ".join([t.get("text", "") for t in turns]).strip()
+            except Exception as e:
+                print("Gemini transliteration failed in app.py, falling back to rule-based:", e)
+
+        if detected_lang in ["hi", "ur", "ne", "mr"] and not gemini_success:
+            # Fallback to rule-based transliteration
+            from transliterate import hindi_to_hinglish
+            for turn in turns:
+                turn["text"] = hindi_to_hinglish(turn.get("text", ""))
+                turn["english"] = turn["text"]
+            full_text = " ".join([t.get("text", "") for t in turns]).strip()
+
         return {
             "success": True,
             "text": full_text,
@@ -246,7 +307,7 @@ async def transcribe(
     except Exception as e:
         import traceback
         print(f"Transcription error: {traceback.format_exc()}")
-        return {"success": False, "error": str(e)}
+        raise HTTPException(status_code=500, detail=str(e))
     finally:
         if temp_path and os.path.exists(temp_path):
             try:
@@ -323,7 +384,7 @@ async def analyze_call(request: Request):
         voice_url = data.get("voice_url")
         
         if not voice_url:
-            return {"success": False, "error": "voice_url is required"}
+            raise HTTPException(status_code=400, detail="voice_url is required")
 
         print(f"Webhook Received: adviser={adviser_id}, user={user_id}, url={voice_url}")
         
@@ -358,11 +419,14 @@ async def analyze_call(request: Request):
             # Add incidents to payload so frontend can see it during testing
             payload["incidents"] = incidents
             
+        if not payload.get("success"):
+            raise HTTPException(status_code=500, detail=payload.get("error", "Unknown backend error"))
+            
         return payload
 
     except Exception as e:
         print(f"Error in analyze-call: {str(e)}")
-        return {"success": False, "error": str(e)}
+        raise HTTPException(status_code=500, detail=str(e))
 
 import threading
 import subprocess
@@ -416,7 +480,7 @@ def _run_heavy_analysis_internal(adviser_id: str, user_id: str, voice_url: str) 
             no_speech_threshold=0.6,          # Drop silent segments that cause loops
             word_timestamps=False,
             beam_size=5,                      # Maximize accuracy with beam search
-            initial_prompt="Hello! यह एक साधारण बातचीत है।" # Prime model for accurate Hindi/English
+            initial_prompt="हाँ, ठीक है, जी, अच्छा।" # Prime model for accurate Hindi/English
         )
         
         segments_gen, info = model.transcribe(temp_path, language=None, **transcribe_options)

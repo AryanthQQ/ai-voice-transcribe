@@ -85,7 +85,7 @@ export function Analyze() {
   const [pasted, setPasted] = useState("");
   const [maskPii, setMaskPii] = useState(true);
 
-  const { status, step, result, analyzedText, analyzedSample, sourceLabel } = useGlobalStore();
+  const { status, error, step, result, analyzedText, analyzedSample, sourceLabel } = useGlobalStore();
 
   const selected = SAMPLE_CALLS.find((s) => s.id === selectedId)!;
 
@@ -259,6 +259,23 @@ export function Analyze() {
         </Card>
       )}
 
+      {/* Error State */}
+      {status === "error" && (
+        <Card className="border-rose-100 bg-rose-50/50 p-6 text-center">
+          <div className="mx-auto max-w-md">
+            <ShieldAlert className="mx-auto h-12 w-12 text-rose-500" />
+            <h3 className="mt-4 text-base font-bold text-slate-900">Transcription Failed</h3>
+            <p className="mt-2 text-sm leading-relaxed text-rose-600">{error}</p>
+            <button
+              onClick={reset}
+              className="mt-5 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
+            >
+              <RotateCcw size={15} /> Try again
+            </button>
+          </div>
+        </Card>
+      )}
+ 
       {/* Results */}
       {status === "done" && result && (
         <div className="space-y-6">

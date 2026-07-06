@@ -17,6 +17,31 @@ from dotenv import load_dotenv
 from pyannote.audio import Pipeline
 
 
+from google import genai
+
+client = None
+gcp_cred_path = os.path.join(os.path.dirname(__file__), "gcp-credentials.json")
+if os.path.exists(gcp_cred_path):
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = gcp_cred_path
+    try:
+        with open(gcp_cred_path, "r") as f:
+            cred_data = json.load(f)
+            project_id = cred_data.get("project_id", "ai-modal-492711")
+        client = genai.Client(vertexai=True, project=project_id, location="us-central1")
+        print("[GEMINI] genai client initialized successfully in worker.py!")
+    except Exception as e:
+        print("[GEMINI] Failed to initialize genai client in worker.py:", e)
+
+def call_gemini(prompt: str, model="gemini-2.5-flash-lite") -> str:
+    if not client:
+        raise ValueError("Gemini client not initialized")
+    response = client.models.generate_content(
+        model=model,
+        contents=prompt
+    )
+    return response.text.strip()
+
+
 def get_pitch_simple(y, sr):
     """
     Lightweight pitch estimation using librosa piptrack.
@@ -103,8 +128,8 @@ def run(adviser_id, user_id, voice_url):
             if not t:
                 continue
                 
-            # Convert Devanagari to Roman (Hinglish/Marathi in English script)
-            t = hindi_to_hinglish(t)
+            # Keep raw Devanagari (Hindi/Urdu/Marathi text as Devanagari script)
+            # Transliteration will be handled by Gemini (or fallback) at the end.
             
             whisper_segments.append({
                 "start": seg.start,
@@ -267,18 +292,22 @@ def run(adviser_id, user_id, voice_url):
                         "time": f"{mins}:{secs:02d}"
                     })
 
-        # ── 9. Vertex AI Gemini Translation & Summary ──────────────────────
+        # ── 9. Gemini Translation & Summary ──────────────────────
         summary_text = ""
-        if gemini_model and turns:
+        gemini_success = False
+        if client and turns:
             try:
+                # Prompt Gemini to convert Devanagari to BOTH natural Roman Hinglish and English translation
                 prompt = f"""
-Here is a transcript of a call. Translate each turn's text into professional English, fixing grammatical errors while preserving the original meaning.
-Return ONLY a valid JSON array of objects with exactly "speaker", "time", and "text" fields. Do not include markdown blocks like ```json.
+Analyze this call transcript where the text is in Devanagari script (Hindi/Marathi/etc.).
+For each turn, you must:
+1. Transliterate the "text" field into clean, modern, natural Roman Hinglish (e.g. convert "लड़की" to "ladki", "व्हाट्सएप" to "whatsapp", "स्कैनर" to "scanner", "प्रॉब्लम" to "problem"). Do NOT use academic dot notation (like la.daka or vatasaba).
+2. Translate the "text" field into professional English and put it in a new field called "english".
+Return ONLY a valid JSON array of objects with exactly "speaker", "time", "text" (for Roman Hinglish), and "english" (for English translation) fields. Do not include markdown blocks like ```json.
 Transcript:
 {json.dumps(turns)}
 """
-                response = gemini_model.generate_content(prompt)
-                resp_text = response.text.strip()
+                resp_text = call_gemini(prompt)
                 if resp_text.startswith("```json"):
                     resp_text = resp_text[7:]
                 if resp_text.startswith("```"):
@@ -289,13 +318,22 @@ Transcript:
                 translated_turns = json.loads(resp_text.strip())
                 if isinstance(translated_turns, list):
                     turns = translated_turns
+                    gemini_success = True
+                    # Reconstruct full_text in Hinglish
+                    full_text = " ".join([t.get("text", "") for t in turns]).strip()
                     
                 # Generate summary
                 summary_prompt = f"Summarize this call in 2-3 sentences based on the following transcript:\n{json.dumps(turns)}"
-                summary_resp = gemini_model.generate_content(summary_prompt)
-                summary_text = summary_resp.text.strip()
+                summary_text = call_gemini(summary_prompt)
             except Exception as e:
-                print("Gemini processing failed:", e)
+                print("Gemini processing failed, falling back to rule-based transliteration:", e)
+
+        # Fallback to rule-based transliteration if Gemini is not available or failed
+        if not gemini_success:
+            for turn in turns:
+                turn["text"] = hindi_to_hinglish(turn.get("text", ""))
+                turn["english"] = turn["text"]  # Simple fallback
+            full_text = " ".join([t.get("text", "") for t in turns]).strip()
 
         # ── 10. Output result ───────────────────────────────────────────────
         result = {

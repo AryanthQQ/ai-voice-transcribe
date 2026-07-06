@@ -20,6 +20,14 @@ def hindi_to_hinglish(text: str) -> str:
         hinglish = hinglish.replace('ii', 'i')
         hinglish = hinglish.replace('uu', 'u')
         
+        # Clean up dots from ITRANS schema (e.g., la.daki -> ladaki, sh.h -> sh)
+        hinglish = hinglish.replace('.d', 'd')
+        hinglish = hinglish.replace('.h', '')
+        hinglish = hinglish.replace('.', '')
+        
+        # Strip residual mathematical or non-standard characters from transliteration
+        hinglish = re.sub(r'[^a-zA-Z0-9\s]', '', hinglish)
+        
         return hinglish
     except Exception as e:
         print(f"Transliteration error: {e}")
