@@ -44,8 +44,8 @@ import torch
 device = "cuda" if torch.cuda.is_available() else "cpu"
 compute_type = "float16" if device == "cuda" else "int8"
 
-print(f"Loading Faster-Whisper Model: large-v3 on {device.upper()} ({compute_type})...")
-model = WhisperModel("large-v3", device=device, compute_type=compute_type)
+print(f"Loading Faster-Whisper Model: base on {device.upper()} ({compute_type})...")
+model = WhisperModel("base", device=device, compute_type=compute_type)
 print("Model loaded successfully!")
 
 HF_TOKEN = os.getenv("HF_TOKEN")

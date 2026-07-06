@@ -91,7 +91,7 @@ def run(adviser_id, user_id, voice_url):
         hf_token = os.getenv("HF_TOKEN")
         
         model = WhisperModel(
-            "large-v3",
+            "base",
             device=device,
             compute_type=compute_type,
             cpu_threads=4 if device == "cpu" else 0,
