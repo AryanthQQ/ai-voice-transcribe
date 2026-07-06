@@ -6,6 +6,7 @@ pydantic-settings
 faster-whisper
 pyannote.audio
 python-dotenv
+indic-transliteration
 torch
 librosa
 numpy
