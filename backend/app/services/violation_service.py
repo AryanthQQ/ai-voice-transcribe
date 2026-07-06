@@ -1,6 +1,9 @@
 import re
 import os
-from transliterate import hindi_to_hinglish
+from typing import List, Dict, Any
+from app.services.transliterate_service import hindi_to_hinglish
+from app.core.config import settings
+from app.core.logger import logger
 
 # Word to Digit mapping for catching phone numbers spoken in words
 NUMBER_WORDS_MAP = {
@@ -59,39 +62,35 @@ ENGLISH_DOUBLE_DIGITS = {
     "ninety five": "95", "ninety six": "96", "ninety seven": "97", "ninety eight": "98", "ninety nine": "99"
 }
 
-# Merge both maps
 NUMBER_WORDS_MAP.update(HINDI_DOUBLE_DIGITS)
 NUMBER_WORDS_MAP.update(ENGLISH_DOUBLE_DIGITS)
 
-# Load bad words from txt
-bad_words_path = os.path.join(os.path.dirname(__file__), "bad_words.txt")
-try:
-    with open(bad_words_path, "r", encoding="utf-8") as f:
-        content = f.read().replace("\\n", "\n")
-        PROFANITY_WORDS = [w.strip().lower() for w in content.split("\n") if w.strip()]
-except:
-    PROFANITY_WORDS = ["fuck", "shit", "bitch", "bastard"]
+def load_bad_words():
+    if not os.path.exists(settings.BAD_WORDS_FILE):
+        return ["fuck", "shit", "bitch", "bastard"]
+    try:
+        with open(settings.BAD_WORDS_FILE, "r", encoding="utf-8") as f:
+            content = f.read().replace("\\n", "\n")
+            return [w.strip().lower() for w in content.split("\n") if w.strip()]
+    except Exception as e:
+        logger.error(f"Failed to load bad words: {e}")
+        return ["fuck", "shit", "bitch", "bastard"]
+
+PROFANITY_WORDS = load_bad_words()
 
 THREATS = [
-    # English
     r"i'?ll kill you", r"i will kill you", r"kill yourself", r"i'?m going to hurt you",
     r"going to beat you", r"i'?ll beat you", r"i will destroy you", r"i'?ll destroy you",
     r"i will end you", r"watch your back", r"you'?re dead", r"i'?ll find you",
     r"break your leg", r"smash your face", r"ruin your life", r"teach you a lesson", 
     r"cut you", r"make you pay", r"shoot you", r"stab you", r"slap you", r"punch you",
-    # Hindi/Hinglish
     r"maar dunga", r"jaan se maar", r"jan se maar", r"thok dunga", r"tod dunga",
     r"maar d?al?unga", r"khatam kar d?ung[ae]", r"zinda gaad d?unga",
     r"chhodunga nahi", r"tange tod dunga", r"teri aisi ki taisi",
-    # Tamil
     r"konnu poduven", r"kollamal vida", r"adimai aakiruven",
-    # Telugu
     r"sampestha", r"ninnu vadalanu", r"champestha",
-    # Bengali
     r"mere felbo", r"khun kore", r"sesh kore", r"bhenge debo",
-    # Marathi
     r"marun taken", r"tangle moden",
-    # Punjabi
     r"goli maar", r"latt tor", r"jaan toh maar"
 ]
 
@@ -105,37 +104,43 @@ SCAMS = [
     r"otp batao", r"cvv batao"
 ]
 
-def analyze_text(text: str):
-    # 1. Transliterate Devanagari to Hinglish so Latin bad words list works
+def check_for_violations(turns: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Checks an array of turns for bad words and returns incidents.
+    """
+    incidents = []
+    for turn in turns:
+        text = turn.get("text", "").lower()
+        violations_found = []
+        for bw in PROFANITY_WORDS:
+            if re.search(r'\b' + re.escape(bw) + r'\b', text):
+                violations_found.append(bw)
+        
+        if violations_found:
+            incidents.append({
+                "time": turn.get("time", "0:00"),
+                "speaker": turn.get("speaker", "Unknown"),
+                "text": turn.get("text", ""),
+                "violations": list(set(violations_found))
+            })
+    return incidents
+
+def analyze_text(text: str) -> dict:
+    """
+    Analyzes raw text for threats, scams, and PII.
+    """
     transliterated = hindi_to_hinglish(text)
-    
-    # 2. Lowercase and pad
     lower_text = " " + transliterated.lower() + " "
     
-    # 2.5 Convert number words to digits for PII catching
-    # e.g., "nau aath saat" -> "9 8 7"
     digitized_text = lower_text
-    # We sort keys by length descending to replace longer words first (e.g., "twenty one" before "twenty")
     sorted_number_words = sorted(NUMBER_WORDS_MAP.items(), key=lambda x: len(x[0]), reverse=True)
     for word, digit in sorted_number_words:
-        # Replace whole words only
         digitized_text = re.sub(rf"\b{word}\b", digit, digitized_text)
-    stats = {
-        "profanity": 0,
-        "threat": 0,
-        "scam": 0,
-        "pii": 0
-    }
-    flags = {
-        "abuse_detected": False,
-        "threat_detected": False,
-        "phone_shared": False
-    }
+        
+    stats = {"profanity": 0, "threat": 0, "scam": 0, "pii": 0}
+    flags = {"abuse_detected": False, "threat_detected": False, "phone_shared": False}
     
-    # 1. Profanity
     for word in PROFANITY_WORDS:
-        # Avoid partial word matches like 'hello' matching 'hell' by checking boundaries
-        # Since some words have asterisks or chars, just use basic word boundaries
         escaped = re.escape(word).replace(r"\*", r"[a-z]?")
         pattern = r"(^|[^a-z])(" + escaped + r")([^a-z]|$)"
         matches = len(re.findall(pattern, lower_text))
@@ -143,32 +148,26 @@ def analyze_text(text: str):
             stats["profanity"] += matches
             flags["abuse_detected"] = True
 
-    # 2. Threats
     for pattern in THREATS:
         matches = len(re.findall(pattern, lower_text))
         if matches > 0:
             stats["threat"] += matches
             flags["threat_detected"] = True
 
-    # 3. Scams
     for pattern in SCAMS:
         matches = len(re.findall(pattern, lower_text))
         if matches > 0:
             stats["scam"] += matches
 
-    # 4. PII - phone numbers (extremely aggressive detection)
-    # Catches 10-14 digits, with or without +91, with spaces between digits (e.g., 9 8 7 6...)
     phone_pattern = r"(?:(?:\+91|91)?[ -]?)?\b\d[ \-\d]{8,13}\d\b"
     sensitive_num = r"\b\d(?:[\s-]?\d){3,}\b"
-    
     pii_matches = re.findall(phone_pattern, digitized_text) + re.findall(sensitive_num, digitized_text)
+    
     if len(pii_matches) > 0:
         stats["pii"] = len(pii_matches)
         flags["phone_shared"] = True
 
-    # Risk Score calculation
-    risk_score = (stats["threat"] * 22) + (stats["scam"] * 12) + (stats["profanity"] * 6) + (stats["pii"] * 60)
-    risk_score = min(100, risk_score)
+    risk_score = min(100, (stats["threat"] * 22) + (stats["scam"] * 12) + (stats["profanity"] * 6) + (stats["pii"] * 60))
     
     risk_level = "Safe"
     if risk_score >= 60: risk_level = "Critical"

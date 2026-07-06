@@ -1,6 +1,7 @@
 import re
 from indic_transliteration import sanscript
 from indic_transliteration.sanscript import transliterate
+from app.core.logger import logger
 
 def hindi_to_hinglish(text: str) -> str:
     """
@@ -13,14 +14,13 @@ def hindi_to_hinglish(text: str) -> str:
         # Transliterate Devanagari to standard ITRANS (Roman)
         hinglish = transliterate(text, sanscript.DEVANAGARI, sanscript.ITRANS)
         
-        # Clean up ITRANS-specific artifacts (e.g., upper case indicates specific sounds in ITRANS,
-        # but for readability, we lowercase it. And 'aa' -> 'a', etc. can be tweaked if needed)
+        # Clean up ITRANS-specific artifacts
         hinglish = hinglish.lower()
         hinglish = hinglish.replace('aa', 'a')
         hinglish = hinglish.replace('ii', 'i')
         hinglish = hinglish.replace('uu', 'u')
         
-        # Clean up dots from ITRANS schema (e.g., la.daki -> ladaki, sh.h -> sh)
+        # Clean up dots from ITRANS schema
         hinglish = hinglish.replace('.d', 'd')
         hinglish = hinglish.replace('.h', '')
         hinglish = hinglish.replace('.', '')
@@ -30,5 +30,5 @@ def hindi_to_hinglish(text: str) -> str:
         
         return hinglish
     except Exception as e:
-        print(f"Transliteration error: {e}")
+        logger.error(f"Transliteration error: {e}")
         return text
