@@ -13,8 +13,8 @@ class Settings(BaseSettings):
     VERTEX_LOCATION: str = "us-central1"
     GEMINI_MODEL: str = "gemini-2.5-flash-lite"
     GOOGLE_APPLICATION_CREDENTIALS: Optional[str] = None
-    GOOGLE_CLOUD_PROJECT: Optional[str] = None
-    GOOGLE_CLOUD_LOCATION: Optional[str] = None
+    GCP_PROJECT: Optional[str] = None
+    GCP_LOCATION: Optional[str] = None
     
     # Email Config
     SMTP_HOST: str = "smtp.gmail.com"
@@ -43,3 +43,11 @@ class Settings(BaseSettings):
     )
 
 settings = Settings()
+
+# Push GCP variables into the OS environment so the Google GenAI SDK can natively authenticate with the JSON file
+if settings.GOOGLE_APPLICATION_CREDENTIALS:
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = settings.GOOGLE_APPLICATION_CREDENTIALS
+if settings.GCP_PROJECT:
+    os.environ["GOOGLE_CLOUD_PROJECT"] = settings.GCP_PROJECT
+if settings.GCP_LOCATION:
+    os.environ["GOOGLE_CLOUD_LOCATION"] = settings.GCP_LOCATION
