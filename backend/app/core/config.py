@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     
     # Paths
     BASE_DIR: Path = Path(__file__).resolve().parents[2]
-    BAD_WORDS_FILE: str = str(BASE_DIR.parent / "bad_words.txt")
+    BAD_WORDS_FILE: str = str(BASE_DIR.parent / "public" / "bad_words.txt")
 
     model_config = SettingsConfigDict(
         env_file=str(BASE_DIR / ".env"),
