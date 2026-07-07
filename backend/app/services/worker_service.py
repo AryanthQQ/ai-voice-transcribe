@@ -3,6 +3,7 @@ import json
 import urllib.request
 import tempfile
 import threading
+import time
 from typing import Dict, Any
 
 from app.core.logger import logger
@@ -18,6 +19,7 @@ analysis_lock = threading.Lock()
 
 def process_call_audio(adviser_id: str, user_id: str, voice_url: str) -> Dict[str, Any]:
     with analysis_lock:
+        start_total = time.time()
         logger.info(f"Starting analysis for {voice_url}")
         temp_path = None
         try:
@@ -30,15 +32,23 @@ def process_call_audio(adviser_id: str, user_id: str, voice_url: str) -> Dict[st
                 
             with tempfile.NamedTemporaryFile(delete=False, suffix=f".{ext}") as temp_audio:
                 req = urllib.request.Request(voice_url, headers={'User-Agent': 'Mozilla/5.0'})
-                with urllib.request.urlopen(req, timeout=10) as response:
+                with urllib.request.urlopen(req, timeout=15) as response:
                     temp_audio.write(response.read())
                 temp_path = temp_audio.name
+                file_size_mb = os.path.getsize(temp_path) / (1024 * 1024)
+                logger.info(f"Downloaded audio size: {file_size_mb:.2f} MB")
                 
             # 2. Transcribe
+            start_transcribe = time.time()
             segments, info = speech_service.transcribe(temp_path)
+            time_transcribe = time.time() - start_transcribe
+            logger.info(f"Transcription Time: {time_transcribe:.2f}s")
             
             # 3. Diarize
+            start_diarize = time.time()
             diarize_results = diarize_service.diarize(temp_path, num_speakers=2)
+            time_diarize = time.time() - start_diarize
+            logger.info(f"Diarization Time: {time_diarize:.2f}s")
             
             # 4. Map speakers to text
             turns = []
@@ -63,6 +73,7 @@ def process_call_audio(adviser_id: str, user_id: str, voice_url: str) -> Dict[st
                     })
 
             # 5. Gemini Processing
+            start_gemini = time.time()
             summary_text = ""
             gemini_success = False
             
@@ -91,6 +102,8 @@ Transcript:
                     summary_text = gemini_service.generate_text(summary_prompt)
                 except Exception as e:
                     logger.error(f"Gemini processing failed: {e}")
+            time_gemini = time.time() - start_gemini
+            logger.info(f"Gemini Time: {time_gemini:.2f}s")
 
             if not gemini_success:
                 for turn in turns:
@@ -117,19 +130,28 @@ Transcript:
                 }
                 threading.Thread(target=send_violation_alert_email, args=(alert_data,)).start()
             
+            total_time = time.time() - start_total
+            logger.info(f"Total Processing Time: {total_time:.2f}s")
+            
             return {
                 "success": True,
                 "transcript": full_text,
                 "turns": turns,
-                "language": info.language,
+                "language": getattr(info, "language", "en"),
                 "summary": summary_text,
                 "incidents": incidents
             }
             
         except Exception as e:
-            import traceback
-            logger.error(f"Worker failed: {traceback.format_exc()}")
-            return {"success": False, "error": str(e)}
+            logger.error(f"Worker failed processing {voice_url}: {e}")
+            return {
+                "success": False, 
+                "error": {
+                    "code": "WORKER_PROCESSING_ERROR",
+                    "message": "Failed to process the audio call.",
+                    "details": str(e)
+                }
+            }
         finally:
             if temp_path and os.path.exists(temp_path):
                 try:

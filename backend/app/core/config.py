@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List, Optional
 
@@ -11,6 +12,9 @@ class Settings(BaseSettings):
     # GCP / Gemini Config
     VERTEX_LOCATION: str = "us-central1"
     GEMINI_MODEL: str = "gemini-2.5-flash-lite"
+    GOOGLE_APPLICATION_CREDENTIALS: Optional[str] = None
+    GOOGLE_CLOUD_PROJECT: Optional[str] = None
+    GOOGLE_CLOUD_LOCATION: Optional[str] = None
     
     # Email Config
     SMTP_HOST: str = "smtp.gmail.com"
@@ -19,17 +23,21 @@ class Settings(BaseSettings):
     SMTP_PASS: str = ""
     ALERT_EMAIL: str = ""
     
-    # Whisper Config
+    # Whisper / Diarization Config
     WHISPER_MODEL: str = "large-v3"
     WHISPER_DEVICE: str = "cpu"
     WHISPER_COMPUTE_TYPE: str = "int8"
+    HF_TOKEN: Optional[str] = None
+    
+    # Other APIs
+    GROQ_API_KEY: Optional[str] = None
     
     # Paths
-    BASE_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    BAD_WORDS_FILE: str = os.path.join(os.path.dirname(BASE_DIR), "bad_words.txt")
+    BASE_DIR: Path = Path(__file__).resolve().parents[2]
+    BAD_WORDS_FILE: str = str(BASE_DIR.parent / "bad_words.txt")
 
     model_config = SettingsConfigDict(
-        env_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))), ".env"),
+        env_file=str(BASE_DIR / ".env"),
         env_file_encoding="utf-8",
         extra="ignore"
     )

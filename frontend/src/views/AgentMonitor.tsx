@@ -71,7 +71,7 @@ export function AgentMonitor() {
       fd.append("reciever_ref_code", advId);
       fd.append("voice_url", vUrl);
 
-      const res = await fetch("http://localhost:8000/api/analyze-call", {
+      const res = await fetch("http://localhost:8001/api/analyze-call", {
         method: "POST",
         body: fd,
         signal: controller.signal,

@@ -38,7 +38,7 @@ export const PROVIDER_PRESETS: Record<Provider, ProviderPreset> = {
   local: {
     label: "Local faster-whisper",
     blurb: "large-v3 · int8 · offline · $0/min. Runs on your own CPU/laptop.",
-    defaultEndpoint: "http://localhost:8000/transcribe",
+    defaultEndpoint: "http://localhost:8001/transcribe",
     defaultModel: "large-v3",
     keyUrl: "",
     keyLabel: "API Key (optional)",
@@ -62,7 +62,7 @@ export const PROVIDER_PRESETS: Record<Provider, ProviderPreset> = {
   custom: {
     label: "Custom endpoint",
     blurb: "Any OpenAI-compatible /audio/transcriptions endpoint.",
-    defaultEndpoint: "http://localhost:8000/transcribe",
+    defaultEndpoint: "http://localhost:8001/transcribe",
     defaultModel: "whisper-large-v3",
     keyUrl: "",
     keyLabel: "API Key (optional)",

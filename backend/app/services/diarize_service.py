@@ -18,8 +18,8 @@ class DiarizeService:
             logger.info("Loading Pyannote Diarization pipeline into memory...")
             hf_token = os.environ.get("HF_TOKEN")
             if not hf_token:
-                logger.error("HF_TOKEN missing. Diarization will not work.")
-                raise ValueError("HF_TOKEN is required for Pyannote.")
+                logger.warning("HF_TOKEN missing. Diarization is disabled.")
+                return None
             
             try:
                 self._pipeline = Pipeline.from_pretrained(
@@ -31,11 +31,15 @@ class DiarizeService:
                 logger.info("Pyannote pipeline loaded successfully.")
             except Exception as e:
                 logger.error(f"Failed to load Pyannote: {e}")
-                raise e
+                return None
         return self._pipeline
 
     def diarize(self, audio_path: str, num_speakers: int = 2):
         pipeline = self.load_pipeline()
+        if pipeline is None:
+            logger.warning("Skipping diarization since pipeline is disabled.")
+            return []
+            
         logger.info(f"Running diarization on {audio_path}")
         diarization = pipeline(audio_path, num_speakers=num_speakers)
         

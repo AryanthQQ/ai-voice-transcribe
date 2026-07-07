@@ -95,7 +95,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       form.append("file", fs.createReadStream(filePath));
       form.append("language", language);
 
-      const response = await axios.post("http://localhost:8000/transcribe", form, {
+      const response = await axios.post("http://localhost:8001/transcribe", form, {
         headers: form.getHeaders(),
       });
 

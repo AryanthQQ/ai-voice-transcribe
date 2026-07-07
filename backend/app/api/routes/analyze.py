@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Form
+from fastapi.responses import JSONResponse
 from app.schemas.requests import AnalyzeCallRequest
 from app.schemas.responses import AnalyzeCallResponse
 from app.services.worker_service import process_call_audio
@@ -22,7 +23,14 @@ async def analyze_call(
     final_adviser_id = reciever_ref_code or adviser_id
     
     if not voice_url:
-        raise HTTPException(status_code=400, detail="voice_url is required")
+        return JSONResponse(status_code=400, content={
+            "success": False,
+            "error": {
+                "code": "MISSING_PARAMETER",
+                "message": "voice_url is required",
+                "details": "The voice_url parameter must be provided."
+            }
+        })
         
     logger.info(f"Received webhook: adviser={final_adviser_id}, user={final_user_id}, url={voice_url}")
     
@@ -30,6 +38,6 @@ async def analyze_call(
     
     if not result.get("success"):
         logger.error(f"Analysis failed: {result.get('error')}")
-        raise HTTPException(status_code=500, detail=result.get("error", "Unknown backend error"))
+        return JSONResponse(status_code=500, content=result)
         
     return result
