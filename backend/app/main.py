@@ -58,6 +58,8 @@ app.include_router(analyze.router, prefix=settings.API_PREFIX, tags=["Analysis"]
 
 @app.on_event("startup")
 async def startup_event():
+    import time
+    app.start_time = time.time()
     logger.info(f"Starting {settings.APP_NAME}...")
     
     # Validate Whisper
@@ -87,6 +89,22 @@ async def startup_event():
     else:
         logger.warning(f"Bad words file not found at {settings.BAD_WORDS_FILE}")
 
-@app.get("/")
+from app.services.metrics_service import metrics_service
+
+@app.get("/health")
 def health_check():
-    return {"status": "healthy", "service": settings.APP_NAME}
+    import time
+    return {
+        "status": "healthy",
+        "whisper": "ready",
+        "gemini": "ready" if settings.GOOGLE_APPLICATION_CREDENTIALS or os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") else "disabled",
+        "diarization": "enabled" if settings.HF_TOKEN else "disabled",
+        "email": "ready" if settings.SMTP_PASS and settings.SMTP_USER else "disabled",
+        "bad_words": "loaded" if os.path.exists(settings.BAD_WORDS_FILE) else "missing",
+        "uptime": f"{time.time() - getattr(app, 'start_time', time.time()):.2f} sec",
+        "version": app.version
+    }
+
+@app.get("/metrics")
+def get_metrics():
+    return metrics_service.get_metrics()
