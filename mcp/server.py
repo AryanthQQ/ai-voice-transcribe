@@ -12,10 +12,10 @@ Compatible clients:
 Architecture:
     See mcp/ARCHITECTURE.md for the full design specification.
 
-Tool implementation status:
     [x] scan_project        — Live repository scanner (reads actual files via AST)
     [x] build_context       — Master context builder: 7 sections + ai_ready_summary
     [x] memory_engine       — Persistent memory store (CRUD for features, bugs, etc.)
+    [x] knowledge_base      — Persistent handbook (Standards, Rules, Architecture, etc.)
     [ ] get_project_overview    — Stub (reads knowledge/project_overview.md)
     [ ] get_system_architecture — Stub (reads knowledge/architecture.md)
     [ ] get_module_details      — Stub (reads knowledge/modules/{name}.md)
@@ -45,6 +45,7 @@ from mcp.server.fastmcp import FastMCP
 from tools.project_scanner import handle as _project_scanner_handle
 from tools.context_builder import handle as _context_builder_handle
 from tools.memory_engine import handle as _memory_engine_handle
+from tools.knowledge_base import handle as _knowledge_base_handle
 
 # ---------------------------------------------------------------------------
 # Server instantiation
@@ -178,6 +179,46 @@ def memory_engine(
         action=action,
         category=category or None,
         value=value or None,
+        index=index if index != -1 else None
+    )
+
+
+# ---------------------------------------------------------------------------
+# Tool: knowledge_base  — Persistent handbook
+# ---------------------------------------------------------------------------
+@mcp.tool()
+def knowledge_base(
+    action: str = "read",
+    topic: str = "",
+    note: str = "",
+    index: int = -1
+) -> dict:
+    """
+    Access or update the persistent Knowledge Base.
+
+    Stores engineering documentation and guidelines:
+      - engineering_standards
+      - coding_rules
+      - architecture_notes
+      - model_information
+      - infrastructure_notes
+      - deployment_notes
+
+    Actions:
+      - "read": Return the entire KB (or specific topic if provided).
+      - "add_note": Add `note` to `topic`.
+      - "remove_note": Remove item at `index` from `topic`.
+
+    Args:
+        action: "read", "add_note", or "remove_note"
+        topic: The knowledge topic (required for add/remove)
+        note: The note content to add (required for add_note)
+        index: The index to remove (required for remove_note)
+    """
+    return _knowledge_base_handle(
+        action=action,
+        topic=topic or None,
+        note=note or None,
         index=index if index != -1 else None
     )
 

@@ -1,0 +1,41 @@
+{
+  "engineering_standards": [
+    "Accuracy over Speed: In Trust & Safety, a false positive is better than a missed violation, but exactness is paramount.",
+    "Explainability over Black Box: All detections must be traceable to a specific word or pattern. No opaque LLM verdicts.",
+    "Privacy First: Audio is never persisted. Delete temp files in finally blocks.",
+    "Indian Languages First: Native handling of Hinglish, transliteration, and code-switching.",
+    "Everything In-House: No vendor lock-in. Whisper and Pyannote run locally.",
+    "Deterministic Detection before LLM: Use LLM only for reasoning/contextualizing, never for detection."
+  ],
+  "coding_rules": [
+    "Type Hints: All Python functions must have complete type hints.",
+    "Error Handling: Catch specific exceptions, never bare `except:`.",
+    "Dependency Injection: Pass dependencies explicitly where possible.",
+    "File Deletion: Ensure local files are removed in `finally` blocks.",
+    "API Responses: Always return structured JSON with predictable schemas."
+  ],
+  "architecture_notes": [
+    "6-Layer Pipeline: Audio -> Speech -> Language -> Compliance -> Reasoning -> Business.",
+    "Separation of Concerns: Compliance layer DETECTS violations. Reasoning layer (LLM) EXPLAINS violations.",
+    "Async Execution: `BackgroundTasks` are used for processing to unblock the API.",
+    "State Management: In-memory job store (temporary) tracking queued/processing/completed/failed states."
+  ],
+  "model_information": [
+    "Whisper: `large-v3` running on CPU with `int8` quantization (faster-whisper).",
+    "Pyannote: Speaker diarization model (requires HF_TOKEN). Identifies SPEAKER_00 vs SPEAKER_01.",
+    "Gemini: `gemini-2.5-flash-lite` via Vertex AI (ADC authentication). Used for reasoning and synthesis, NOT detection."
+  ],
+  "infrastructure_notes": [
+    "Backend: FastAPI running via Uvicorn.",
+    "Frontend: React + TypeScript (Vite).",
+    "Server: Single instance deployment currently.",
+    "Storage: None currently (in-memory job dict). Redis/Postgres planned for Phase 2.",
+    "Email: SMTP integration for alerts."
+  ],
+  "deployment_notes": [
+    "Local Execution: Run `uvicorn app.main:app --reload` on port 8001.",
+    "Frontend Execution: Run `npm run dev` on port 5173.",
+    "CORS: Currently set to allow all origins. Must be restricted before production.",
+    "GCP Credentials: GOOGLE_APPLICATION_CREDENTIALS must point to a valid service account JSON."
+  ]
+}
