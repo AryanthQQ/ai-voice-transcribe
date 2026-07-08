@@ -13,7 +13,8 @@ Architecture:
     See mcp/ARCHITECTURE.md for the full design specification.
 
     [x] scan_project        — Live repository scanner (reads actual files via AST)
-    [x] build_context       — Master context builder: 7 sections + ai_ready_summary
+    [x] build_context       — Human-readable context + system prompt generator
+    [x] get_ai_context      — 100% Machine-readable JSON API aggregating all data
     [x] memory_engine       — Persistent memory store (CRUD for features, bugs, etc.)
     [x] knowledge_base      — Persistent handbook (Standards, Rules, Architecture, etc.)
     [ ] get_project_overview    — Stub (reads knowledge/project_overview.md)
@@ -46,6 +47,7 @@ from tools.project_scanner import handle as _project_scanner_handle
 from tools.context_builder import handle as _context_builder_handle
 from tools.memory_engine import handle as _memory_engine_handle
 from tools.knowledge_base import handle as _knowledge_base_handle
+from tools.ai_context_api import handle as _ai_context_api_handle
 
 # ---------------------------------------------------------------------------
 # Server instantiation
@@ -138,6 +140,28 @@ def build_context(
         include_file_tree=include_file_tree,
         include_python_details=include_python_details,
     )
+
+
+# ---------------------------------------------------------------------------
+# Tool: get_ai_context  — Machine-Readable Context API
+# ---------------------------------------------------------------------------
+@mcp.tool()
+def get_ai_context(include_file_tree: bool = True) -> dict:
+    """
+    The ultimate machine-readable Context API for AI agents.
+    
+    It aggregates the outputs of the Project Scanner, Memory Engine, 
+    and Knowledge Base into a single, structured JSON payload.
+
+    Calling this ONE tool provides a complete, 360-degree view of the project:
+      1. What exists on disk (Scanner)
+      2. What is planned/completed (Memory)
+      3. What the rules are (Knowledge Base)
+
+    Args:
+        include_file_tree: Include directory tree (default: True)
+    """
+    return _ai_context_api_handle(include_file_tree=include_file_tree)
 
 
 # ---------------------------------------------------------------------------
