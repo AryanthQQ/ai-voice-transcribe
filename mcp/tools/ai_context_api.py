@@ -3,72 +3,142 @@ Tool: get_ai_context
 MCP Tool Name: get_ai_context
 
 Purpose:
-    The ultimate machine-readable Context API for AI agents.
-    It aggregates the outputs of the Project Scanner, Memory Engine, 
-    and Knowledge Base into a single, structured JSON payload.
-
-    Calling this ONE tool provides a complete, 360-degree view of the project:
-      1. What exists on disk (Scanner)
-      2. What is planned/completed (Memory)
-      3. What the rules are (Knowledge Base)
-
-Inputs:
-    include_file_tree (bool): Include the full directory tree. Default True.
-
-Outputs:
-    {
-      "tool": "get_ai_context",
-      "timestamp": ISO8601,
-      "project_disk_state": { ... scanner output ... },
-      "project_memory_state": { ... memory output ... },
-      "project_knowledge_base": { ... kb output ... }
-    }
+    Provide a single machine-readable context endpoint that aggregates information
+    from all underlying project tools.
+    
+    While `build_context` provides a human-readable engineering report, this tool
+    provides the exact same intelligence in a strict, structured JSON format for
+    AI systems to consume programmatically.
 """
 
-from datetime import datetime, timezone
 import sys
-from pathlib import Path
+from datetime import datetime, timezone
+from typing import Optional, Dict, Any
 
-_TOOLS_DIR = Path(__file__).resolve().parent
-_MCP_DIR = _TOOLS_DIR.parent
+from mcp.tools.base import BaseTool
 
-if str(_MCP_DIR) not in sys.path:
-    sys.path.insert(0, str(_MCP_DIR))
-
-from tools.project_scanner import handle as _run_scanner
-from tools.memory_engine import handle as _run_memory
-from tools.knowledge_base import handle as _run_kb
-
-def handle(include_file_tree: bool = True) -> dict:
+class AIContextAPI(BaseTool):
     """
-    Returns the complete structured AI context.
+    Enterprise-grade AI Context API.
+    Provides structured, machine-readable JSON context.
     """
-    # 1. Get Live Disk State
-    scanner_result = _run_scanner()
-    if not include_file_tree and "directory_tree" in scanner_result:
-        del scanner_result["directory_tree"]
+
+    def __init__(
+        self,
+        scanner: BaseTool,
+        memory: BaseTool,
+        kb: BaseTool,
+        health: BaseTool,
+        context_builder: BaseTool,
+        *args,
+        **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.scanner = scanner
+        self.memory = memory
+        self.kb = kb
+        self.health = health
+        self.context_builder = context_builder
+
+    def execute(self, **kwargs: Any) -> Dict[str, Any]:
+        """
+        Execute the AI Context API to return structured JSON.
+        """
+        self.logger.info("AIContextAPI executing...")
+        start_time = datetime.now(timezone.utc)
         
-    # Remove large raw content fields from scanner to keep JSON lightweight
-    if "dockerfiles" in scanner_result: del scanner_result["dockerfiles"]
-    if "systemd_units" in scanner_result: del scanner_result["systemd_units"]
-    if "config_files" in scanner_result: del scanner_result["config_files"]
-    if "readme" in scanner_result: del scanner_result["readme"]
-    if "python_files" in scanner_result: del scanner_result["python_files"]
+        # 1. Use the ContextBuilder to fetch all underlying aggregated data.
+        # This prevents duplicating the logic of calling scanner, memory, kb, health.
+        try:
+            cb_result = self.context_builder.execute(**kwargs)
+            ctx = cb_result.get("context", {})
+        except Exception as e:
+            self.logger.error(f"Failed to fetch data from ContextBuilder: {e}")
+            ctx = {}
 
-    # 2. Get Memory State
-    memory_result = _run_memory(action="read").get("memory", {})
+        # 2. Map to the strict schema required by the AI Context API
+        structured_payload = {
+            "project": ctx.get("project_overview", {}),
+            "architecture": ctx.get("current_architecture", {}),
+            "current_sprint": ctx.get("current_sprint", {}),
+            "completed_features": ctx.get("completed_features", []),
+            "pending_features": ctx.get("pending_features", []),
+            "known_bugs": ctx.get("known_bugs", []),
+            "technical_debt": ctx.get("technical_debt", {}),
+            "health": ctx.get("project_health", {}),
+            "engineering_decisions": ctx.get("important_decisions", []),
+            "next_tasks": ctx.get("recommended_next_tasks", [])
+        }
+        
+        duration_ms = int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000)
+        self.logger.info(f"AIContextAPI execution completed in {duration_ms}ms")
 
-    # 3. Get Knowledge Base
-    kb_result = _run_kb(action="read").get("data", {})
+        # Backward Compatibility: Also execute underlying tools directly for legacy keys
+        try:
+            scanner_data = self.scanner.execute(**kwargs)
+        except Exception:
+            scanner_data = {}
+            
+        try:
+            memory_data = self.memory.execute("read").get("memory", {})
+        except Exception:
+            memory_data = {}
+            
+        try:
+            kb_data = self.kb.execute("read").get("data", {})
+        except Exception:
+            kb_data = {}
 
-    return {
-        "tool": "get_ai_context",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "project_disk_state": scanner_result,
-        "project_memory_state": memory_result,
-        "project_knowledge_base": kb_result
-    }
+        # 3. Return the exact structure requested, wrapped in standard tool output envelope
+        return {
+            "tool": "get_ai_context",
+            "generated_at": start_time.isoformat(),
+            "timestamp": start_time.isoformat(),  # Legacy key
+            "execution_duration_ms": duration_ms,
+            "data": structured_payload,
+            # Legacy keys for backward compatibility
+            "project_disk_state": scanner_data,
+            "project_memory_state": memory_data,
+            "project_knowledge_base": kb_data
+        }
+
+# ---------------------------------------------------------------------------
+# Backward Compatibility Shim
+# ---------------------------------------------------------------------------
+def handle(**kwargs: Any) -> dict:
+    from mcp.config import AppConfig
+    from mcp.utils.logger import get_logger
+    from mcp.tools.project_scanner import ProjectScanner
+    from mcp.tools.memory_engine import MemoryEngine
+    from mcp.tools.knowledge_base import KnowledgeBase
+    from mcp.tools.project_health import ProjectHealth
+    from mcp.tools.context_builder import ContextBuilder
+    
+    config = AppConfig()
+    logger = get_logger("ai_context_api")
+    
+    scanner = ProjectScanner(config, logger)
+    memory = MemoryEngine(config, logger)
+    kb = KnowledgeBase(config, logger)
+    health = ProjectHealth(config, logger)
+    context_builder = ContextBuilder(scanner, memory, kb, health, config=config, logger=logger)
+    
+    tool = AIContextAPI(
+        scanner=scanner,
+        memory=memory,
+        kb=kb,
+        health=health,
+        context_builder=context_builder,
+        config=config,
+        logger=logger
+    )
+    
+    return tool.execute(**kwargs)
 
 if __name__ == "__main__":
     import json
-    print(json.dumps(handle(include_file_tree=False), indent=2))
+    result = handle()
+    print("=" * 70)
+    print("AI CONTEXT API - STRUCTURED JSON RESPONSE")
+    print("=" * 70)
+    print(json.dumps(result["data"], indent=2))
