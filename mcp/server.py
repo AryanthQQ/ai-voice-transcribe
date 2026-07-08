@@ -15,6 +15,7 @@ Architecture:
     [x] scan_project        — Live repository scanner (reads actual files via AST)
     [x] build_context       — Human-readable context + system prompt generator
     [x] get_ai_context      — 100% Machine-readable JSON API aggregating all data
+    [x] get_project_health  — Diagnostics (missing files, duplicate logic, broken imports)
     [x] memory_engine       — Persistent memory store (CRUD for features, bugs, etc.)
     [x] knowledge_base      — Persistent handbook (Standards, Rules, Architecture, etc.)
     [ ] get_project_overview    — Stub (reads knowledge/project_overview.md)
@@ -48,6 +49,7 @@ from tools.context_builder import handle as _context_builder_handle
 from tools.memory_engine import handle as _memory_engine_handle
 from tools.knowledge_base import handle as _knowledge_base_handle
 from tools.ai_context_api import handle as _ai_context_api_handle
+from tools.project_health import handle as _project_health_handle
 
 # ---------------------------------------------------------------------------
 # Server instantiation
@@ -162,6 +164,28 @@ def get_ai_context(include_file_tree: bool = True) -> dict:
         include_file_tree: Include directory tree (default: True)
     """
     return _ai_context_api_handle(include_file_tree=include_file_tree)
+
+
+# ---------------------------------------------------------------------------
+# Tool: get_project_health  — Codebase Diagnostics
+# ---------------------------------------------------------------------------
+@mcp.tool()
+def get_project_health() -> dict:
+    """
+    Diagnose the health of the project codebase dynamically.
+
+    It tracks and returns:
+      - Health Score (0-100)
+      - Missing Files (README, .env)
+      - Broken Imports (Internal python modules that don't exist)
+      - Duplicate Logic (e.g., backend/ vs python_backend/)
+      - Potential unused Python files
+      - Large Files that might need chunking
+      - Project Statistics (sizes, counts)
+
+    Use this tool to audit the codebase for technical debt or initialization errors.
+    """
+    return _project_health_handle()
 
 
 # ---------------------------------------------------------------------------
