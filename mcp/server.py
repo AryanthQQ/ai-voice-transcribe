@@ -15,6 +15,7 @@ Architecture:
 Tool implementation status:
     [x] scan_project        — Live repository scanner (reads actual files via AST)
     [x] build_context       — Master context builder: 7 sections + ai_ready_summary
+    [x] memory_engine       — Persistent memory store (CRUD for features, bugs, etc.)
     [ ] get_project_overview    — Stub (reads knowledge/project_overview.md)
     [ ] get_system_architecture — Stub (reads knowledge/architecture.md)
     [ ] get_module_details      — Stub (reads knowledge/modules/{name}.md)
@@ -43,6 +44,7 @@ from mcp.server.fastmcp import FastMCP
 # ---------------------------------------------------------------------------
 from tools.project_scanner import handle as _project_scanner_handle
 from tools.context_builder import handle as _context_builder_handle
+from tools.memory_engine import handle as _memory_engine_handle
 
 # ---------------------------------------------------------------------------
 # Server instantiation
@@ -134,6 +136,49 @@ def build_context(
     return _context_builder_handle(
         include_file_tree=include_file_tree,
         include_python_details=include_python_details,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Tool: memory_engine  — Persistent memory store
+# ---------------------------------------------------------------------------
+@mcp.tool()
+def memory_engine(
+    action: str = "read",
+    category: str = "",
+    value: str = "",
+    index: int = -1
+) -> dict:
+    """
+    Access or update the persistent AI memory store.
+
+    Stores dynamic project state including:
+      - project_goals
+      - current_version
+      - completed_features
+      - pending_features
+      - architecture_decisions
+      - known_bugs
+      - important_notes
+      - next_sprint
+
+    Actions:
+      - "read": Return the entire memory state.
+      - "add": Add `value` to `category` list.
+      - "remove": Remove item at `index` from `category` list.
+      - "set_version": Set current_version to `value`.
+
+    Args:
+        action: "read", "add", "remove", or "set_version"
+        category: The list category to modify (required for add/remove)
+        value: The string to add (required for add) or the version string (for set_version)
+        index: The index to remove (required for remove)
+    """
+    return _memory_engine_handle(
+        action=action,
+        category=category or None,
+        value=value or None,
+        index=index if index != -1 else None
     )
 
 

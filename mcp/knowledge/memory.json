@@ -1,0 +1,49 @@
+{
+  "project_goals": [
+    "Build India's most accurate multilingual AI Voice Moderation Platform.",
+    "Deliver enterprise-level accuracy (Accuracy over Speed).",
+    "Ensure explainability over black box AI (Determinism before LLM).",
+    "Privacy First (No data persistence).",
+    "Indian Languages First."
+  ],
+  "current_version": "0.1.0",
+  "completed_features": [
+    "FastAPI application skeleton",
+    "Asynchronous job architecture",
+    "Audio download from remote URL",
+    "Whisper large-v3 integration",
+    "Speaker diarization integration (Pyannote)",
+    "Gemini analysis via Vertex AI",
+    "Basic violation detection service (bad words, phone regex, threat)",
+    "React + TypeScript frontend dashboard"
+  ],
+  "pending_features": [
+    "Indian Number Intelligence module (spoken OTP/phone detection)",
+    "Normalization Engine (Hinglish/code-switch handling)",
+    "PII Engine",
+    "Scam Engine",
+    "Risk Engine"
+  ],
+  "architecture_decisions": [
+    "6-Layer Intelligence Pipeline (Audio, Speech, Language, Compliance, Reasoning, Business).",
+    "Layer 4 (Compliance) detects deterministically. Layer 5 (Reasoning/LLM) only explains.",
+    "No vendor lock-in: Whisper and Pyannote run locally.",
+    "Business rules are configuration, not code."
+  ],
+  "known_bugs": [
+    "ISSUE-001: GCP Credentials Path Mismatch",
+    "ISSUE-002: Diarization Disabled Without HF_TOKEN",
+    "ISSUE-003: Email Alerts Disabled Without SMTP Credentials",
+    "ISSUE-004: torchcodec DLL Warnings on Windows"
+  ],
+  "important_notes": [
+    "Audio is never persisted. Always deleted in finally block (P-03).",
+    "Commit style: feat(scope): description (small atomic commits).",
+    "Frontend uses localhost:8001 hardcoded in AgentMonitor."
+  ],
+  "next_sprint": [
+    "Implement Indian Number Intelligence module",
+    "Implement Normalization Engine",
+    "Restrict CORS for production deployment"
+  ]
+}
