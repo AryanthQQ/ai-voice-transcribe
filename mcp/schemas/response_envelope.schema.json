@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MCP Tool Standard Response Envelope",
+  "description": "Every tool in the AI Trust & Safety Engine MCP Server must return this envelope.",
+  "type": "object",
+  "required": ["tool", "source_file", "last_updated", "status", "data"],
+  "properties": {
+    "tool": {
+      "type": "string",
+      "description": "The name of the MCP tool that produced this response."
+    },
+    "source_file": {
+      "type": "string",
+      "description": "The knowledge base file that was read to produce this response."
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date",
+      "description": "The date the knowledge file was last updated (YYYY-MM-DD)."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["current", "outdated", "draft"],
+      "description": "Staleness of the knowledge. 'outdated' triggers a client warning."
+    },
+    "warning": {
+      "type": ["string", "null"],
+      "description": "Optional warning message. Set when status is 'outdated'."
+    },
+    "data": {
+      "type": "object",
+      "description": "The tool-specific payload. Schema varies per tool."
+    }
+  }
+}
