@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PROVIDER_PRESETS, type Provider, type TranscribeConfig } from "./transcribe";
 
-const STORAGE_KEY = "speechiq.transcribe.config.v2";
+const STORAGE_KEY = "speechiq.transcribe.config.v3";
 
 export function defaultConfig(): TranscribeConfig {
   return {

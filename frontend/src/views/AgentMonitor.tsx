@@ -84,10 +84,30 @@ export function AgentMonitor() {
         throw new Error(`Backend returned HTTP ${res.status}`);
       }
       
-      const data = await res.json();
+      let data = await res.json();
       
-      if (!data.success) {
-        throw new Error(data.error || "Backend analysis failed");
+      // If the backend returns a job_id, it is operating in asynchronous mode. Polling is required.
+      if (data.job_id) {
+        let isDone = false;
+        while (!isDone) {
+          await new Promise(r => setTimeout(r, 3000)); // Poll every 3 seconds
+          const statusRes = await fetch(`http://localhost:8001/api/analyze-status/${data.job_id}`, {
+            signal: controller.signal
+          });
+          const statusData = await statusRes.json();
+          
+          if (statusData.status === "COMPLETED") {
+            data = statusData.result; // Extract the final AnalyzeCallResponse payload
+            isDone = true;
+          } else if (statusData.status === "FAILED") {
+            throw new Error(statusData.error || "Background job failed during transcription");
+          }
+          // If status is PENDING or PROCESSING, it will naturally continue the loop
+        }
+      }
+
+      if (data.success === false) {
+        throw new Error(data.error?.message || data.error || "Backend analysis failed");
       }
       
       // We still run the client-side analysis engine to get the UI badges & highlights
