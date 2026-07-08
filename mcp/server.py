@@ -14,6 +14,7 @@ Architecture:
 
 Tool implementation status:
     [x] scan_project        — Live repository scanner (reads actual files via AST)
+    [x] build_context       — Master context builder: 7 sections + ai_ready_summary
     [ ] get_project_overview    — Stub (reads knowledge/project_overview.md)
     [ ] get_system_architecture — Stub (reads knowledge/architecture.md)
     [ ] get_module_details      — Stub (reads knowledge/modules/{name}.md)
@@ -23,7 +24,7 @@ Tool implementation status:
     [ ] get_known_issues        — Stub (reads knowledge/known_issues.md)
     [ ] get_roadmap             — Stub (reads knowledge/roadmap.md)
     [ ] get_file_structure      — Stub (reads knowledge/file_structure.md)
-    [ ] search_knowledge        — Stub (TF-IDF over all knowledge/*.md)
+    [ ] search_knowledge        — TF-IDF over all knowledge/*.md
 """
 
 import sys
@@ -41,6 +42,7 @@ from mcp.server.fastmcp import FastMCP
 # Import tool handlers
 # ---------------------------------------------------------------------------
 from tools.project_scanner import handle as _project_scanner_handle
+from tools.context_builder import handle as _context_builder_handle
 
 # ---------------------------------------------------------------------------
 # Server instantiation
@@ -98,7 +100,45 @@ def scan_project(project_root: str = "") -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Tool: get_current_progress  (knowledge-based, stub → to be fully implemented)
+# Tool: build_context  — Master onboarding tool
+# ---------------------------------------------------------------------------
+@mcp.tool()
+def build_context(
+    include_file_tree: bool = True,
+    include_python_details: bool = False,
+) -> dict:
+    """
+    Build a complete, AI-ready engineering context for this project.
+
+    This is the MASTER ONBOARDING TOOL. Call this ONCE at the start of any
+    engineering session to get full situational awareness.
+
+    Synthesizes 7 context sections from live scanner + knowledge base:
+      1. project_summary    — Name, mission, stack, frameworks
+      2. current_architecture — 6-layer model, module status, API contracts
+      3. features           — {implemented, in_progress, pending} feature lists
+      4. dependencies       — All packages with purpose and version notes
+      5. current_sprint     — Active goal, in-progress items, next critical task
+      6. known_issues       — Structured issue list with severity and workarounds
+      7. current_todo       — Prioritized build backlog
+
+    Also returns:
+      - api_surface         — All live FastAPI routes discovered via AST
+      - ai_ready_summary    — A single markdown string ready for system prompt injection
+      - directory_tree      — Full project tree (if include_file_tree=True)
+
+    Args:
+        include_file_tree:      Include directory tree (default: True)
+        include_python_details: Include per-file Python AST analysis (default: False)
+    """
+    return _context_builder_handle(
+        include_file_tree=include_file_tree,
+        include_python_details=include_python_details,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Tool: get_current_progress  (knowledge-based)
 # ---------------------------------------------------------------------------
 @mcp.tool()
 def get_current_progress() -> dict:
