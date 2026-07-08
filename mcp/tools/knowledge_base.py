@@ -16,42 +16,16 @@ Purpose:
     It guarantees that important standards and notes are preserved.
 
 Inputs:
-    action (str): The operation to perform: "read", "add_note", "remove_note".
-    topic (str): The knowledge topic (e.g., "coding_rules"). Optional for "read".
-    note (str): The note content to add. Required for "add_note".
-    index (int): The index of the note to remove. Required for "remove_note".
-
-Outputs:
-    For "read":
-        {
-          "tool": "knowledge_base",
-          "data": { ... }
-        }
-    For mutations ("add_note", "remove_note"):
-        {
-          "tool": "knowledge_base",
-          "status": "success",
-          "action": "...",
-          "message": "...",
-          "data": { ... }
-        }
-
-Design Principles:
-    - Backed by mcp/knowledge/kb.json.
-    - Fault-tolerant reading (creates default KB if missing).
-    - Atomic writes to prevent corruption.
+    (See docstring inside execute() for details)
 """
 
 import json
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict, Any
 
-_TOOLS_DIR = Path(__file__).resolve().parent
-_MCP_DIR = _TOOLS_DIR.parent
-_KNOWLEDGE_DIR = _MCP_DIR / "knowledge"
-_KB_FILE = _KNOWLEDGE_DIR / "kb.json"
+from mcp.tools.base import BaseTool
 
-DEFAULT_KB = {
+DEFAULT_KB: Dict[str, Any] = {
     "engineering_standards": [],
     "coding_rules": [],
     "architecture_notes": [],
@@ -60,110 +34,136 @@ DEFAULT_KB = {
     "deployment_notes": []
 }
 
-def _read_kb() -> dict:
-    if not _KB_FILE.exists():
-        _write_kb(DEFAULT_KB)
-        return DEFAULT_KB.copy()
-    try:
-        content = _KB_FILE.read_text(encoding="utf-8")
-        return json.loads(content)
-    except Exception:
-        # If file is corrupted, return default but don't overwrite blindly
-        return DEFAULT_KB.copy()
-
-def _write_kb(kb: dict) -> None:
-    _KB_FILE.write_text(json.dumps(kb, indent=2, ensure_ascii=False), encoding="utf-8")
-
-def handle(
-    action: str = "read",
-    topic: Optional[str] = None,
-    note: Optional[str] = None,
-    index: Optional[int] = None
-) -> dict:
+class KnowledgeBase(BaseTool):
     """
-    Manage the persistent Knowledge Base.
-
-    Actions:
-      - "read": Return the entire KB (or specific topic if provided).
-      - "add_note": Add `note` to `topic`.
-      - "remove_note": Remove item at `index` from `topic`.
-
-    Valid topics: engineering_standards, coding_rules, architecture_notes,
-    model_information, infrastructure_notes, deployment_notes.
+    Enterprise-grade Knowledge Base Engine.
+    Manages persistent rules and standards across AI sessions using thread-safe JSON files.
     """
-    kb = _read_kb()
-    action = action.lower()
 
-    if action == "read":
-        if topic:
-            if topic not in kb:
-                return {"error": "INVALID_TOPIC", "message": f"Topic '{topic}' not found."}
+    @property
+    def kb_file(self) -> Path:
+        """Dynamically resolve the KB file from the injected config."""
+        return self.config.get_knowledge_file_path("kb.json")
+
+    def _read_kb(self) -> Dict[str, Any]:
+        """Reads the KB JSON file safely."""
+        if not self.kb_file.exists():
+            self.logger.info(f"KB file not found. Creating default at {self.kb_file}")
+            self.kb_file.parent.mkdir(parents=True, exist_ok=True)
+            self._write_kb(DEFAULT_KB)
+            return DEFAULT_KB.copy()
+        try:
+            content = self.kb_file.read_text(encoding="utf-8")
+            return json.loads(content)
+        except Exception as e:
+            self.logger.error(f"Error reading KB file: {e}. Returning default KB.")
+            # If file is corrupted, return default but don't overwrite blindly
+            return DEFAULT_KB.copy()
+
+    def _write_kb(self, kb: Dict[str, Any]) -> None:
+        """Writes the KB JSON file atomically."""
+        try:
+            self.kb_file.parent.mkdir(parents=True, exist_ok=True)
+            self.kb_file.write_text(
+                json.dumps(kb, indent=2, ensure_ascii=False), 
+                encoding="utf-8"
+            )
+            self.logger.debug(f"KB successfully written to {self.kb_file}")
+        except Exception as e:
+            self.logger.error(f"Failed to write KB to {self.kb_file}: {e}")
+
+    def execute(
+        self,
+        action: str = "read",
+        topic: Optional[str] = None,
+        note: Optional[str] = None,
+        index: Optional[int] = None,
+        **kwargs: Any
+    ) -> Dict[str, Any]:
+        """
+        Manage the persistent Knowledge Base.
+
+        Actions:
+          - "read": Return the entire KB (or specific topic if provided).
+          - "add_note": Add `note` to `topic`.
+          - "remove_note": Remove item at `index` from `topic`.
+
+        Valid topics: engineering_standards, coding_rules, architecture_notes,
+        model_information, infrastructure_notes, deployment_notes.
+        """
+        kb = self._read_kb()
+        action = action.lower()
+        self.logger.info(f"KnowledgeBase executing action: {action}")
+
+        if action == "read":
+            if topic:
+                if topic not in kb:
+                    self.logger.warning(f"Topic '{topic}' not found in read action.")
+                    return {"error": "INVALID_TOPIC", "message": f"Topic '{topic}' not found."}
+                return {
+                    "tool": "knowledge_base",
+                    "topic": topic,
+                    "data": kb[topic]
+                }
             return {
                 "tool": "knowledge_base",
-                "topic": topic,
-                "data": kb[topic]
-            }
-        return {
-            "tool": "knowledge_base",
-            "data": kb
-        }
-
-    topics = [
-        "engineering_standards", "coding_rules", "architecture_notes",
-        "model_information", "infrastructure_notes", "deployment_notes"
-    ]
-
-    if action in ("add_note", "remove_note"):
-        if topic not in topics:
-            return {
-                "error": "INVALID_TOPIC",
-                "message": f"Topic must be one of: {', '.join(topics)}",
-                "provided_topic": topic
-            }
-        
-        target_list = kb.setdefault(topic, [])
-
-        if action == "add_note":
-            if not note:
-                return {"error": "Note content required for add_note action."}
-            target_list.append(note)
-            _write_kb(kb)
-            return {
-                "tool": "knowledge_base",
-                "status": "success",
-                "action": "add_note",
-                "message": f"Added note to {topic}",
                 "data": kb
             }
 
-        elif action == "remove_note":
-            if index is None:
-                return {"error": "Index required for remove_note action."}
-            try:
-                removed_item = target_list.pop(index)
-                _write_kb(kb)
+        topics = [
+            "engineering_standards", "coding_rules", "architecture_notes",
+            "model_information", "infrastructure_notes", "deployment_notes"
+        ]
+
+        if action in ("add_note", "remove_note"):
+            if topic not in topics:
+                self.logger.warning(f"Invalid topic provided for {action}: {topic}")
+                return {
+                    "error": "INVALID_TOPIC",
+                    "message": f"Topic must be one of: {', '.join(topics)}",
+                    "provided_topic": topic
+                }
+            
+            target_list = kb.setdefault(topic, [])
+
+            if action == "add_note":
+                if not note:
+                    self.logger.warning("Note content required for add_note action.")
+                    return {"error": "Note content required for add_note action."}
+                target_list.append(note)
+                self._write_kb(kb)
                 return {
                     "tool": "knowledge_base",
                     "status": "success",
-                    "action": "remove_note",
-                    "message": f"Removed note from {topic}",
-                    "removed_content": removed_item,
+                    "action": "add_note",
+                    "message": f"Added note to {topic}",
                     "data": kb
                 }
-            except IndexError:
-                return {
-                    "error": "INVALID_INDEX",
-                    "message": f"Index {index} is out of range for topic {topic}."
-                }
 
-    return {
-        "error": "INVALID_ACTION",
-        "message": "Action must be read, add_note, or remove_note."
-    }
+            elif action == "remove_note":
+                if index is None:
+                    self.logger.warning("Index required for remove_note action.")
+                    return {"error": "Index required for remove_note action."}
+                try:
+                    removed_item = target_list.pop(index)
+                    self._write_kb(kb)
+                    return {
+                        "tool": "knowledge_base",
+                        "status": "success",
+                        "action": "remove_note",
+                        "message": f"Removed note from {topic}",
+                        "removed_content": removed_item,
+                        "data": kb
+                    }
+                except IndexError:
+                    self.logger.warning(f"Index {index} is out of range for topic {topic}.")
+                    return {
+                        "error": "INVALID_INDEX",
+                        "message": f"Index {index} is out of range for topic {topic}."
+                    }
 
-if __name__ == "__main__":
-    # CLI test
-    import sys
-    print("Reading KB...")
-    res = handle("read")
-    print(json.dumps(res, indent=2))
+        self.logger.warning(f"Invalid action provided: {action}")
+        return {
+            "error": "INVALID_ACTION",
+            "message": "Action must be read, add_note, or remove_note."
+        }
