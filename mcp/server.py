@@ -18,6 +18,7 @@ Architecture:
     [x] get_project_health  — Diagnostics (missing files, duplicate logic, broken imports)
     [x] memory_engine       — Persistent memory store (CRUD for features, bugs, etc.)
     [x] knowledge_base      — Persistent handbook (Standards, Rules, Architecture, etc.)
+    [x] (future modules)    — Stubs for Git, PRs, Issue Tracking, Docs, etc.
     [ ] get_project_overview    — Stub (reads knowledge/project_overview.md)
     [ ] get_system_architecture — Stub (reads knowledge/architecture.md)
     [ ] get_module_details      — Stub (reads knowledge/modules/{name}.md)
@@ -50,6 +51,7 @@ from tools.memory_engine import handle as _memory_engine_handle
 from tools.knowledge_base import handle as _knowledge_base_handle
 from tools.ai_context_api import handle as _ai_context_api_handle
 from tools.project_health import handle as _project_health_handle
+from tools import future_modules
 
 # ---------------------------------------------------------------------------
 # Server instantiation
@@ -269,6 +271,51 @@ def knowledge_base(
         note=note or None,
         index=index if index != -1 else None
     )
+
+
+# ---------------------------------------------------------------------------
+# Future Architecture Modules (Stubs)
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+def git_integration_hub() -> dict:
+    """[Future Module] Git Integration and branch management"""
+    return future_modules.handle_git_integration()
+
+@mcp.tool()
+def issue_tracker_sync() -> dict:
+    """[Future Module] Bi-directional issue tracker sync (Jira/Linear)"""
+    return future_modules.handle_issue_tracking()
+
+@mcp.tool()
+def pr_review_agent() -> dict:
+    """[Future Module] Autonomous Pull Request reviewer"""
+    return future_modules.handle_pr_review()
+
+@mcp.tool()
+def architecture_reviewer() -> dict:
+    """[Future Module] Validates structural changes against 6-layer architecture"""
+    return future_modules.handle_architecture_review()
+
+@mcp.tool()
+def auto_doc_generator() -> dict:
+    """[Future Module] Automatically updates system documentation"""
+    return future_modules.handle_automatic_documentation()
+
+@mcp.tool()
+def code_review_bot() -> dict:
+    """[Future Module] Runs deep static analysis and review on diffs"""
+    return future_modules.handle_code_review()
+
+@mcp.tool()
+def test_summarizer() -> dict:
+    """[Future Module] Generates AI summaries of test failures"""
+    return future_modules.handle_test_summary()
+
+@mcp.tool()
+def dependency_graph_builder() -> dict:
+    """[Future Module] Builds and analyzes the project dependency graph"""
+    return future_modules.handle_dependency_graph()
 
 
 # ---------------------------------------------------------------------------
