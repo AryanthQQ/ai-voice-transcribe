@@ -1,4 +1,4 @@
-﻿"""Tool: get_dependencies / Source: knowledge/dependencies.md
+"""Tool: get_dependencies / Source: knowledge/dependencies.md
 Params: filter (str, optional) - filter by name or layer.
 Returns all Python/JS dependencies with purpose, version, and upgrade notes."""
 

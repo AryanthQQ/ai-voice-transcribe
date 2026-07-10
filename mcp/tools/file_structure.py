@@ -1,4 +1,4 @@
-﻿"""Tool: get_file_structure / Source: knowledge/file_structure.md
+"""Tool: get_file_structure / Source: knowledge/file_structure.md
 Params: path (str, optional) - filter to a sub-path (e.g., "backend/app/services")
 Returns annotated directory map explaining every file and folder in the project."""
 

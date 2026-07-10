@@ -1,4 +1,4 @@
-﻿"""Tool: get_known_issues / Source: knowledge/known_issues.md
+"""Tool: get_known_issues / Source: knowledge/known_issues.md
 Params: severity (str, optional) - CRITICAL | HIGH | MEDIUM | LOW
 Returns active bugs, limitations, workarounds, and technical debt."""
 
