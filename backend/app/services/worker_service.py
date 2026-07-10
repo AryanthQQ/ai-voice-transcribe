@@ -15,9 +15,12 @@ from app.services.violation_service import check_for_violations
 from app.services.email_service import send_violation_alert_email
 from app.services.job_service import job_service
 from app.services.metrics_service import metrics_service
+from app.services.intelligence.pipeline.orchestrator import IntelligencePipeline
+from app.services.intelligence.pipeline.models import PipelineInput
 
-# Singleton lock to ensure only one heavy analysis runs at a time (saves memory)
+# Global instances
 analysis_lock = threading.Lock()
+intelligence_pipeline = IntelligencePipeline()
 
 def process_call_audio_async(job_id: str, adviser_id: str, user_id: str, voice_url: str):
     """
@@ -169,6 +172,43 @@ Transcript:
             start_mod = time.time()
             incidents = check_for_violations(turns)
             
+            # Trust & Safety Intelligence 95%
+            update("trust_and_safety", 95, "Trust & Safety Intelligence")
+            start_intelligence = time.time()
+            intelligence_results = []
+            overall_risk = "NONE"
+            overall_action = "ALLOW"
+            
+            for idx, turn in enumerate(turns):
+                try:
+                    mins, secs = map(int, turn["time"].split(":"))
+                    turn_start = float(mins * 60 + secs)
+                except:
+                    turn_start = 0.0
+                    
+                input_data = PipelineInput(
+                    text=turn.get("text", ""),
+                    start=turn_start,
+                    end=turn_start + 5.0,
+                    speaker=turn.get("speaker", "UNKNOWN"),
+                    detected_language=getattr(info, "language", "en") if 'info' in locals() else "en",
+                    tenant_id="default"
+                )
+                
+                res = intelligence_pipeline.process(input_data)
+                
+                if res.risk_assessment.get("risk_level") in ["HIGH", "CRITICAL"]:
+                    overall_risk = res.risk_assessment["risk_level"]
+                    overall_action = res.risk_assessment["recommended_action"]
+                    
+                intelligence_results.append({
+                    "turn_index": idx,
+                    "pipeline_result": res.model_dump() if hasattr(res, "model_dump") else res
+                })
+            
+            time_intelligence = time.time() - start_intelligence
+            logger.info(f"[Job {job_id}] Intelligence Pipeline Time: {time_intelligence:.2f}s")
+            
             # Gender 97%
             update("gender_detection", 97, "Gender Detection")
             # Note: Add actual gender detection hook here if required in the future.
@@ -211,9 +251,14 @@ Transcript:
                 "success": True,
                 "transcript": full_text,
                 "turns": turns,
-                "language": getattr(info, "language", "en"),
+                "language": getattr(info, "language", "en") if 'info' in locals() else "en",
                 "summary": summary_text,
-                "incidents": incidents
+                "incidents": incidents,
+                "trust_and_safety": {
+                    "overall_risk": overall_risk,
+                    "overall_action": overall_action,
+                    "turn_analysis": intelligence_results
+                }
             }
             
             # Completed 100%

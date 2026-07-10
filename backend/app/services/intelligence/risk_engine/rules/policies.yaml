@@ -1,0 +1,22 @@
+policies:
+  CONTACT_SHARE:
+    default_action: "FLAG_FOR_REVIEW"
+    tenant_overrides:
+      dating_app: "BLOCK"
+      call_center: "EMAIL_QA_TEAM"
+      bank: "MASK_AND_LOG"
+      
+  SENSITIVE_DATA_SHARE:
+    default_action: "BLOCK"
+    tenant_overrides:
+      bank: "MASK_AND_LOG"
+      
+  PII_SHARE:
+    default_action: "LOG_ONLY"
+    tenant_overrides:
+      dating_app: "FLAG_FOR_REVIEW"
+      
+  CONTACT_INTENT_ONLY:
+    default_action: "ALLOW"
+    tenant_overrides:
+      dating_app: "LOG_ONLY"

@@ -1,0 +1,40 @@
+{
+    "category": "social",
+    "samples": [
+        {
+            "text": "hey message me on whatsapp",
+            "language": "en",
+            "expected_intents": [{"channel": "WHATSAPP"}]
+        },
+        {
+            "text": "bhai mujhe mera number whatsapp karo",
+            "language": "hi",
+            "expected_intents": [{"channel": "WHATSAPP"}]
+        },
+        {
+            "text": "you can download whatsapp from the app store",
+            "language": "en",
+            "expected_intents": []
+        },
+        {
+            "text": "either whatsapp me or call me",
+            "language": "en",
+            "expected_intents": [{"channel": "WHATSAPP"}, {"channel": "CALL"}]
+        },
+        {
+            "text": "instagram var message kara",
+            "language": "mr",
+            "expected_intents": [{"channel": "INSTAGRAM"}]
+        },
+        {
+            "text": "instagram download karo",
+            "language": "mr",
+            "expected_intents": []
+        },
+        {
+            "text": "google pay karo",
+            "language": "gu",
+            "expected_intents": [{"channel": "GOOGLE_PAY"}]
+        }
+    ]
+}

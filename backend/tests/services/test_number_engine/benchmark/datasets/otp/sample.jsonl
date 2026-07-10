@@ -1,0 +1,2 @@
+{"text": "your otp is double four two one", "expected_entity": "OTP", "expected_value": "4421", "expected_valid": true, "language_tags": ["en"]}
+{"text": "one time password hai six seven eight nine zero", "expected_entity": "OTP", "expected_value": "67890", "expected_valid": true, "language_tags": ["hi", "en"]}

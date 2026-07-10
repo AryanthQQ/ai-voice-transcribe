@@ -1,0 +1,123 @@
+intents:
+  WHATSAPP:
+    action: "MESSAGE"
+    positive:
+      - "whatsapp karo"
+      - "whatsapp pe bhejo"
+      - "whatsapp pe message karna"
+      - "wa pe bhej do"
+      - "mera number whatsapp karo"
+    negative:
+      - "whatsapp download karo"
+      - "whatsapp delete karo"
+      - "whatsapp band hai"
+
+  TELEGRAM:
+    action: "MESSAGE"
+    positive:
+      - "telegram karo"
+      - "tg pe bhejo"
+      - "telegram pe message karo"
+    negative:
+      - "telegram download karo"
+
+  INSTAGRAM:
+    action: "MESSAGE"
+    positive:
+      - "instagram pe message karo"
+      - "insta pe dm karo"
+      - "ig pe message karna"
+    negative:
+      - "instagram download karo"
+      - "insta pe dekha"
+
+  FACEBOOK:
+    action: "MESSAGE"
+    positive:
+      - "facebook pe message karo"
+      - "fb pe bhejo"
+    negative:
+      - "facebook band hai"
+      - "fb pe dekha"
+
+  SIGNAL:
+    action: "MESSAGE"
+    positive:
+      - "signal pe message karo"
+    negative:
+      - "network signal nahi hai"
+      - "signal download karo"
+
+  SNAPCHAT:
+    action: "MESSAGE"
+    positive:
+      - "snap bhejo"
+      - "snapchat karo"
+    negative:
+      - "snapchat download karo"
+
+  GOOGLE_PAY:
+    action: "PAY"
+    positive:
+      - "google pay karo"
+      - "gpay kar do"
+      - "g pay karna"
+      - "gpay bhejo"
+    negative:
+      - "google pay kharab hai"
+      - "gpay nahi chal raha"
+
+  PHONEPE:
+    action: "PAY"
+    positive:
+      - "phonepe karo"
+      - "phone pe kar do"
+    negative:
+      - "phonepe nahi chal raha"
+
+  PAYTM:
+    action: "PAY"
+    positive:
+      - "paytm karo"
+      - "paytm kar do"
+      - "paytm bhejo"
+    negative:
+      - "paytm kyc"
+
+  SMS:
+    action: "MESSAGE"
+    positive:
+      - "sms karo"
+      - "message bhejo"
+      - "msg kar do"
+      - "text karo"
+    negative:
+      - "sms nahi aaya"
+
+  CALL:
+    action: "CALL"
+    positive:
+      - "call karo"
+      - "phone karna"
+      - "mujhe call karna"
+    negative:
+      - "call cut ho gaya"
+      - "call mat karna"
+
+  EMAIL:
+    action: "MESSAGE"
+    positive:
+      - "email karo"
+      - "mail bhejo"
+      - "mail karna"
+    negative:
+      - "email nahi aaya"
+
+  MEETING:
+    action: "MEET"
+    positive:
+      - "milte hai"
+      - "meeting fix karo"
+      - "milna hai"
+    negative:
+      - "meeting cancel"

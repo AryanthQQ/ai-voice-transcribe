@@ -1,0 +1,1 @@
+{"text": "mera aadhaar number hai one two three four five six seven eight nine zero one two", "expected_entity": "AADHAAR", "expected_value": "123456789012", "expected_valid": true, "language_tags": ["hi", "en"]}

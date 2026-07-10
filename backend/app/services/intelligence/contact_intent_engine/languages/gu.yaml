@@ -1,0 +1,111 @@
+intents:
+  WHATSAPP:
+    action: "MESSAGE"
+    positive:
+      - "whatsapp karo"
+      - "whatsapp par moklo"
+      - "whatsapp par message karo"
+      - "wa par moklo"
+    negative:
+      - "whatsapp download karo"
+      - "whatsapp delete karo"
+
+  TELEGRAM:
+    action: "MESSAGE"
+    positive:
+      - "telegram karo"
+      - "telegram par message karo"
+    negative:
+      - "telegram download karo"
+
+  INSTAGRAM:
+    action: "MESSAGE"
+    positive:
+      - "instagram par message karo"
+      - "insta par dm karo"
+    negative:
+      - "instagram download karo"
+
+  FACEBOOK:
+    action: "MESSAGE"
+    positive:
+      - "facebook par message karo"
+      - "fb par moklo"
+    negative:
+      - "facebook chaltu nathi"
+
+  SIGNAL:
+    action: "MESSAGE"
+    positive:
+      - "signal par message karo"
+    negative:
+      - "network signal nathi"
+
+  SNAPCHAT:
+    action: "MESSAGE"
+    positive:
+      - "snap moklo"
+      - "snapchat karo"
+    negative:
+      - "snapchat download karo"
+
+  GOOGLE_PAY:
+    action: "PAY"
+    positive:
+      - "google pay karo"
+      - "gpay karo"
+      - "g pay karo"
+    negative:
+      - "google pay chaltu nathi"
+
+  PHONEPE:
+    action: "PAY"
+    positive:
+      - "phonepe karo"
+      - "phone pe karo"
+    negative:
+      - "phonepe chaltu nathi"
+
+  PAYTM:
+    action: "PAY"
+    positive:
+      - "paytm karo"
+      - "paytm par moklo"
+    negative:
+      - "paytm kyc"
+
+  SMS:
+    action: "MESSAGE"
+    positive:
+      - "sms karo"
+      - "message moklo"
+      - "text karo"
+    negative:
+      - "sms aavyo nathi"
+
+  CALL:
+    action: "CALL"
+    positive:
+      - "call karo"
+      - "phone karo"
+      - "mane call karo"
+    negative:
+      - "call cut thai gayo"
+      - "call karta nahi"
+
+  EMAIL:
+    action: "MESSAGE"
+    positive:
+      - "email karo"
+      - "mail moklo"
+    negative:
+      - "email aavyo nathi"
+
+  MEETING:
+    action: "MEET"
+    positive:
+      - "maliye"
+      - "malvanu chhe"
+      - "meeting rakho"
+    negative:
+      - "meeting cancel"

@@ -1,0 +1,1 @@
+{"text": "mera pan card number hai a b c d e one two three four f", "expected_entity": "PAN", "expected_value": null, "expected_valid": false, "language_tags": ["hi", "en"]}

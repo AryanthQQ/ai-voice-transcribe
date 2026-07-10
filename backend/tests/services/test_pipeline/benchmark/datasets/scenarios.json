@@ -1,0 +1,28 @@
+{
+    "samples": [
+        {
+            "text": "hey message me on whatsapp my number is 9876543210",
+            "language": "en",
+            "tenant_id": "dating_app",
+            "expected_action": "BLOCK"
+        },
+        {
+            "text": "bhai mujhe mera number whatsapp karo 9876543210",
+            "language": "hi",
+            "tenant_id": "bank",
+            "expected_action": "MASK_AND_LOG"
+        },
+        {
+            "text": "my otp is 123456",
+            "language": "en",
+            "tenant_id": "default",
+            "expected_action": "BLOCK"
+        },
+        {
+            "text": "hello this is a test",
+            "language": "en",
+            "tenant_id": "default",
+            "expected_action": "ALLOW"
+        }
+    ]
+}

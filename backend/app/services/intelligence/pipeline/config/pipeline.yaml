@@ -1,0 +1,12 @@
+pipeline:
+  version: "1.0.0"
+  engines:
+    - name: "NumberEngine"
+      enabled: true
+      priority: 100
+    - name: "ContactIntentEngine"
+      enabled: true
+      priority: 90
+    - name: "RiskDecisionEngine"
+      enabled: true
+      priority: 0

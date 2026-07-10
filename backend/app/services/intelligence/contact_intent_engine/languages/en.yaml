@@ -1,0 +1,147 @@
+intents:
+  WHATSAPP:
+    action: "MESSAGE"
+    positive:
+      - "whatsapp"
+      - "wa"
+      - "watsapp"
+      - "whatsapp me"
+      - "message me on whatsapp"
+      - "ping me on whatsapp"
+    negative:
+      - "download whatsapp"
+      - "delete whatsapp"
+      - "whatsapp group"
+      - "whatsapp status"
+
+  TELEGRAM:
+    action: "MESSAGE"
+    positive:
+      - "telegram"
+      - "tg"
+      - "telegram me"
+      - "message me on telegram"
+    negative:
+      - "download telegram"
+      - "delete telegram"
+
+  INSTAGRAM:
+    action: "MESSAGE"
+    positive:
+      - "instagram"
+      - "insta"
+      - "ig"
+      - "dm me on instagram"
+      - "message me on insta"
+    negative:
+      - "download instagram"
+      - "saw on instagram"
+      - "instagram post"
+      - "instagram reel"
+
+  FACEBOOK:
+    action: "MESSAGE"
+    positive:
+      - "facebook"
+      - "fb"
+      - "message me on facebook"
+    negative:
+      - "download facebook"
+      - "saw on facebook"
+
+  SIGNAL:
+    action: "MESSAGE"
+    positive:
+      - "signal"
+      - "message me on signal"
+    negative:
+      - "download signal"
+      - "no signal"
+      - "poor signal"
+
+  SNAPCHAT:
+    action: "MESSAGE"
+    positive:
+      - "snapchat"
+      - "snap"
+      - "snap me"
+    negative:
+      - "download snapchat"
+
+  GOOGLE_PAY:
+    action: "PAY"
+    positive:
+      - "google pay"
+      - "gpay"
+      - "g pay"
+      - "google pay me"
+      - "gpay me"
+    negative:
+      - "download google pay"
+      - "google pay isn't working"
+
+  PHONEPE:
+    action: "PAY"
+    positive:
+      - "phonepe"
+      - "phone pe"
+      - "phonepe me"
+    negative:
+      - "download phonepe"
+      - "phonepe down"
+
+  PAYTM:
+    action: "PAY"
+    positive:
+      - "paytm"
+      - "paytm karo"
+      - "paytm me"
+    negative:
+      - "download paytm"
+
+  SMS:
+    action: "MESSAGE"
+    positive:
+      - "sms"
+      - "text me"
+      - "message me"
+      - "send an sms"
+    negative:
+      - "sms failed"
+      - "did not receive sms"
+
+  CALL:
+    action: "CALL"
+    positive:
+      - "call me"
+      - "ring me"
+      - "phone me"
+      - "give me a call"
+    negative:
+      - "call dropped"
+      - "call disconnected"
+      - "don't call"
+
+  EMAIL:
+    action: "MESSAGE"
+    positive:
+      - "email"
+      - "mail me"
+      - "send an email"
+      - "shoot an email"
+    negative:
+      - "email bounced"
+      - "spam email"
+      - "delete email"
+
+  MEETING:
+    action: "MEET"
+    positive:
+      - "meeting"
+      - "meet up"
+      - "let's meet"
+      - "schedule a meeting"
+      - "book a meeting"
+    negative:
+      - "cancel meeting"
+      - "missed meeting"

@@ -1,0 +1,49 @@
+{
+    "samples": [
+        {
+            "engines": {
+                "NumberEngine": [{"entity_type": "PHONE_NUMBER", "confidence": 0.99}],
+                "ContactIntentEngine": [{"action": "MESSAGE", "channel": "WHATSAPP", "confidence": 0.95}]
+            },
+            "tenant": "default",
+            "expected_action": "FLAG_FOR_REVIEW",
+            "expected_rule": "DIRECT_CONTACT_SHARE"
+        },
+        {
+            "engines": {
+                "NumberEngine": [{"entity_type": "PHONE_NUMBER", "confidence": 0.99}],
+                "ContactIntentEngine": [{"action": "MESSAGE", "channel": "WHATSAPP", "confidence": 0.95}]
+            },
+            "tenant": "dating_app",
+            "expected_action": "BLOCK",
+            "expected_rule": "DIRECT_CONTACT_SHARE"
+        },
+        {
+            "engines": {
+                "NumberEngine": [{"entity_type": "OTP", "confidence": 0.99}],
+                "ContactIntentEngine": []
+            },
+            "tenant": "default",
+            "expected_action": "BLOCK",
+            "expected_rule": "SENSITIVE_OTP_SHARE"
+        },
+        {
+            "engines": {
+                "NumberEngine": [{"entity_type": "PHONE_NUMBER", "confidence": 0.85}],
+                "ContactIntentEngine": []
+            },
+            "tenant": "bank",
+            "expected_action": "LOG_ONLY",
+            "expected_rule": "GENERIC_PHONE_NUMBER"
+        },
+        {
+            "engines": {
+                "NumberEngine": [],
+                "ContactIntentEngine": [{"action": "MEET", "channel": "MEETING", "confidence": 0.90}]
+            },
+            "tenant": "dating_app",
+            "expected_action": "LOG_ONLY",
+            "expected_rule": "INTENT_ONLY"
+        }
+    ]
+}

@@ -1,0 +1,4 @@
+{"text": "my phone number is nine eight seven six five four three two one zero", "expected_entity": "PHONE_NUMBER", "expected_value": "9876543210", "expected_valid": true, "language_tags": ["en"]}
+{"text": "mera number hai nau aath saat chhe paanch chaar teen do ek shunya", "expected_entity": "PHONE_NUMBER", "expected_value": "9876543210", "expected_valid": true, "language_tags": ["hi"]}
+{"text": "maza number aahe nau aath saat saha paach chaar teen don ek shunya", "expected_entity": "PHONE_NUMBER", "expected_value": "9876543210", "expected_valid": true, "language_tags": ["mr"]}
+{"text": "maro number nav aath saat chha paanch chaar tran be ek shunya", "expected_entity": "PHONE_NUMBER", "expected_value": "9876543210", "expected_valid": true, "language_tags": ["gu"]}

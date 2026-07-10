@@ -1,0 +1,1 @@
+{"text": "account number hai one two three four five six seven eight nine", "expected_entity": "BANK_ACCOUNT", "expected_value": "123456789", "expected_valid": true, "language_tags": ["hi", "en"]}

@@ -1,0 +1,53 @@
+rules:
+  - name: DIRECT_CONTACT_SHARE
+    priority: 100
+    all:
+      - engine: "NumberEngine"
+        field: "entity_type"
+        value: "PHONE_NUMBER"
+      - engine: "ContactIntentEngine"
+        field: "action"
+        value: "MESSAGE"
+    risk_level: HIGH
+    policy: CONTACT_SHARE
+    reason: "Explicit phone number sharing accompanied by a message intent."
+
+  - name: GENERIC_PHONE_NUMBER
+    priority: 50
+    all:
+      - engine: "NumberEngine"
+        field: "entity_type"
+        value: "PHONE_NUMBER"
+    risk_level: MEDIUM
+    policy: PII_SHARE
+    reason: "Phone number detected without explicit contact intent."
+
+  - name: SENSITIVE_OTP_SHARE
+    priority: 150
+    all:
+      - engine: "NumberEngine"
+        field: "entity_type"
+        value: "OTP"
+    risk_level: CRITICAL
+    policy: SENSITIVE_DATA_SHARE
+    reason: "Sensitive OTP detected in transcript."
+
+  - name: SENSITIVE_AADHAAR_SHARE
+    priority: 140
+    all:
+      - engine: "NumberEngine"
+        field: "entity_type"
+        value: "AADHAAR"
+    risk_level: CRITICAL
+    policy: SENSITIVE_DATA_SHARE
+    reason: "Aadhaar identifier detected in transcript."
+
+  - name: INTENT_ONLY
+    priority: 20
+    all:
+      - engine: "ContactIntentEngine"
+        field: "action"
+        in: ["MESSAGE", "CALL", "MEET", "PAY"]
+    risk_level: LOW
+    policy: CONTACT_INTENT_ONLY
+    reason: "Contact intent expressed without corresponding numeric identifier."

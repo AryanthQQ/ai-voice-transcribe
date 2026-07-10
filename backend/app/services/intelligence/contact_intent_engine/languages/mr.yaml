@@ -1,0 +1,111 @@
+intents:
+  WHATSAPP:
+    action: "MESSAGE"
+    positive:
+      - "whatsapp kara"
+      - "whatsapp var pathva"
+      - "whatsapp la message kara"
+      - "wa var pathva"
+    negative:
+      - "whatsapp download kara"
+      - "whatsapp delete kara"
+
+  TELEGRAM:
+    action: "MESSAGE"
+    positive:
+      - "telegram kara"
+      - "telegram var message kara"
+    negative:
+      - "telegram download kara"
+
+  INSTAGRAM:
+    action: "MESSAGE"
+    positive:
+      - "instagram var message kara"
+      - "insta var dm kara"
+    negative:
+      - "instagram download kara"
+
+  FACEBOOK:
+    action: "MESSAGE"
+    positive:
+      - "facebook var message kara"
+      - "fb var pathva"
+    negative:
+      - "facebook chalu nahi"
+
+  SIGNAL:
+    action: "MESSAGE"
+    positive:
+      - "signal var message kara"
+    negative:
+      - "network signal nahi"
+
+  SNAPCHAT:
+    action: "MESSAGE"
+    positive:
+      - "snap pathva"
+      - "snapchat kara"
+    negative:
+      - "snapchat download kara"
+
+  GOOGLE_PAY:
+    action: "PAY"
+    positive:
+      - "google pay kara"
+      - "gpay kara"
+      - "g pay kara"
+    negative:
+      - "google pay chalu nahi"
+
+  PHONEPE:
+    action: "PAY"
+    positive:
+      - "phonepe kara"
+      - "phone pe kara"
+    negative:
+      - "phonepe chalu nahi"
+
+  PAYTM:
+    action: "PAY"
+    positive:
+      - "paytm kara"
+      - "paytm var pathva"
+    negative:
+      - "paytm kyc"
+
+  SMS:
+    action: "MESSAGE"
+    positive:
+      - "sms kara"
+      - "message pathva"
+      - "text kara"
+    negative:
+      - "sms aala nahi"
+
+  CALL:
+    action: "CALL"
+    positive:
+      - "call kara"
+      - "phone kara"
+      - "mala call kara"
+    negative:
+      - "call cut zala"
+      - "call karu naka"
+
+  EMAIL:
+    action: "MESSAGE"
+    positive:
+      - "email kara"
+      - "mail pathva"
+    negative:
+      - "email aala nahi"
+
+  MEETING:
+    action: "MEET"
+    positive:
+      - "bhetu"
+      - "bhetayche ahe"
+      - "meeting theva"
+    negative:
+      - "meeting cancel"
