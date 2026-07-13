@@ -36,7 +36,10 @@ class SpeechService:
             condition_on_previous_text=False,
             temperature=[0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
             no_speech_threshold=0.6,
-            vad_filter=False,
+            vad_filter=True,
+            vad_parameters=dict(
+                min_silence_duration_ms=400,
+            ),
             beam_size=5,
         )
         
