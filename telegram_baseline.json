@@ -1,0 +1,50 @@
+{
+  "test_1": [
+    {
+      "type": "telegram",
+      "severity": "high",
+      "value": "Telegram Request",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.99,
+      "matched_text": "telegram id de do"
+    }
+  ],
+  "test_2": [
+    {
+      "type": "telegram",
+      "severity": "high",
+      "value": "Telegram Link",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.99,
+      "matched_text": "t.me/trading_tips"
+    }
+  ],
+  "test_3": [
+    {
+      "type": "telegram",
+      "severity": "high",
+      "value": "Telegram Link",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.99,
+      "matched_text": "https://telegram.me/joinchat"
+    }
+  ],
+  "test_4": [
+    {
+      "type": "telegram",
+      "severity": "high",
+      "value": "Telegram Request",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.99,
+      "matched_text": "TG pe message karna"
+    }
+  ],
+  "test_5": [],
+  "test_6": [],
+  "test_7": [],
+  "test_8": []
+}

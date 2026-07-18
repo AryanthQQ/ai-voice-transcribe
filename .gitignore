@@ -45,3 +45,5 @@ temp_audio_*.mp3
 
 # Secret Credentials
 backend/gcp-credentials.json
+
+production_package.zip

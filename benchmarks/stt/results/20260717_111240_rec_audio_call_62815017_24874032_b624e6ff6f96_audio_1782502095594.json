@@ -1,0 +1,397 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Hindi\\rec_audio_call_62815017_24874032_b624e6ff6f96_audio_1782502095594.mp3",
+    "filename": "rec_audio_call_62815017_24874032_b624e6ff6f96_audio_1782502095594.mp3",
+    "model": "large-v3-turbo",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 303.5003815999953,
+    "transcription_time": 251.23297909999383,
+    "processing_time": 554.7333606999891,
+    "audio_duration": 250.04408163265308,
+    "rtf": 1.0047547514805306,
+    "language": "en",
+    "language_confidence": 0.8017688989639282,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 44100,
+        "channels": 2,
+        "file_size_mb": 2.46
+    },
+    "segments": [
+        {
+            "start": 0.0,
+            "end": 1.0,
+            "text": "Hello?"
+        },
+        {
+            "start": 1.0,
+            "end": 2.29,
+            "text": "Can you tell me?"
+        },
+        {
+            "start": 2.29,
+            "end": 5.15,
+            "text": "How are you?"
+        },
+        {
+            "start": 5.15,
+            "end": 7.22,
+            "text": "I'm fine. How are you?"
+        },
+        {
+            "start": 7.22,
+            "end": 11.05,
+            "text": "I'm good. How are you?"
+        },
+        {
+            "start": 11.05,
+            "end": 14.06,
+            "text": "How are you?"
+        },
+        {
+            "start": 14.06,
+            "end": 17.38,
+            "text": "I'm good. How are you?"
+        },
+        {
+            "start": 17.38,
+            "end": 19.38,
+            "text": "Yes, I'm good. How are you?"
+        },
+        {
+            "start": 19.38,
+            "end": 23.14,
+            "text": "I'm good. How are you?"
+        },
+        {
+            "start": 23.14,
+            "end": 27.05,
+            "text": "I'm good."
+        },
+        {
+            "start": 27.05,
+            "end": 28.05,
+            "text": "I'm good."
+        },
+        {
+            "start": 28.05,
+            "end": 29.05,
+            "text": "How are you?"
+        },
+        {
+            "start": 29.05,
+            "end": 30.05,
+            "text": "No."
+        },
+        {
+            "start": 30.05,
+            "end": 33.56,
+            "text": "What are you doing?"
+        },
+        {
+            "start": 33.56,
+            "end": 36.56,
+            "text": "I'm not going to take a camera to your house."
+        },
+        {
+            "start": 36.56,
+            "end": 45.95,
+            "text": "Yes, I work at home. It means that if you have to take a home or have to take a home or do something like that."
+        },
+        {
+            "start": 45.95,
+            "end": 48.95,
+            "text": "Yes, no, it means that you have to do your own home."
+        },
+        {
+            "start": 48.95,
+            "end": 53.51,
+            "text": "No, I work at home."
+        },
+        {
+            "start": 53.51,
+            "end": 55.51,
+            "text": "Yes, no, I work at home."
+        },
+        {
+            "start": 55.51,
+            "end": 57.51,
+            "text": "What kind of work?"
+        },
+        {
+            "start": 57.51,
+            "end": 60.6,
+            "text": "Just a bit of a normal."
+        },
+        {
+            "start": 60.6,
+            "end": 62.6,
+            "text": "You don't have to take any money for more money?"
+        },
+        {
+            "start": 62.6,
+            "end": 67.86,
+            "text": "Yes, exactly."
+        },
+        {
+            "start": 67.86,
+            "end": 69.86,
+            "text": "That's what I want to sell it."
+        },
+        {
+            "start": 69.86,
+            "end": 74.71,
+            "text": "How much is it?"
+        },
+        {
+            "start": 74.71,
+            "end": 75.71,
+            "text": "300."
+        },
+        {
+            "start": 75.71,
+            "end": 77.96,
+            "text": "How much?"
+        },
+        {
+            "start": 77.96,
+            "end": 78.96,
+            "text": "300 is 300 rupees."
+        },
+        {
+            "start": 78.96,
+            "end": 128.74,
+            "text": "Thank you."
+        },
+        {
+            "start": 128.76,
+            "end": 131.43,
+            "text": "How do you show?"
+        },
+        {
+            "start": 131.43,
+            "end": 132.43,
+            "text": "What's up number?"
+        },
+        {
+            "start": 132.43,
+            "end": 133.43,
+            "text": "Can you tell me about scanner?"
+        },
+        {
+            "start": 133.43,
+            "end": 134.43,
+            "text": "I'll put a video on the phone."
+        },
+        {
+            "start": 134.43,
+            "end": 135.43,
+            "text": "Okay?"
+        },
+        {
+            "start": 135.43,
+            "end": 139.83,
+            "text": "I'll put a fraud on my phone."
+        },
+        {
+            "start": 139.83,
+            "end": 140.83,
+            "text": "If I put it first?"
+        },
+        {
+            "start": 140.83,
+            "end": 141.83,
+            "text": "No."
+        },
+        {
+            "start": 141.83,
+            "end": 142.83,
+            "text": "If you put it in the phone,"
+        },
+        {
+            "start": 142.83,
+            "end": 144.83,
+            "text": "then put it first and put it in the phone."
+        },
+        {
+            "start": 144.83,
+            "end": 148.16,
+            "text": "Okay?"
+        },
+        {
+            "start": 148.16,
+            "end": 149.16,
+            "text": "Yes."
+        },
+        {
+            "start": 149.16,
+            "end": 150.16,
+            "text": "What's up number?"
+        },
+        {
+            "start": 150.16,
+            "end": 152.51,
+            "text": "Can you tell me about WhatsApp?"
+        },
+        {
+            "start": 152.51,
+            "end": 153.86,
+            "text": "No."
+        },
+        {
+            "start": 153.86,
+            "end": 154.86,
+            "text": "Can you tell me?"
+        },
+        {
+            "start": 154.86,
+            "end": 160.21,
+            "text": "Yes."
+        },
+        {
+            "start": 160.21,
+            "end": 162.72,
+            "text": "Can you tell me?"
+        },
+        {
+            "start": 162.72,
+            "end": 163.72,
+            "text": "No."
+        },
+        {
+            "start": 163.72,
+            "end": 168.65,
+            "text": "Can you tell me?"
+        },
+        {
+            "start": 168.65,
+            "end": 169.65,
+            "text": "Can you tell me?"
+        },
+        {
+            "start": 169.65,
+            "end": 174.68,
+            "text": "Can you tell me?"
+        },
+        {
+            "start": 174.68,
+            "end": 175.68,
+            "text": "9"
+        },
+        {
+            "start": 175.68,
+            "end": 176.78,
+            "text": "9"
+        },
+        {
+            "start": 176.78,
+            "end": 177.78,
+            "text": "9"
+        },
+        {
+            "start": 177.78,
+            "end": 178.78,
+            "text": "9"
+        },
+        {
+            "start": 178.78,
+            "end": 181.25,
+            "text": "9"
+        },
+        {
+            "start": 181.25,
+            "end": 184.67,
+            "text": "9039"
+        },
+        {
+            "start": 184.67,
+            "end": 190.06,
+            "text": "9039"
+        },
+        {
+            "start": 190.06,
+            "end": 193.2,
+            "text": "57"
+        },
+        {
+            "start": 193.94,
+            "end": 199.82,
+            "text": "94"
+        },
+        {
+            "start": 199.82,
+            "end": 202.3,
+            "text": "94"
+        },
+        {
+            "start": 202.3,
+            "end": 204.52,
+            "text": "39"
+        },
+        {
+            "start": 204.52,
+            "end": 211.28,
+            "text": "message"
+        },
+        {
+            "start": 211.28,
+            "end": 215.03,
+            "text": "40"
+        },
+        {
+            "start": 215.03,
+            "end": 223.4,
+            "text": "59, 57, 94, 44. message ágiyah data of e"
+        },
+        {
+            "start": 223.4,
+            "end": 232.34,
+            "text": "data of e aapka"
+        },
+        {
+            "start": 232.34,
+            "end": 234.98,
+            "text": "I'm talking about a girl and a girl."
+        },
+        {
+            "start": 234.98,
+            "end": 235.98,
+            "text": "What?"
+        },
+        {
+            "start": 235.98,
+            "end": 238.6,
+            "text": "I'm talking about a girl and a girl."
+        },
+        {
+            "start": 238.6,
+            "end": 240.28,
+            "text": "You can see it now."
+        },
+        {
+            "start": 240.28,
+            "end": 244.53,
+            "text": "No, I'm talking about a girl and a girl."
+        },
+        {
+            "start": 244.53,
+            "end": 247.56,
+            "text": "I'm talking about a network problem."
+        },
+        {
+            "start": 247.56,
+            "end": 249.98,
+            "text": "A network problem can't happen."
+        }
+    ],
+    "transcript": "Hello? Can you tell me? How are you? I'm fine. How are you? I'm good. How are you? How are you? I'm good. How are you? Yes, I'm good. How are you? I'm good. How are you? I'm good. I'm good. How are you? No. What are you doing? I'm not going to take a camera to your house. Yes, I work at home. It means that if you have to take a home or have to take a home or do something like that. Yes, no, it means that you have to do your own home. No, I work at home. Yes, no, I work at home. What kind of work? Just a bit of a normal. You don't have to take any money for more money? Yes, exactly. That's what I want to sell it. How much is it? 300. How much? 300 is 300 rupees. Thank you. How do you show? What's up number? Can you tell me about scanner? I'll put a video on the phone. Okay? I'll put a fraud on my phone. If I put it first? No. If you put it in the phone, then put it first and put it in the phone. Okay? Yes. What's up number? Can you tell me about WhatsApp? No. Can you tell me? Yes. Can you tell me? No. Can you tell me? Can you tell me? Can you tell me? 9 9 9 9 9 9039 9039 57 94 94 39 message 40 59, 57, 94, 44. message ágiyah data of e data of e aapka I'm talking about a girl and a girl. What? I'm talking about a girl and a girl. You can see it now. No, I'm talking about a girl and a girl. I'm talking about a network problem. A network problem can't happen.",
+    "status": "success"
+}

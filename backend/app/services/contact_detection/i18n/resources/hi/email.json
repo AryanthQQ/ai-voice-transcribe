@@ -1,0 +1,36 @@
+{
+  "base_keywords": [
+    "gmail",
+    "yahoo",
+    "outlook",
+    "hotmail",
+    "protonmail",
+    "mail",
+    "email"
+  ],
+  "intent_actions": [
+    "id",
+    "contact\\s+me\\s+on",
+    "pe\\s+contact\\s+karna",
+    "bhej\\s+dena",
+    "address\\s+share\\s+karo",
+    "send\\s+to",
+    "email\\s+karo",
+    "mail\\s+karo"
+  ],
+  "false_positives": [
+    "notification",
+    "login",
+    "password",
+    "app",
+    "download",
+    "spam",
+    "inbox",
+    "verification",
+    "otp",
+    "storage",
+    "sync",
+    "backup",
+    "folder"
+  ]
+}

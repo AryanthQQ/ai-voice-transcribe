@@ -1,0 +1,267 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Bengal\\rec_audio_call_60481892_79801812_e221398e8079_audio_1782196290919.mp3",
+    "filename": "rec_audio_call_60481892_79801812_e221398e8079_audio_1782196290919.mp3",
+    "model": "large-v3-turbo",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 303.5003815999953,
+    "transcription_time": 99.23022199998377,
+    "processing_time": 402.7306035999791,
+    "audio_duration": 142.88979591836735,
+    "rtf": 0.6944528219263032,
+    "language": "en",
+    "language_confidence": 0.3195185661315918,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 44100,
+        "channels": 2,
+        "file_size_mb": 1.12
+    },
+    "segments": [
+        {
+            "start": 3.92,
+            "end": 4.92,
+            "text": "Hello?"
+        },
+        {
+            "start": 4.92,
+            "end": 6.05,
+            "text": "Hello?"
+        },
+        {
+            "start": 6.05,
+            "end": 8.21,
+            "text": "Ji, who are you?"
+        },
+        {
+            "start": 8.21,
+            "end": 12.8,
+            "text": "My name is Raja."
+        },
+        {
+            "start": 12.8,
+            "end": 14.8,
+            "text": "Can I tell you? How can I tell you, Raja?"
+        },
+        {
+            "start": 14.8,
+            "end": 19.2,
+            "text": "West Bangalore."
+        },
+        {
+            "start": 19.2,
+            "end": 23.19,
+            "text": "West Bangalore, who is here?"
+        },
+        {
+            "start": 23.19,
+            "end": 24.96,
+            "text": "Kolkata."
+        },
+        {
+            "start": 24.96,
+            "end": 29.04,
+            "text": "Kolkata, who is here?"
+        },
+        {
+            "start": 29.04,
+            "end": 32.35,
+            "text": "Itali."
+        },
+        {
+            "start": 32.35,
+            "end": 33.7,
+            "text": "Itali?"
+        },
+        {
+            "start": 33.7,
+            "end": 34.7,
+            "text": "Itali?"
+        },
+        {
+            "start": 34.7,
+            "end": 35.7,
+            "text": "Itali."
+        },
+        {
+            "start": 35.7,
+            "end": 39.1,
+            "text": "Itali."
+        },
+        {
+            "start": 39.1,
+            "end": 40.71,
+            "text": "Itali."
+        },
+        {
+            "start": 40.71,
+            "end": 41.71,
+            "text": "Itali."
+        },
+        {
+            "start": 41.71,
+            "end": 47.32,
+            "text": "Itali."
+        },
+        {
+            "start": 47.32,
+            "end": 51.04,
+            "text": "Itali."
+        },
+        {
+            "start": 51.04,
+            "end": 52.04,
+            "text": "Itali."
+        },
+        {
+            "start": 52.04,
+            "end": 53.14,
+            "text": "Itali."
+        },
+        {
+            "start": 53.14,
+            "end": 54.65,
+            "text": "Itali."
+        },
+        {
+            "start": 54.65,
+            "end": 55.65,
+            "text": "I will go."
+        },
+        {
+            "start": 55.65,
+            "end": 56.65,
+            "text": "Government or private?"
+        },
+        {
+            "start": 56.65,
+            "end": 58.19,
+            "text": "Private."
+        },
+        {
+            "start": 58.19,
+            "end": 60.22,
+            "text": "Okay."
+        },
+        {
+            "start": 60.22,
+            "end": 63.63,
+            "text": "Do you have a lot of apps like this?"
+        },
+        {
+            "start": 63.63,
+            "end": 64.73,
+            "text": "Yes?"
+        },
+        {
+            "start": 64.73,
+            "end": 68.01,
+            "text": "Do you have a lot of apps like this?"
+        },
+        {
+            "start": 68.01,
+            "end": 71.86,
+            "text": "Do you have a lot of apps like this?"
+        },
+        {
+            "start": 71.86,
+            "end": 73.86,
+            "text": "Do you have a lot of apps like this?"
+        },
+        {
+            "start": 73.86,
+            "end": 77.51,
+            "text": "Yes."
+        },
+        {
+            "start": 77.51,
+            "end": 79.51,
+            "text": "Do you have a lot of apps like this?"
+        },
+        {
+            "start": 79.51,
+            "end": 82.21,
+            "text": "What do you have to say?"
+        },
+        {
+            "start": 82.21,
+            "end": 86.21,
+            "text": "I mean, how do you use apps like this?"
+        },
+        {
+            "start": 86.21,
+            "end": 91.34,
+            "text": "No, it was the first time."
+        },
+        {
+            "start": 91.34,
+            "end": 92.34,
+            "text": "You took the first time?"
+        },
+        {
+            "start": 92.34,
+            "end": 94.34,
+            "text": "So you became friends or not?"
+        },
+        {
+            "start": 94.34,
+            "end": 96.34,
+            "text": "Or did you first call me?"
+        },
+        {
+            "start": 96.34,
+            "end": 109.61,
+            "text": "I was lucky that you were my first friend of mine."
+        },
+        {
+            "start": 109.61,
+            "end": 116.45,
+            "text": "What about your hobby?"
+        },
+        {
+            "start": 116.45,
+            "end": 119.45,
+            "text": "I don't have any hobby in my work."
+        },
+        {
+            "start": 119.45,
+            "end": 122.66,
+            "text": "I have a bike ride."
+        },
+        {
+            "start": 122.66,
+            "end": 124.66,
+            "text": "I really like it."
+        },
+        {
+            "start": 124.66,
+            "end": 126.7,
+            "text": "I like to go on a bike."
+        },
+        {
+            "start": 126.7,
+            "end": 131.54,
+            "text": "I like to go on a bike."
+        },
+        {
+            "start": 131.54,
+            "end": 133.93,
+            "text": "I like to go on a bike."
+        },
+        {
+            "start": 133.93,
+            "end": 137.05,
+            "text": "I like to go on a neighbor."
+        }
+    ],
+    "transcript": "Hello? Hello? Ji, who are you? My name is Raja. Can I tell you? How can I tell you, Raja? West Bangalore. West Bangalore, who is here? Kolkata. Kolkata, who is here? Itali. Itali? Itali? Itali. Itali. Itali. Itali. Itali. Itali. Itali. Itali. Itali. I will go. Government or private? Private. Okay. Do you have a lot of apps like this? Yes? Do you have a lot of apps like this? Do you have a lot of apps like this? Do you have a lot of apps like this? Yes. Do you have a lot of apps like this? What do you have to say? I mean, how do you use apps like this? No, it was the first time. You took the first time? So you became friends or not? Or did you first call me? I was lucky that you were my first friend of mine. What about your hobby? I don't have any hobby in my work. I have a bike ride. I really like it. I like to go on a bike. I like to go on a bike. I like to go on a bike. I like to go on a neighbor.",
+    "status": "success"
+}

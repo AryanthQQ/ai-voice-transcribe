@@ -62,8 +62,10 @@ async def startup_event():
     app.start_time = time.time()
     logger.info(f"Starting {settings.APP_NAME}...")
     
-    # Validate Whisper
-    logger.info(f"[OK] Whisper Ready (Model: {settings.WHISPER_MODEL}, Device: {settings.WHISPER_DEVICE})")
+    # Validate STT Engine
+    model_name = getattr(settings, "STT_PRIMARY_MODEL", getattr(settings, "WHISPER_MODEL", "large-v3-turbo"))
+    device = getattr(settings, "STT_DEVICE", getattr(settings, "WHISPER_DEVICE", "cpu"))
+    logger.info(f"[OK] STT Engine Ready (Model: {model_name}, Device: {device})")
     
     # Validate Gemini
     if not settings.GOOGLE_APPLICATION_CREDENTIALS and not os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"):
@@ -94,17 +96,66 @@ from app.services.metrics_service import metrics_service
 @app.get("/health")
 def health_check():
     import time
+    import psutil
+    import shutil
+    import tempfile
+    import subprocess
+    
+    # Check ffprobe
+    ffprobe_avail = False
+    try:
+        if subprocess.run(["ffprobe", "-version"], capture_output=True).returncode == 0:
+            ffprobe_avail = True
+    except Exception:
+        pass
+        
+    # Temp dir status
+    temp_dir = tempfile.gettempdir()
+    temp_writable = os.access(temp_dir, os.W_OK)
+    
+    # System metrics
+    cpu = psutil.cpu_percent(interval=None)
+    ram = psutil.virtual_memory().percent
+    disk = psutil.disk_usage('/').percent
+    
+    # Load status mock logic based on singletons
+    stt_loaded = True # Loaded on startup
+    contact_loaded = True
+    compliance_loaded = True
+    
     return {
         "status": "healthy",
+        "version": app.version,
+        "uptime_sec": round(time.time() - getattr(app, 'start_time', time.time()), 2),
+        "active_pipeline": getattr(settings, "PIPELINE_MODE", "legacy").lower(),
+        "primary_stt_model": getattr(settings, "STT_PRIMARY_MODEL", "large-v3-turbo"),
+        "fallback_stt_model": getattr(settings, "STT_FALLBACK_MODEL", "large-v3"),
+        "modules": {
+            "stt_loaded": stt_loaded,
+            "contact_engine_loaded": contact_loaded,
+            "compliance_engine_loaded": compliance_loaded
+        },
+        "system": {
+            "cpu_percent": cpu,
+            "ram_percent": ram,
+            "disk_percent": disk
+        },
+        "dependencies": {
+            "ffprobe_available": ffprobe_avail,
+            "temp_dir_writable": temp_writable
+        },
+        # Legacy fields for backward compatibility
         "whisper": "ready",
         "gemini": "ready" if settings.GOOGLE_APPLICATION_CREDENTIALS or os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") else "disabled",
         "diarization": "enabled" if settings.HF_TOKEN else "disabled",
         "email": "ready" if settings.SMTP_PASS and settings.SMTP_USER else "disabled",
-        "bad_words": "loaded" if os.path.exists(settings.BAD_WORDS_FILE) else "missing",
-        "uptime": f"{time.time() - getattr(app, 'start_time', time.time()):.2f} sec",
-        "version": app.version
+        "bad_words": "loaded" if os.path.exists(settings.BAD_WORDS_FILE) else "missing"
     }
 
 @app.get("/metrics")
 def get_metrics():
-    return metrics_service.get_metrics()
+    from app.core.queue.instance import global_queue
+    metrics = metrics_service.get_metrics()
+    queue_metrics = global_queue.get_metrics()
+    metrics["queue"] = queue_metrics
+    return metrics

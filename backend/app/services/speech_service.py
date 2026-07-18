@@ -14,12 +14,17 @@ class SpeechService:
 
     def load_model(self):
         if self._model is None:
-            logger.info(f"Loading Whisper model '{settings.WHISPER_MODEL}' into memory (Singleton)...")
+            # Prefer STT_* config, fallback to legacy WHISPER_* if somehow missing or overriden incorrectly
+            model_name = getattr(settings, "STT_PRIMARY_MODEL", getattr(settings, "WHISPER_MODEL", "large-v3-turbo"))
+            device = getattr(settings, "STT_DEVICE", getattr(settings, "WHISPER_DEVICE", "cpu"))
+            compute_type = getattr(settings, "STT_COMPUTE_TYPE", getattr(settings, "WHISPER_COMPUTE_TYPE", "int8"))
+            
+            logger.info(f"Loading Whisper model '{model_name}' into memory (Singleton)...")
             self._model = WhisperModel(
-                settings.WHISPER_MODEL,
-                device=settings.WHISPER_DEVICE,
-                compute_type=settings.WHISPER_COMPUTE_TYPE,
-                cpu_threads=4 if settings.WHISPER_DEVICE == "cpu" else 0,
+                model_name,
+                device=device,
+                compute_type=compute_type,
+                cpu_threads=4 if device == "cpu" else 0,
                 num_workers=1
             )
             logger.info("Whisper model loaded successfully.")

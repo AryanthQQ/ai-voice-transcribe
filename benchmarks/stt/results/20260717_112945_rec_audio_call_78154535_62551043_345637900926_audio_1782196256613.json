@@ -1,0 +1,77 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Marathi\\rec_audio_call_78154535_62551043_345637900926_audio_1782196256613.mp3",
+    "filename": "rec_audio_call_78154535_62551043_345637900926_audio_1782196256613.mp3",
+    "model": "large-v3-turbo",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 16.547478099993896,
+    "transcription_time": 60.67153320001671,
+    "processing_time": 77.2190113000106,
+    "audio_duration": 71.83673469387755,
+    "rtf": 0.844575320113869,
+    "language": "en",
+    "language_confidence": 0.7779040932655334,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 44100,
+        "channels": 2,
+        "file_size_mb": 0.51
+    },
+    "segments": [
+        {
+            "start": 2.61,
+            "end": 10.37,
+            "text": "No hello Tiger these hello"
+        },
+        {
+            "start": 13.48,
+            "end": 16.92,
+            "text": "Hello"
+        },
+        {
+            "start": 20.38,
+            "end": 28.65,
+            "text": "Hello, hello"
+        },
+        {
+            "start": 38.43,
+            "end": 40.43,
+            "text": "Hello, hello I was into"
+        },
+        {
+            "start": 42.35,
+            "end": 43.7,
+            "text": "Buddha"
+        },
+        {
+            "start": 43.7,
+            "end": 45.66,
+            "text": "This is how is it how was it?"
+        },
+        {
+            "start": 51.21,
+            "end": 54.87,
+            "text": "It about our"
+        },
+        {
+            "start": 54.87,
+            "end": 56.87,
+            "text": "Little, how was it over?"
+        },
+        {
+            "start": 59.6,
+            "end": 63.66,
+            "text": "No, how was it okay?"
+        }
+    ],
+    "transcript": "No hello Tiger these hello Hello Hello, hello Hello, hello I was into Buddha This is how is it how was it? It about our Little, how was it over? No, how was it okay?",
+    "status": "success"
+}

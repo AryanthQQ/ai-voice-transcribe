@@ -1,0 +1,107 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Marathi\\rec_audio_call_78154535_62551043_345637900926_audio_1782196256613.mp3",
+    "filename": "rec_audio_call_78154535_62551043_345637900926_audio_1782196256613.mp3",
+    "model": "distil-large-v3",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 8.131905499991262,
+    "transcription_time": 30.84786779998103,
+    "processing_time": 38.979773299972294,
+    "audio_duration": 0.0,
+    "rtf": 0.0,
+    "language": "en",
+    "language_confidence": 0.9275287389755249,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 0,
+        "channels": 0,
+        "file_size_mb": 0.51
+    },
+    "segments": [
+        {
+            "start": 2.61,
+            "end": 7.88,
+            "text": "Hello, hello, what are these?"
+        },
+        {
+            "start": 7.88,
+            "end": 18.79,
+            "text": "Hello, hello, hello, hello."
+        },
+        {
+            "start": 18.79,
+            "end": 34.86,
+            "text": "Hello, hello."
+        },
+        {
+            "start": 34.86,
+            "end": 39.51,
+            "text": "Hello, hello."
+        },
+        {
+            "start": 39.51,
+            "end": 42.25,
+            "text": "Hello, how are you to do?"
+        },
+        {
+            "start": 42.25,
+            "end": 44.6,
+            "text": "Yes, sir?"
+        },
+        {
+            "start": 44.6,
+            "end": 45.6,
+            "text": "How is it?"
+        },
+        {
+            "start": 45.6,
+            "end": 49.65,
+            "text": "How are you?"
+        },
+        {
+            "start": 49.65,
+            "end": 50.65,
+            "text": "That's a voice."
+        },
+        {
+            "start": 50.65,
+            "end": 52.87,
+            "text": "It's a lot."
+        },
+        {
+            "start": 52.87,
+            "end": 55.31,
+            "text": "Yes, sir?"
+        },
+        {
+            "start": 55.31,
+            "end": 56.31,
+            "text": "Hello?"
+        },
+        {
+            "start": 56.31,
+            "end": 57.31,
+            "text": "Hello?"
+        },
+        {
+            "start": 57.31,
+            "end": 63.22,
+            "text": "Hello, how did you talk?"
+        },
+        {
+            "start": 63.22,
+            "end": 65.22,
+            "text": "Thank you."
+        }
+    ],
+    "transcript": "Hello, hello, what are these? Hello, hello, hello, hello. Hello, hello. Hello, hello. Hello, how are you to do? Yes, sir? How is it? How are you? That's a voice. It's a lot. Yes, sir? Hello? Hello? Hello, how did you talk? Thank you.",
+    "status": "success"
+}

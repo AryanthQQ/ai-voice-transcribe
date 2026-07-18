@@ -1,0 +1,47 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Hindi\\rec_audio_call_35908728_14688996_2cb38628b76a_audio_1782196266876.mp3",
+    "filename": "rec_audio_call_35908728_14688996_2cb38628b76a_audio_1782196266876.mp3",
+    "model": "large-v3-turbo",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 16.547478099993896,
+    "transcription_time": 129.29373340000166,
+    "processing_time": 145.84121149999555,
+    "audio_duration": 93.44,
+    "rtf": 1.3837086194349493,
+    "language": "hi",
+    "language_confidence": 0.666908323764801,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 44100,
+        "channels": 2,
+        "file_size_mb": 0.71
+    },
+    "segments": [
+        {
+            "start": 0.11,
+            "end": 25.79,
+            "text": "का तो जी हालो का तो बेभी हालो का रहते हो जी वियार में ज्यार से वियार"
+        },
+        {
+            "start": 25.79,
+            "end": 58.1,
+            "text": "आप सब्सक्राइब करते हैं आपके साधी हो चुकिए हैं जी तो अच्छा है और सुनाओ क्या करते हैं"
+        },
+        {
+            "start": 58.1,
+            "end": 87.53,
+            "text": "कुछ नहीं करते हैं कुछ नहीं करते हैं करते हैं जाकि दौक वो और भी न करते हैं"
+        }
+    ],
+    "transcript": "का तो जी हालो का तो बेभी हालो का रहते हो जी वियार में ज्यार से वियार आप सब्सक्राइब करते हैं आपके साधी हो चुकिए हैं जी तो अच्छा है और सुनाओ क्या करते हैं कुछ नहीं करते हैं कुछ नहीं करते हैं करते हैं जाकि दौक वो और भी न करते हैं",
+    "status": "success"
+}

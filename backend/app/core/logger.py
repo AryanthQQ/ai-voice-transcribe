@@ -22,3 +22,16 @@ def setup_logger(name: str) -> logging.Logger:
     return logger
 
 logger = setup_logger("ai-speech-analytics")
+
+import json
+from typing import Any, Dict
+
+def log_structured(event_name: str, data: Dict[str, Any], level: int = logging.INFO):
+    """
+    Emits a structured JSON log entry for observability platforms.
+    """
+    payload = {
+        "event": event_name,
+        **data
+    }
+    logger.log(level, json.dumps(payload))

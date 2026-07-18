@@ -1,0 +1,28 @@
+{
+    "model": "distil-large-v3",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 323.3434541999886,
+    "transcription_time": 26.64444909998565,
+    "processing_time": 349.9879032999743,
+    "audio_duration": 1.0,
+    "rtf": 26.64444909998565,
+    "language": "en",
+    "language_confidence": 0.855193018913269,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 16000,
+        "channels": 1,
+        "file_size_mb": 0.03
+    },
+    "segments": [],
+    "transcript": ""
+}

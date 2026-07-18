@@ -1,0 +1,76 @@
+{
+    "benchmark_run": "20260717_111240",
+    "model": "large-v3-turbo",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "dataset": "C:\\Users\\hp\\Desktop\\benchmark",
+    "total_files": 5,
+    "successful_files": 3,
+    "failed_files_count": 2,
+    "failed_files": [
+        {
+            "file": "C:\\Users\\hp\\Desktop\\benchmark\\Hindi\\rec_audio_call_35908728_14688996_2cb38628b76a_audio_1782196266876.mp3",
+            "error": "'charmap' codec can't encode characters in position 24-28: character maps to <undefined>"
+        },
+        {
+            "file": "C:\\Users\\hp\\Desktop\\benchmark\\Hindi\\rec_audio_call_85133471_35297953_46795036ae2b_audio_1782196082989.mp3",
+            "error": "'charmap' codec can't encode characters in position 24-27: character maps to <undefined>"
+        }
+    ],
+    "model_load_time": 303.5003815999953,
+    "total_benchmark_time": 981.6177867000224,
+    "avg_transcription_time": 146.63279373332625,
+    "avg_rtf": 0.9813953109178137,
+    "avg_audio_duration": 154.92353741496598,
+    "languages_detected": [
+        "en"
+    ],
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "per_file_summary": [
+        {
+            "filename": "rec_audio_call_60481892_79801812_e221398e8079_audio_1782196290919.mp3",
+            "audio_duration": 142.88979591836735,
+            "transcription_time": 99.23022199998377,
+            "rtf": 0.6944528219263032,
+            "language": "en",
+            "language_confidence": 0.3195185661315918,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_62815017_24874032_b624e6ff6f96_audio_1782502095594.mp3",
+            "audio_duration": 250.04408163265308,
+            "transcription_time": 251.23297909999383,
+            "rtf": 1.0047547514805306,
+            "language": "en",
+            "language_confidence": 0.8017688989639282,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_78154535_62551043_345637900926_audio_1782196256613.mp3",
+            "audio_duration": 71.83673469387755,
+            "transcription_time": 89.43518010000116,
+            "rtf": 1.2449783593466073,
+            "language": "en",
+            "language_confidence": 0.7779040932655334,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_35908728_14688996_2cb38628b76a_audio_1782196266876.mp3",
+            "status": "failed",
+            "error": "'charmap' codec can't encode characters in position 24-28: character maps to <undefined>"
+        },
+        {
+            "filename": "rec_audio_call_85133471_35297953_46795036ae2b_audio_1782196082989.mp3",
+            "status": "failed",
+            "error": "'charmap' codec can't encode characters in position 24-27: character maps to <undefined>"
+        }
+    ]
+}

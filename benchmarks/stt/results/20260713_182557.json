@@ -1,0 +1,26 @@
+{
+    "model": "tiny",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "processing_time": 1.9362209998071194,
+    "audio_duration": 0.0,
+    "rtf": 0,
+    "language": "en",
+    "language_confidence": 0.27450668811798096,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 0,
+        "channels": 0,
+        "file_size_mb": 0.03
+    },
+    "segments": [],
+    "transcript": ""
+}

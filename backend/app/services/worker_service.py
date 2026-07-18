@@ -6,7 +6,7 @@ import threading
 import time
 from typing import Dict, Any
 
-from app.core.logger import logger
+from app.core.logger import logger, log_structured
 from app.services.speech_service import speech_service
 from app.services.diarize_service import diarize_service
 from app.services.gemini_service import gemini_service
@@ -22,9 +22,153 @@ from app.services.intelligence.pipeline.models import PipelineInput
 analysis_lock = threading.Lock()
 intelligence_pipeline = IntelligencePipeline()
 
+from app.core.config import settings
+from app.services.inference_pipeline import inference_pipeline
+
 def process_call_audio_async(job_id: str, adviser_id: str, user_id: str, voice_url: str):
+    """Router that delegates to modern or legacy pipeline based on settings."""
+    if settings.PIPELINE_MODE.lower() == "modern":
+        process_call_audio_async_modern(job_id, adviser_id, user_id, voice_url)
+    else:
+        process_call_audio_async_legacy(job_id, adviser_id, user_id, voice_url)
+
+def process_call_audio_async_modern(job_id: str, adviser_id: str, user_id: str, voice_url: str):
     """
-    Background worker that updates job state and metrics.
+    Executes the modern InferencePipeline (STT -> Contact -> Compliance).
+    """
+    start_total = time.time()
+    
+    def update(status, progress, stage, result=None, error=None):
+        elapsed = time.time() - start_total
+        job_service.update_job(job_id, status, progress, stage, f"{elapsed:.2f} sec", result=result, error=error)
+
+    try:
+        with analysis_lock:
+            update("downloading", 20, "Downloading Audio")
+            logger.info(f"[Job {job_id}] Modern pipeline starting for {voice_url}")
+            
+            from app.services.audio_service import audio_downloader
+            
+            with audio_downloader.download_and_manage(voice_url) as (temp_path, download_metrics):
+                update("analyzing", 50, "Running Inference Pipeline")
+                call_id = f"{adviser_id}_{user_id}_{job_id}"
+                
+                # Run the dedicated InferencePipeline
+                result_data = inference_pipeline.run(call_id, temp_path)
+                
+                if result_data.get("overall_risk") == "error":
+                    raise Exception(result_data.get("error", "Unknown pipeline error"))
+                    
+                # Decision logic
+                risk_score = result_data.get("risk_score", 0)
+                overall_risk = result_data.get("overall_risk", "low").lower()
+                
+                decision = settings.DECISION_ACTION_MAPPING.get(overall_risk, "ALLOW")
+                if risk_score >= settings.DECISION_RISK_THRESHOLD and decision == "ALLOW":
+                    decision = "FLAG"
+                    
+                result_data["decision"] = decision
+                result_data["processing_status"] = "SUCCESS"
+                
+                violations = result_data.get("violations", [])
+                violation_types = list(set([v.get("type") for v in violations]))
+                
+                email_triggered = False
+                
+                # Check Email Trigger Rules
+                needs_email = False
+                if overall_risk in ["high", "critical"]:
+                    needs_email = True
+                else:
+                    for v_type in violation_types:
+                        if v_type in settings.EMAIL_TRIGGER_VIOLATIONS:
+                            needs_email = True
+                            break
+                            
+                if needs_email:
+                    email_triggered = True
+                    update("email", 95, "Triggering Email Alerts")
+                    
+                    transcript_text = result_data.get("transcript", "")
+                    transcript_snippet = transcript_text[:500] + "..." if len(transcript_text) > 500 else transcript_text
+                    
+                    alert_data = {
+                        "call_id": call_id,
+                        "advisor_id": adviser_id,
+                        "user_id": user_id,
+                        "risk_score": risk_score,
+                        "overall_risk": overall_risk,
+                        "violation_types": violation_types,
+                        "transcript_snippet": transcript_snippet,
+                        "audio_url": voice_url,
+                        "processing_timestamp": time.time()
+                    }
+                    
+                    def send_email_with_retry():
+                        max_retries = 3
+                        for attempt in range(max_retries):
+                            try:
+                                send_violation_alert_email(alert_data)
+                                break
+                            except Exception as e:
+                                logger.error(f"[Job {job_id}] SMTP attempt {attempt+1} failed: {e}")
+                                time.sleep(2)
+                                
+                    threading.Thread(target=send_email_with_retry, daemon=True).start()
+                
+                result_data["email_triggered"] = email_triggered
+                    
+                # Merge download metrics into pipeline_metrics
+                if "pipeline_metrics" in result_data:
+                    result_data["pipeline_metrics"].update(download_metrics)
+                    
+                update("completed", 100, "Completed", result=result_data)
+                
+                # Structured Logging
+                log_structured("ANALYSIS_COMPLETED", {
+                    "request_id": job_id,
+                    "call_id": call_id,
+                    "adviser_id": adviser_id,
+                    "user_id": user_id,
+                    "status": "completed",
+                    "language": result_data.get("language", "unknown"),
+                    "audio_duration": download_metrics.get("duration_sec", 0.0),
+                    "audio_size_mb": download_metrics.get("file_size_mb", 0.0),
+                    "processing_times": result_data.get("pipeline_metrics", {}),
+                    "risk_score": result_data.get("risk_score", 0),
+                    "overall_risk": result_data.get("overall_risk", "low"),
+                    "violation_count": len(result_data.get("violations", [])),
+                    "violations_detected": [v.get("type") for v in result_data.get("violations", [])]
+                })
+                
+                metrics_service.record_job(success=True, processing_time_sec=time.time() - start_total)
+            
+    except Exception as e:
+        logger.error(f"[Job {job_id}] Modern pipeline failed: {e}")
+        error_data = {
+            "code": e.__class__.__name__ if hasattr(e, '__class__') else "MODERN_PIPELINE_ERROR",
+            "message": str(e) or "Failed to process the audio call via modern pipeline.",
+            "details": str(e)
+        }
+        update("failed", 100, "Failed", error=error_data)
+        
+        log_structured("ANALYSIS_FAILED", {
+            "request_id": job_id,
+            "adviser_id": adviser_id,
+            "user_id": user_id,
+            "status": "failed",
+            "error_type": error_data["code"],
+            "error_message": error_data["message"]
+        }, level=40) # 40 = logging.ERROR
+        
+        metrics_service.record_job(success=False, processing_time_sec=time.time() - start_total)
+    finally:
+        # Cleanup handled strictly by audio_downloader context manager
+        pass
+
+def process_call_audio_async_legacy(job_id: str, adviser_id: str, user_id: str, voice_url: str):
+    """
+    Background worker that updates job state and metrics (Legacy).
     """
     start_total = time.time()
     

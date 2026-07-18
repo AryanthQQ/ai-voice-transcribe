@@ -1,0 +1,42 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Marathi\\rec_audio_call_78154535_62551043_345637900926_audio_1782196256613.mp3",
+    "filename": "rec_audio_call_78154535_62551043_345637900926_audio_1782196256613.mp3",
+    "model": "large-v3-turbo",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 303.5003815999953,
+    "transcription_time": 89.43518010000116,
+    "processing_time": 392.93556169999647,
+    "audio_duration": 71.83673469387755,
+    "rtf": 1.2449783593466073,
+    "language": "en",
+    "language_confidence": 0.7779040932655334,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 44100,
+        "channels": 2,
+        "file_size_mb": 0.51
+    },
+    "segments": [
+        {
+            "start": 2.71,
+            "end": 45.52,
+            "text": "hello hello Kay Kurtis Hello Hello hello hello hello hello hello how was it how was it"
+        },
+        {
+            "start": 45.52,
+            "end": 63.48,
+            "text": "it was about that it was a little how it took a little how it took a little how it took a"
+        }
+    ],
+    "transcript": "hello hello Kay Kurtis Hello Hello hello hello hello hello hello how was it how was it it was about that it was a little how it took a little how it took a little how it took a",
+    "status": "success"
+}

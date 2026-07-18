@@ -1,0 +1,25 @@
+{
+  "base_keywords": [
+    "instagram",
+    "insta",
+    "ig"
+  ],
+  "intent_actions": [
+    "id",
+    "follow(?:\\s+me(?:\\s+on)?)?",
+    "pe\\s+aa\\s+jana",
+    "pe\\s+message\\s+karna",
+    "share\\s+karo",
+    "mera\\s+(?:insta|instagram|ig)\\s+hai",
+    "@[\\w.]+"
+  ],
+  "false_positives": [
+    "app",
+    "download",
+    "update",
+    "reels?",
+    "account\\s+settings?",
+    "login",
+    "password"
+  ]
+}

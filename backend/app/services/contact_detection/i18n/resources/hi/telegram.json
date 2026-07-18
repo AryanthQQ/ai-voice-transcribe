@@ -1,0 +1,27 @@
+{
+  "base_keywords": [
+    "telegram",
+    "tg"
+  ],
+  "intent_actions": [
+    "id",
+    "username",
+    "pe\\s+aa\\s+jana",
+    "pe\\s+message\\s+karna",
+    "share\\s+karo",
+    "de\\s+do"
+  ],
+  "false_positives": [
+    "app",
+    "download",
+    "update",
+    "login",
+    "settings",
+    "notification",
+    "premium",
+    "channel\\s+news"
+  ],
+  "link_patterns": [
+    "(?:https?://)?(?:t\\.me|telegram\\.me)/[\\w.-]+"
+  ]
+}

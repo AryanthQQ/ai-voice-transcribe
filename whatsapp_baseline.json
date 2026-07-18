@@ -1,0 +1,68 @@
+{
+  "test_1": [
+    {
+      "type": "whatsapp",
+      "severity": "High",
+      "value": "WhatsApp Request",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.99,
+      "matched_text": "WhatsApp number de do"
+    }
+  ],
+  "test_2": [
+    {
+      "type": "whatsapp",
+      "severity": "Medium",
+      "value": "WhatsApp Keyword",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.7,
+      "matched_text": "WA"
+    }
+  ],
+  "test_3": [
+    {
+      "type": "whatsapp",
+      "severity": "High",
+      "value": "WhatsApp Request",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.99,
+      "matched_text": "Whats app share"
+    }
+  ],
+  "test_4": [
+    {
+      "type": "whatsapp",
+      "severity": "Medium",
+      "value": "WhatsApp Keyword",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.7,
+      "matched_text": "whatsapp"
+    }
+  ],
+  "test_5": [
+    {
+      "type": "whatsapp",
+      "severity": "Medium",
+      "value": "WhatsApp Keyword",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.7,
+      "matched_text": "WP"
+    }
+  ],
+  "test_6": [
+    {
+      "type": "whatsapp",
+      "severity": "Medium",
+      "value": "WhatsApp Keyword",
+      "timestamp": "00:00",
+      "speaker": "Unknown",
+      "confidence": 0.7,
+      "matched_text": "whatsapp"
+    }
+  ]
+}

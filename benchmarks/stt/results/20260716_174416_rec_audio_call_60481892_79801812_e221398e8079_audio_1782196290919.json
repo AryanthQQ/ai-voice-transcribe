@@ -1,0 +1,417 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Bengal\\rec_audio_call_60481892_79801812_e221398e8079_audio_1782196290919.mp3",
+    "filename": "rec_audio_call_60481892_79801812_e221398e8079_audio_1782196290919.mp3",
+    "model": "distil-large-v3",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 8.131905499991262,
+    "transcription_time": 43.330351999989944,
+    "processing_time": 51.462257499981206,
+    "audio_duration": 0.0,
+    "rtf": 0.0,
+    "language": "en",
+    "language_confidence": 0.9708657264709473,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 0,
+        "channels": 0,
+        "file_size_mb": 1.12
+    },
+    "segments": [
+        {
+            "start": 3.92,
+            "end": 4.56,
+            "text": "Hello."
+        },
+        {
+            "start": 5.65,
+            "end": 5.93,
+            "text": "Hello."
+        },
+        {
+            "start": 6.93,
+            "end": 7.49,
+            "text": "Hi, who's"
+        },
+        {
+            "start": 7.49,
+            "end": 7.89,
+            "text": "what are you?"
+        },
+        {
+            "start": 10.54,
+            "end": 11.5,
+            "text": "My name is Raj."
+        },
+        {
+            "start": 13.04,
+            "end": 13.92,
+            "text": "Me, Suta,"
+        },
+        {
+            "start": 13.92,
+            "end": 14.4,
+            "text": "where's from,"
+        },
+        {
+            "start": 14.4,
+            "end": 14.8,
+            "text": "Raja?"
+        },
+        {
+            "start": 17.92,
+            "end": 18.72,
+            "text": "West Bengal,"
+        },
+        {
+            "start": 18.72,
+            "end": 19.04,
+            "text": "rich."
+        },
+        {
+            "start": 20.83,
+            "end": 21.47,
+            "text": "West Bengal,"
+        },
+        {
+            "start": 21.47,
+            "end": 22.27,
+            "text": "it's a very,"
+        },
+        {
+            "start": 22.27,
+            "end": 22.83,
+            "text": "where's the job?"
+        },
+        {
+            "start": 24.32,
+            "end": 24.96,
+            "text": "Kolkata."
+        },
+        {
+            "start": 27.68,
+            "end": 28.24,
+            "text": "Kolkata."
+        },
+        {
+            "start": 28.24,
+            "end": 28.32,
+            "text": "Kolkata,"
+        },
+        {
+            "start": 28.32,
+            "end": 29.52,
+            "text": "Kondi,"
+        },
+        {
+            "start": 29.52,
+            "end": 34.14,
+            "text": "Kittal is,"
+        },
+        {
+            "start": 34.14,
+            "end": 34.54,
+            "text": "Bama,"
+        },
+        {
+            "start": 34.54,
+            "end": 35.18,
+            "text": "Kachach."
+        },
+        {
+            "start": 35.18,
+            "end": 38.54,
+            "text": "You,"
+        },
+        {
+            "start": 38.54,
+            "end": 39.02,
+            "text": "you know,"
+        },
+        {
+            "start": 39.02,
+            "end": 40.59,
+            "text": "who are you?"
+        },
+        {
+            "start": 40.59,
+            "end": 40.99,
+            "text": "I'm,"
+        },
+        {
+            "start": 40.99,
+            "end": 41.39,
+            "text": "Raja,"
+        },
+        {
+            "start": 41.39,
+            "end": 47.6,
+            "text": "what are you?"
+        },
+        {
+            "start": 47.6,
+            "end": 51.52,
+            "text": "I'm,"
+        },
+        {
+            "start": 51.52,
+            "end": 52.82,
+            "text": "job,"
+        },
+        {
+            "start": 52.82,
+            "end": 53.62,
+            "text": "job,"
+        },
+        {
+            "start": 53.62,
+            "end": 54.93,
+            "text": "job,"
+        },
+        {
+            "start": 54.93,
+            "end": 55.93,
+            "text": "Do you know?"
+        },
+        {
+            "start": 55.93,
+            "end": 56.93,
+            "text": "Government or private?"
+        },
+        {
+            "start": 56.93,
+            "end": 58.47,
+            "text": "Private."
+        },
+        {
+            "start": 58.47,
+            "end": 60.5,
+            "text": "Okay."
+        },
+        {
+            "start": 60.5,
+            "end": 61.91,
+            "text": "Okay."
+        },
+        {
+            "start": 61.91,
+            "end": 62.91,
+            "text": "How do you have?"
+        },
+        {
+            "start": 62.91,
+            "end": 64.01,
+            "text": "Do you?"
+        },
+        {
+            "start": 64.01,
+            "end": 65.01,
+            "text": "Yeah?"
+        },
+        {
+            "start": 66.29,
+            "end": 67.29,
+            "text": "What do you have?"
+        },
+        {
+            "start": 67.29,
+            "end": 68.29,
+            "text": "Where do you have?"
+        },
+        {
+            "start": 68.29,
+            "end": 73.14,
+            "text": "What do you have?"
+        },
+        {
+            "start": 73.14,
+            "end": 74.14,
+            "text": "No."
+        },
+        {
+            "start": 74.14,
+            "end": 77.79,
+            "text": "What do you have?"
+        },
+        {
+            "start": 77.79,
+            "end": 78.79,
+            "text": "What do you have?"
+        },
+        {
+            "start": 78.79,
+            "end": 79.79,
+            "text": "What do you have?"
+        },
+        {
+            "start": 79.79,
+            "end": 82.49,
+            "text": "You know,"
+        },
+        {
+            "start": 82.49,
+            "end": 84.49,
+            "text": "you're saying?"
+        },
+        {
+            "start": 84.49,
+            "end": 85.49,
+            "text": "No,"
+        },
+        {
+            "start": 85.49,
+            "end": 89.66,
+            "text": "the first time?"
+        },
+        {
+            "start": 89.66,
+            "end": 91.62,
+            "text": "Yeah."
+        },
+        {
+            "start": 91.62,
+            "end": 92.62,
+            "text": "First one?"
+        },
+        {
+            "start": 92.62,
+            "end": 93.62,
+            "text": "Then, then?"
+        },
+        {
+            "start": 93.62,
+            "end": 94.62,
+            "text": "No,"
+        },
+        {
+            "start": 94.62,
+            "end": 95.62,
+            "text": "the first call?"
+        },
+        {
+            "start": 95.62,
+            "end": 97.9,
+            "text": "me did."
+        },
+        {
+            "start": 97.9,
+            "end": 102.18,
+            "text": "I did the first part of your first follow."
+        },
+        {
+            "start": 102.18,
+            "end": 103.18,
+            "text": "Okay."
+        },
+        {
+            "start": 103.54,
+            "end": 105.54,
+            "text": "Then I'm lucky that you've"
+        },
+        {
+            "start": 105.54,
+            "end": 108.54,
+            "text": "you're my first follow friend."
+        },
+        {
+            "start": 108.54,
+            "end": 109.89,
+            "text": "Hmm."
+        },
+        {
+            "start": 109.89,
+            "end": 112.69,
+            "text": "Your hobby is your hobby?"
+        },
+        {
+            "start": 112.69,
+            "end": 116.73,
+            "text": "Well,"
+        },
+        {
+            "start": 116.73,
+            "end": 117.73,
+            "text": "you know,"
+        },
+        {
+            "start": 117.73,
+            "end": 118.73,
+            "text": "there's a hobby"
+        },
+        {
+            "start": 118.73,
+            "end": 119.73,
+            "text": "there."
+        },
+        {
+            "start": 119.73,
+            "end": 120.73,
+            "text": "Well,"
+        },
+        {
+            "start": 120.73,
+            "end": 122.94,
+            "text": "bike rides."
+        },
+        {
+            "start": 122.94,
+            "end": 123.94,
+            "text": "Oh,"
+        },
+        {
+            "start": 123.94,
+            "end": 124.94,
+            "text": "this is I really"
+        },
+        {
+            "start": 124.94,
+            "end": 125.98,
+            "text": "love to go to"
+        },
+        {
+            "start": 125.98,
+            "end": 126.98,
+            "text": "go to."
+        },
+        {
+            "start": 126.98,
+            "end": 130.82,
+            "text": "You're a very kind of"
+        },
+        {
+            "start": 130.82,
+            "end": 131.82,
+            "text": "going to?"
+        },
+        {
+            "start": 131.82,
+            "end": 133.21,
+            "text": "No,"
+        },
+        {
+            "start": 133.21,
+            "end": 135.33,
+            "text": "no."
+        },
+        {
+            "start": 135.33,
+            "end": 136.33,
+            "text": "I didn't."
+        },
+        {
+            "start": 136.33,
+            "end": 137.33,
+            "text": "I didn't know."
+        }
+    ],
+    "transcript": "Hello. Hello. Hi, who's what are you? My name is Raj. Me, Suta, where's from, Raja? West Bengal, rich. West Bengal, it's a very, where's the job? Kolkata. Kolkata. Kolkata, Kondi, Kittal is, Bama, Kachach. You, you know, who are you? I'm, Raja, what are you? I'm, job, job, job, Do you know? Government or private? Private. Okay. Okay. How do you have? Do you? Yeah? What do you have? Where do you have? What do you have? No. What do you have? What do you have? What do you have? You know, you're saying? No, the first time? Yeah. First one? Then, then? No, the first call? me did. I did the first part of your first follow. Okay. Then I'm lucky that you've you're my first follow friend. Hmm. Your hobby is your hobby? Well, you know, there's a hobby there. Well, bike rides. Oh, this is I really love to go to go to. You're a very kind of going to? No, no. I didn't. I didn't know.",
+    "status": "success"
+}

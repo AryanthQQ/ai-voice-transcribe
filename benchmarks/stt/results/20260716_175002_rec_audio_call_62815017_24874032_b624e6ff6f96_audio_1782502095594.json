@@ -1,0 +1,557 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Hindi\\rec_audio_call_62815017_24874032_b624e6ff6f96_audio_1782502095594.mp3",
+    "filename": "rec_audio_call_62815017_24874032_b624e6ff6f96_audio_1782502095594.mp3",
+    "model": "distil-large-v3",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 6.04217690002406,
+    "transcription_time": 94.81473260000348,
+    "processing_time": 100.85690950002754,
+    "audio_duration": 250.04408163265308,
+    "rtf": 0.3791920687780906,
+    "language": "en",
+    "language_confidence": 0.9360126256942749,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 44100,
+        "channels": 2,
+        "file_size_mb": 2.46
+    },
+    "segments": [
+        {
+            "start": 0.0,
+            "end": 0.48,
+            "text": "Hello."
+        },
+        {
+            "start": 1.67,
+            "end": 1.95,
+            "text": "Hello."
+        },
+        {
+            "start": 1.97,
+            "end": 4.89,
+            "text": "Say, how are you?"
+        },
+        {
+            "start": 5.7,
+            "end": 6.12,
+            "text": "Okay, I'm."
+        },
+        {
+            "start": 6.14,
+            "end": 6.92,
+            "text": "Now, you're from?"
+        },
+        {
+            "start": 8.37,
+            "end": 8.91,
+            "text": "I'm going to."
+        },
+        {
+            "start": 9.53,
+            "end": 11.05,
+            "text": "How are you?"
+        },
+        {
+            "start": 11.05,
+            "end": 14.06,
+            "text": "Where's it?"
+        },
+        {
+            "start": 14.06,
+            "end": 14.64,
+            "text": "Dali."
+        },
+        {
+            "start": 14.64,
+            "end": 18.98,
+            "text": "Yeah, yeah, I've got to talk to."
+        },
+        {
+            "start": 18.98,
+            "end": 22.14,
+            "text": "Oh, wow, how are you?"
+        },
+        {
+            "start": 22.14,
+            "end": 23.14,
+            "text": "Oh, Pals!"
+        },
+        {
+            "start": 23.14,
+            "end": 27.05,
+            "text": "Oh, wow, what's it?"
+        },
+        {
+            "start": 27.05,
+            "end": 28.05,
+            "text": "What are you?"
+        },
+        {
+            "start": 28.05,
+            "end": 29.05,
+            "text": "What's it?"
+        },
+        {
+            "start": 29.05,
+            "end": 30.05,
+            "text": "What?"
+        },
+        {
+            "start": 30.05,
+            "end": 31.05,
+            "text": "What?"
+        },
+        {
+            "start": 31.05,
+            "end": 32.4,
+            "text": "What?"
+        },
+        {
+            "start": 32.4,
+            "end": 33.56,
+            "text": "What?"
+        },
+        {
+            "start": 33.56,
+            "end": 34.56,
+            "text": "I'm, I'm just in the"
+        },
+        {
+            "start": 34.56,
+            "end": 35.56,
+            "text": "room in."
+        },
+        {
+            "start": 35.56,
+            "end": 36.56,
+            "text": "I'm doing things."
+        },
+        {
+            "start": 36.56,
+            "end": 39.93,
+            "text": "Um,"
+        },
+        {
+            "start": 39.93,
+            "end": 46.09,
+            "text": "The house-to-work-like, like, tend-o-tack-like, house-keeping, like, something."
+        },
+        {
+            "start": 46.09,
+            "end": 48.51,
+            "text": "Yeah, I mean, I mean, I'm doing the house-keeping, like, you know?"
+        },
+        {
+            "start": 51.85,
+            "end": 56.19,
+            "text": "No, I, like, how, like, how, how much, how we're, how much, how much, how much, how much,"
+        },
+        {
+            "start": 56.19,
+            "end": 67.86,
+            "text": "how much, how much service, do you, make, yeah, you know, much service, is, yeah, absolutely,"
+        },
+        {
+            "start": 67.86,
+            "end": 80.54,
+            "text": "that, definitely, that's, $300,300, $300, $300, $300, $300, $200, $200, $20,000."
+        },
+        {
+            "start": 80.94,
+            "end": 83.98,
+            "text": "you'll give you."
+        },
+        {
+            "start": 83.98,
+            "end": 84.98,
+            "text": "Yeah, what I'll say."
+        },
+        {
+            "start": 84.98,
+            "end": 86.98,
+            "text": "Yeah, what I'll, I'll"
+        },
+        {
+            "start": 86.98,
+            "end": 93.81,
+            "text": "see."
+        },
+        {
+            "start": 93.81,
+            "end": 94.81,
+            "text": "I'm going to"
+        },
+        {
+            "start": 94.81,
+            "end": 95.81,
+            "text": "see."
+        },
+        {
+            "start": 95.81,
+            "end": 96.81,
+            "text": "No, no"
+        },
+        {
+            "start": 96.81,
+            "end": 97.81,
+            "text": "no."
+        },
+        {
+            "start": 97.81,
+            "end": 98.81,
+            "text": "No, no"
+        },
+        {
+            "start": 98.81,
+            "end": 101.63,
+            "text": "no."
+        },
+        {
+            "start": 101.63,
+            "end": 105.42,
+            "text": "No,"
+        },
+        {
+            "start": 105.42,
+            "end": 106.42,
+            "text": "no."
+        },
+        {
+            "start": 106.42,
+            "end": 107.42,
+            "text": "But,"
+        },
+        {
+            "start": 107.42,
+            "end": 108.42,
+            "text": "you know,"
+        },
+        {
+            "start": 108.42,
+            "end": 109.42,
+            "text": "you're"
+        },
+        {
+            "start": 109.42,
+            "end": 110.42,
+            "text": "you're"
+        },
+        {
+            "start": 110.42,
+            "end": 111.42,
+            "text": "if you're"
+        },
+        {
+            "start": 111.42,
+            "end": 113.92,
+            "text": "you're"
+        },
+        {
+            "start": 113.92,
+            "end": 114.92,
+            "text": "you're"
+        },
+        {
+            "start": 114.92,
+            "end": 115.92,
+            "text": "You're"
+        },
+        {
+            "start": 115.92,
+            "end": 116.92,
+            "text": "You're"
+        },
+        {
+            "start": 116.92,
+            "end": 117.92,
+            "text": "do?"
+        },
+        {
+            "start": 117.92,
+            "end": 128.74,
+            "text": "You're"
+        },
+        {
+            "start": 132.41,
+            "end": 134.91,
+            "text": "Sayner, I'll send you, $200.00, call the video call it, okay?"
+        },
+        {
+            "start": 138.13,
+            "end": 139.07,
+            "text": "I'm frauded you."
+        },
+        {
+            "start": 139.07,
+            "end": 141.07,
+            "text": "Then you have, if I had first made it."
+        },
+        {
+            "start": 141.07,
+            "end": 145.13,
+            "text": "No, if I have a lot, then $1.00,000, then $1.00.00, okay?"
+        },
+        {
+            "start": 148.26,
+            "end": 148.54,
+            "text": "Yeah."
+        },
+        {
+            "start": 148.9,
+            "end": 149.94,
+            "text": "Number, what's up?"
+        },
+        {
+            "start": 152.09,
+            "end": 152.57,
+            "text": "Mm-hmm."
+        },
+        {
+            "start": 153.68,
+            "end": 154.2,
+            "text": "Number, go."
+        },
+        {
+            "start": 154.48,
+            "end": 154.72,
+            "text": "Yeah."
+        },
+        {
+            "start": 159.79,
+            "end": 160.19,
+            "text": "Yeah."
+        },
+        {
+            "start": 162.3,
+            "end": 162.9,
+            "text": "Mm-hmm."
+        },
+        {
+            "start": 163.5,
+            "end": 163.7,
+            "text": "Yeah."
+        },
+        {
+            "start": 168.31,
+            "end": 168.87,
+            "text": "Yeah."
+        },
+        {
+            "start": 174.18,
+            "end": 174.42,
+            "text": "Let me tell you."
+        },
+        {
+            "start": 174.42,
+            "end": 175.42,
+            "text": "Okay."
+        },
+        {
+            "start": 175.42,
+            "end": 176.52,
+            "text": "Nine."
+        },
+        {
+            "start": 176.52,
+            "end": 177.0,
+            "text": "Nine?"
+        },
+        {
+            "start": 177.0,
+            "end": 177.52,
+            "text": "Nine."
+        },
+        {
+            "start": 177.52,
+            "end": 178.0,
+            "text": "Nine."
+        },
+        {
+            "start": 178.0,
+            "end": 179.0,
+            "text": "Nine?"
+        },
+        {
+            "start": 179.0,
+            "end": 181.47,
+            "text": "Nine."
+        },
+        {
+            "start": 181.47,
+            "end": 182.47,
+            "text": "Nine."
+        },
+        {
+            "start": 182.47,
+            "end": 182.99,
+            "text": "Nine."
+        },
+        {
+            "start": 182.99,
+            "end": 183.11,
+            "text": "Nine?"
+        },
+        {
+            "start": 183.11,
+            "end": 184.11,
+            "text": "Nine."
+        },
+        {
+            "start": 184.23,
+            "end": 185.33,
+            "text": "How are?"
+        },
+        {
+            "start": 185.33,
+            "end": 188.1,
+            "text": "9039."
+        },
+        {
+            "start": 188.1,
+            "end": 189.1,
+            "text": "9039."
+        },
+        {
+            "start": 189.1,
+            "end": 190.64,
+            "text": "5039."
+        },
+        {
+            "start": 190.64,
+            "end": 191.64,
+            "text": "57."
+        },
+        {
+            "start": 191.64,
+            "end": 192.64,
+            "text": "57."
+        },
+        {
+            "start": 192.64,
+            "end": 194.38,
+            "text": "9."
+        },
+        {
+            "start": 194.38,
+            "end": 196.5,
+            "text": "9 4."
+        },
+        {
+            "start": 196.5,
+            "end": 200.74,
+            "text": "9 4."
+        },
+        {
+            "start": 200.74,
+            "end": 202.18,
+            "text": "9 4."
+        },
+        {
+            "start": 202.18,
+            "end": 203.18,
+            "text": "39."
+        },
+        {
+            "start": 203.18,
+            "end": 204.34,
+            "text": "39."
+        },
+        {
+            "start": 204.34,
+            "end": 207.5,
+            "text": "Look, message here."
+        },
+        {
+            "start": 207.5,
+            "end": 214.01,
+            "text": "This is right?"
+        },
+        {
+            "start": 214.01,
+            "end": 219.94,
+            "text": "901919, 17,"
+        },
+        {
+            "start": 219.94,
+            "end": 220.94,
+            "text": "75, 444."
+        },
+        {
+            "start": 220.94,
+            "end": 221.94,
+            "text": "Message."
+        },
+        {
+            "start": 221.94,
+            "end": 222.94,
+            "text": "Data off."
+        },
+        {
+            "start": 222.94,
+            "end": 228.72,
+            "text": "You're data off."
+        },
+        {
+            "start": 228.72,
+            "end": 232.92,
+            "text": "You're a daughter off."
+        },
+        {
+            "start": 232.92,
+            "end": 233.92,
+            "text": "You're a girl,"
+        },
+        {
+            "start": 233.92,
+            "end": 234.92,
+            "text": "is a girl."
+        },
+        {
+            "start": 234.92,
+            "end": 235.92,
+            "text": "What?"
+        },
+        {
+            "start": 235.92,
+            "end": 238.34,
+            "text": "You are the girl or not, a little, a little-lawed-lady-lawing."
+        },
+        {
+            "start": 238.34,
+            "end": 240.34,
+            "text": "You can see, now you?"
+        },
+        {
+            "start": 240.34,
+            "end": 244.39,
+            "text": "No, your voice are the other-lark-dra-dra-te-looker."
+        },
+        {
+            "start": 244.39,
+            "end": 247.42,
+            "text": "It's all the network problem issue."
+        },
+        {
+            "start": 247.42,
+            "end": 249.68,
+            "text": "Network problem can't be."
+        },
+        {
+            "start": 249.68,
+            "end": 250.68,
+            "text": "How can't?"
+        }
+    ],
+    "transcript": "Hello. Hello. Say, how are you? Okay, I'm. Now, you're from? I'm going to. How are you? Where's it? Dali. Yeah, yeah, I've got to talk to. Oh, wow, how are you? Oh, Pals! Oh, wow, what's it? What are you? What's it? What? What? What? What? I'm, I'm just in the room in. I'm doing things. Um, The house-to-work-like, like, tend-o-tack-like, house-keeping, like, something. Yeah, I mean, I mean, I'm doing the house-keeping, like, you know? No, I, like, how, like, how, how much, how we're, how much, how much, how much, how much, how much, how much service, do you, make, yeah, you know, much service, is, yeah, absolutely, that, definitely, that's, $300,300, $300, $300, $300, $300, $200, $200, $20,000. you'll give you. Yeah, what I'll say. Yeah, what I'll, I'll see. I'm going to see. No, no no. No, no no. No, no. But, you know, you're you're if you're you're you're You're You're do? You're Sayner, I'll send you, $200.00, call the video call it, okay? I'm frauded you. Then you have, if I had first made it. No, if I have a lot, then $1.00,000, then $1.00.00, okay? Yeah. Number, what's up? Mm-hmm. Number, go. Yeah. Yeah. Mm-hmm. Yeah. Yeah. Let me tell you. Okay. Nine. Nine? Nine. Nine. Nine? Nine. Nine. Nine. Nine? Nine. How are? 9039. 9039. 5039. 57. 57. 9. 9 4. 9 4. 9 4. 39. 39. Look, message here. This is right? 901919, 17, 75, 444. Message. Data off. You're data off. You're a daughter off. You're a girl, is a girl. What? You are the girl or not, a little, a little-lawed-lady-lawing. You can see, now you? No, your voice are the other-lark-dra-dra-te-looker. It's all the network problem issue. Network problem can't be. How can't?",
+    "status": "success"
+}

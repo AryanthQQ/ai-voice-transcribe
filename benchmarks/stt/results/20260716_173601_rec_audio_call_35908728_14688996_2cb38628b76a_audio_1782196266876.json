@@ -1,0 +1,227 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Hindi\\rec_audio_call_35908728_14688996_2cb38628b76a_audio_1782196266876.mp3",
+    "filename": "rec_audio_call_35908728_14688996_2cb38628b76a_audio_1782196266876.mp3",
+    "model": "distil-large-v3",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 7.16895459999796,
+    "transcription_time": 31.855779000004986,
+    "processing_time": 39.024733600002946,
+    "audio_duration": 0.0,
+    "rtf": 0.0,
+    "language": "en",
+    "language_confidence": 0.9069007635116577,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 0,
+        "channels": 0,
+        "file_size_mb": 0.71
+    },
+    "segments": [
+        {
+            "start": 0.11,
+            "end": 0.67,
+            "text": "Hello."
+        },
+        {
+            "start": 1.47,
+            "end": 2.39,
+            "text": "Where are you?"
+        },
+        {
+            "start": 3.79,
+            "end": 4.11,
+            "text": "Hello."
+        },
+        {
+            "start": 4.67,
+            "end": 6.51,
+            "text": "Where are you, baby?"
+        },
+        {
+            "start": 10.37,
+            "end": 10.81,
+            "text": "Hello."
+        },
+        {
+            "start": 12.62,
+            "end": 13.46,
+            "text": "Where are you?"
+        },
+        {
+            "start": 14.14,
+            "end": 14.38,
+            "text": "Yeah."
+        },
+        {
+            "start": 16.1,
+            "end": 17.22,
+            "text": "Where do you?"
+        },
+        {
+            "start": 18.92,
+            "end": 19.48,
+            "text": "In Bihar in?"
+        },
+        {
+            "start": 20.68,
+            "end": 20.92,
+            "text": "What?"
+        },
+        {
+            "start": 22.27,
+            "end": 22.91,
+            "text": "Dihar from."
+        },
+        {
+            "start": 24.97,
+            "end": 25.73,
+            "text": "Bihar."
+        },
+        {
+            "start": 27.34,
+            "end": 29.02,
+            "text": "How do you?"
+        },
+        {
+            "start": 32.85,
+            "end": 33.57,
+            "text": "You know?"
+        },
+        {
+            "start": 35.23,
+            "end": 36.35,
+            "text": "I'm here."
+        },
+        {
+            "start": 38.26,
+            "end": 38.34,
+            "text": "I'm here."
+        },
+        {
+            "start": 38.34,
+            "end": 41.36,
+            "text": "What do you?"
+        },
+        {
+            "start": 44.58,
+            "end": 45.86,
+            "text": "I'm too."
+        },
+        {
+            "start": 45.86,
+            "end": 49.46,
+            "text": "You have your marriage?"
+        },
+        {
+            "start": 49.46,
+            "end": 51.03,
+            "text": "Yes."
+        },
+        {
+            "start": 51.03,
+            "end": 53.93,
+            "text": "Well, it's a good."
+        },
+        {
+            "start": 53.93,
+            "end": 56.18,
+            "text": "What do you?"
+        },
+        {
+            "start": 56.18,
+            "end": 58.18,
+            "text": "What do you?"
+        },
+        {
+            "start": 58.18,
+            "end": 61.29,
+            "text": "What?"
+        },
+        {
+            "start": 61.29,
+            "end": 62.29,
+            "text": "What?"
+        },
+        {
+            "start": 62.29,
+            "end": 63.29,
+            "text": "What?"
+        },
+        {
+            "start": 63.29,
+            "end": 64.29,
+            "text": "What?"
+        },
+        {
+            "start": 64.29,
+            "end": 66.02,
+            "text": "What?"
+        },
+        {
+            "start": 66.02,
+            "end": 67.02,
+            "text": "What?"
+        },
+        {
+            "start": 67.02,
+            "end": 69.37,
+            "text": "What?"
+        },
+        {
+            "start": 69.37,
+            "end": 71.17,
+            "text": "What?"
+        },
+        {
+            "start": 71.17,
+            "end": 73.52,
+            "text": "Married and married?"
+        },
+        {
+            "start": 73.52,
+            "end": 74.81,
+            "text": "Unmarited."
+        },
+        {
+            "start": 74.81,
+            "end": 77.28,
+            "text": "Okay."
+        },
+        {
+            "start": 77.28,
+            "end": 78.28,
+            "text": "Is there?"
+        },
+        {
+            "start": 78.28,
+            "end": 86.07,
+            "text": "Is there?"
+        },
+        {
+            "start": 86.07,
+            "end": 87.07,
+            "text": "No,"
+        },
+        {
+            "start": 87.07,
+            "end": 88.07,
+            "text": "?"
+        },
+        {
+            "start": 88.07,
+            "end": 89.07,
+            "text": "No."
+        }
+    ],
+    "transcript": "Hello. Where are you? Hello. Where are you, baby? Hello. Where are you? Yeah. Where do you? In Bihar in? What? Dihar from. Bihar. How do you? You know? I'm here. I'm here. What do you? I'm too. You have your marriage? Yes. Well, it's a good. What do you? What do you? What? What? What? What? What? What? What? What? Married and married? Unmarited. Okay. Is there? Is there? No, ? No.",
+    "status": "success"
+}

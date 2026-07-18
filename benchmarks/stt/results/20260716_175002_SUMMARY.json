@@ -1,0 +1,75 @@
+{
+    "benchmark_run": "20260716_175002",
+    "model": "distil-large-v3",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "dataset": "C:\\Users\\hp\\Desktop\\benchmark",
+    "total_files": 5,
+    "successful_files": 5,
+    "failed_files_count": 0,
+    "failed_files": [],
+    "model_load_time": 6.04217690002406,
+    "total_benchmark_time": 332.36720750000677,
+    "avg_transcription_time": 66.46627147999826,
+    "avg_rtf": 0.4136196212009062,
+    "avg_audio_duration": 174.14269387755104,
+    "languages_detected": [
+        "en"
+    ],
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "per_file_summary": [
+        {
+            "filename": "rec_audio_call_60481892_79801812_e221398e8079_audio_1782196290919.mp3",
+            "audio_duration": 142.88979591836735,
+            "transcription_time": 46.53824329999043,
+            "rtf": 0.32569325892646406,
+            "language": "en",
+            "language_confidence": 0.9708657264709473,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_35908728_14688996_2cb38628b76a_audio_1782196266876.mp3",
+            "audio_duration": 93.44,
+            "transcription_time": 43.026587400003336,
+            "rtf": 0.4604728959760631,
+            "language": "en",
+            "language_confidence": 0.9069007635116577,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_62815017_24874032_b624e6ff6f96_audio_1782502095594.mp3",
+            "audio_duration": 250.04408163265308,
+            "transcription_time": 94.81473260000348,
+            "rtf": 0.3791920687780906,
+            "language": "en",
+            "language_confidence": 0.9360126256942749,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_85133471_35297953_46795036ae2b_audio_1782196082989.mp3",
+            "audio_duration": 312.5028571428571,
+            "transcription_time": 107.90710229999968,
+            "rtf": 0.3452995703353559,
+            "language": "en",
+            "language_confidence": 0.8504061102867126,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_78154535_62551043_345637900926_audio_1782196256613.mp3",
+            "audio_duration": 71.83673469387755,
+            "transcription_time": 40.044691799994325,
+            "rtf": 0.5574403119885574,
+            "language": "en",
+            "language_confidence": 0.9275287389755249,
+            "status": "success"
+        }
+    ]
+}

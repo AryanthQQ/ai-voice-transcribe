@@ -1,0 +1,21 @@
+{
+  "base_keywords": [
+    "whatsapp",
+    "whats\\s*app",
+    "wa",
+    "wp",
+    "  _ Y? , . ",
+    " 慝? 1 _ Y? , ? ",
+    " 慝? 1 _ Y? , ? ? "
+  ],
+  "intent_actions": [
+    "number",
+    "message",
+    "share",
+    "aa\\s*jana",
+    "de\\s*do",
+    "mil\\s*sakta\\s*hai",
+    "karna",
+    "do"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+    "benchmark_run": "20260716_174416",
+    "model": "distil-large-v3",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "dataset": "C:\\Users\\hp\\Desktop\\benchmark",
+    "total_files": 5,
+    "successful_files": 5,
+    "failed_files_count": 0,
+    "failed_files": [],
+    "model_load_time": 8.131905499991262,
+    "total_benchmark_time": 267.61077769999974,
+    "avg_transcription_time": 53.51613019999932,
+    "avg_rtf": 0.0,
+    "avg_audio_duration": 0.0,
+    "languages_detected": [
+        "en"
+    ],
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "per_file_summary": [
+        {
+            "filename": "rec_audio_call_60481892_79801812_e221398e8079_audio_1782196290919.mp3",
+            "audio_duration": 0.0,
+            "transcription_time": 43.330351999989944,
+            "rtf": 0.0,
+            "language": "en",
+            "language_confidence": 0.9708657264709473,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_35908728_14688996_2cb38628b76a_audio_1782196266876.mp3",
+            "audio_duration": 0.0,
+            "transcription_time": 31.246228900010465,
+            "rtf": 0.0,
+            "language": "en",
+            "language_confidence": 0.9069007635116577,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_62815017_24874032_b624e6ff6f96_audio_1782502095594.mp3",
+            "audio_duration": 0.0,
+            "transcription_time": 81.12478600000031,
+            "rtf": 0.0,
+            "language": "en",
+            "language_confidence": 0.9360126256942749,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_85133471_35297953_46795036ae2b_audio_1782196082989.mp3",
+            "audio_duration": 0.0,
+            "transcription_time": 81.03141630001483,
+            "rtf": 0.0,
+            "language": "en",
+            "language_confidence": 0.8504061102867126,
+            "status": "success"
+        },
+        {
+            "filename": "rec_audio_call_78154535_62551043_345637900926_audio_1782196256613.mp3",
+            "audio_duration": 0.0,
+            "transcription_time": 30.84786779998103,
+            "rtf": 0.0,
+            "language": "en",
+            "language_confidence": 0.9275287389755249,
+            "status": "success"
+        }
+    ]
+}

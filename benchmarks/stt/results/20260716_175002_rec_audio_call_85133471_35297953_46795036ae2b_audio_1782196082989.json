@@ -1,0 +1,422 @@
+{
+    "file": "C:\\Users\\hp\\Desktop\\benchmark\\Hindi\\rec_audio_call_85133471_35297953_46795036ae2b_audio_1782196082989.mp3",
+    "filename": "rec_audio_call_85133471_35297953_46795036ae2b_audio_1782196082989.mp3",
+    "model": "distil-large-v3",
+    "framework": "faster_whisper",
+    "framework_version": "1.2.1",
+    "ctranslate2_version": "4.8.0",
+    "model_load_time": 6.04217690002406,
+    "transcription_time": 107.90710229999968,
+    "processing_time": 113.94927920002374,
+    "audio_duration": 312.5028571428571,
+    "rtf": 0.3452995703353559,
+    "language": "en",
+    "language_confidence": 0.8504061102867126,
+    "system": {
+        "cpu": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+        "cores": 8,
+        "ram_gb": 15.69,
+        "device": "cpu",
+        "compute_type": "int8",
+        "os": "Windows 11 (10.0.26200)"
+    },
+    "audio": {
+        "sample_rate": 44100,
+        "channels": 2,
+        "file_size_mb": 2.43
+    },
+    "segments": [
+        {
+            "start": 2.32,
+            "end": 9.52,
+            "text": "Hello, hello, hello."
+        },
+        {
+            "start": 10.74,
+            "end": 11.06,
+            "text": "Who?"
+        },
+        {
+            "start": 12.43,
+            "end": 16.34,
+            "text": "Yes, Radda, Radha, Radha."
+        },
+        {
+            "start": 18.22,
+            "end": 19.12,
+            "text": "And how are?"
+        },
+        {
+            "start": 24.99,
+            "end": 25.57,
+            "text": "How's how?"
+        },
+        {
+            "start": 27.28,
+            "end": 27.7,
+            "text": "How do."
+        },
+        {
+            "start": 29.91,
+            "end": 30.41,
+            "text": "Dill,"
+        },
+        {
+            "start": 30.41,
+            "end": 33.27,
+            "text": "Hastie, my."
+        },
+        {
+            "start": 33.69,
+            "end": 34.99,
+            "text": "Bafai, you know,"
+        },
+        {
+            "start": 35.21,
+            "end": 36.37,
+            "text": "and you'll hear of."
+        },
+        {
+            "start": 37.18,
+            "end": 40.0,
+            "text": "And, what I'll tell you."
+        },
+        {
+            "start": 40.0,
+            "end": 40.64,
+            "text": "What's the girl to do?"
+        },
+        {
+            "start": 42.62,
+            "end": 46.6,
+            "text": "What's the thing?"
+        },
+        {
+            "start": 47.16,
+            "end": 49.02,
+            "text": "What's the daughter?"
+        },
+        {
+            "start": 53.07,
+            "end": 53.15,
+            "text": "What?"
+        },
+        {
+            "start": 53.15,
+            "end": 53.87,
+            "text": "It's, too."
+        },
+        {
+            "start": 53.87,
+            "end": 56.22,
+            "text": "It's, too, who's, who's, who'll,"
+        },
+        {
+            "start": 56.22,
+            "end": 57.42,
+            "text": "from the heart that's the heart"
+        },
+        {
+            "start": 57.42,
+            "end": 69.88,
+            "text": "too, tell you."
+        },
+        {
+            "start": 69.88,
+            "end": 71.97,
+            "text": "Where are you?"
+        },
+        {
+            "start": 71.97,
+            "end": 78.42,
+            "text": "What are you?"
+        },
+        {
+            "start": 78.42,
+            "end": 80.28,
+            "text": "Hello?"
+        },
+        {
+            "start": 80.28,
+            "end": 82.21,
+            "text": "What?"
+        },
+        {
+            "start": 82.21,
+            "end": 83.21,
+            "text": "What are you?"
+        },
+        {
+            "start": 83.21,
+            "end": 84.21,
+            "text": "I'm here."
+        },
+        {
+            "start": 84.21,
+            "end": 88.0,
+            "text": "I'm at this time India Gate"
+        },
+        {
+            "start": 88.0,
+            "end": 90.7,
+            "text": "What are you?"
+        },
+        {
+            "start": 90.7,
+            "end": 93.85,
+            "text": "What are you?"
+        },
+        {
+            "start": 93.85,
+            "end": 94.85,
+            "text": "He was?"
+        },
+        {
+            "start": 94.85,
+            "end": 102.48,
+            "text": "What are you?"
+        },
+        {
+            "start": 102.48,
+            "end": 103.48,
+            "text": "Here?"
+        },
+        {
+            "start": 103.48,
+            "end": 106.94,
+            "text": "Here,"
+        },
+        {
+            "start": 106.94,
+            "end": 107.94,
+            "text": "here?"
+        },
+        {
+            "start": 107.94,
+            "end": 108.94,
+            "text": "Here, a car."
+        },
+        {
+            "start": 108.94,
+            "end": 112.03,
+            "text": "Here,"
+        },
+        {
+            "start": 112.03,
+            "end": 115.53,
+            "text": "crockery,"
+        },
+        {
+            "start": 115.53,
+            "end": 116.53,
+            "text": "okay."
+        },
+        {
+            "start": 116.53,
+            "end": 122.78,
+            "text": "Crocri?"
+        },
+        {
+            "start": 122.78,
+            "end": 123.78,
+            "text": "Crocri."
+        },
+        {
+            "start": 123.78,
+            "end": 125.22,
+            "text": "What?"
+        },
+        {
+            "start": 125.22,
+            "end": 126.22,
+            "text": "What?"
+        },
+        {
+            "start": 126.22,
+            "end": 128.58,
+            "text": "Crocary"
+        },
+        {
+            "start": 128.58,
+            "end": 129.58,
+            "text": "what is?"
+        },
+        {
+            "start": 129.58,
+            "end": 138.13,
+            "text": "What do you?"
+        },
+        {
+            "start": 138.13,
+            "end": 141.6,
+            "text": "What do you know?"
+        },
+        {
+            "start": 141.6,
+            "end": 142.6,
+            "text": "What do you"
+        },
+        {
+            "start": 142.6,
+            "end": 149.58,
+            "text": "what?"
+        },
+        {
+            "start": 149.58,
+            "end": 153.11,
+            "text": "What do?"
+        },
+        {
+            "start": 153.11,
+            "end": 160.2,
+            "text": "What is what is?"
+        },
+        {
+            "start": 160.2,
+            "end": 162.2,
+            "text": "What is what is?"
+        },
+        {
+            "start": 162.2,
+            "end": 168.5,
+            "text": "What's the item?"
+        },
+        {
+            "start": 168.5,
+            "end": 182.27,
+            "text": "What's the item?"
+        },
+        {
+            "start": 182.27,
+            "end": 184.27,
+            "text": "What are you?"
+        },
+        {
+            "start": 184.27,
+            "end": 196.61,
+            "text": "What are you?"
+        },
+        {
+            "start": 196.61,
+            "end": 199.3,
+            "text": "What are you?"
+        },
+        {
+            "start": 199.3,
+            "end": 200.3,
+            "text": "What are you?"
+        },
+        {
+            "start": 200.3,
+            "end": 206.97,
+            "text": "Okay."
+        },
+        {
+            "start": 206.97,
+            "end": 208.13,
+            "text": "Okay."
+        },
+        {
+            "start": 208.13,
+            "end": 209.13,
+            "text": "And then you said,"
+        },
+        {
+            "start": 209.13,
+            "end": 212.69,
+            "text": "I said, my mother, you know, you've got, you know."
+        },
+        {
+            "start": 213.43,
+            "end": 218.28,
+            "text": "Coal cut, cut, cut, and,"
+        },
+        {
+            "start": 218.28,
+            "end": 220.2,
+            "text": "coal cut, cut, and, my mahi, choddy,"
+        },
+        {
+            "start": 220.2,
+            "end": 232.25,
+            "text": "you know, I mean, you've got,"
+        },
+        {
+            "start": 232.25,
+            "end": 233.31,
+            "text": "you know, that you've got a london,"
+        },
+        {
+            "start": 233.31,
+            "end": 239.24,
+            "text": "you've got to be a lot of, you know?"
+        },
+        {
+            "start": 239.24,
+            "end": 251.2,
+            "text": "You've got a lot of, yeah,"
+        },
+        {
+            "start": 251.2,
+            "end": 253.2,
+            "text": "you know, what do you?"
+        },
+        {
+            "start": 253.2,
+            "end": 261.98,
+            "text": "What, do you?"
+        },
+        {
+            "start": 261.98,
+            "end": 264.98,
+            "text": "Your coal, all right, I didn't cut, I mean, I didn't."
+        },
+        {
+            "start": 264.98,
+            "end": 267.39,
+            "text": "No, no, no, no."
+        },
+        {
+            "start": 267.39,
+            "end": 268.39,
+            "text": "No, no."
+        },
+        {
+            "start": 268.39,
+            "end": 272.44,
+            "text": "he said he's in a casement of it's made it or who's written"
+        },
+        {
+            "start": 272.44,
+            "end": 274.87,
+            "text": "what's written in the casement in it, that's written"
+        },
+        {
+            "start": 274.87,
+            "end": 278.82,
+            "text": "it can't,"
+        },
+        {
+            "start": 278.82,
+            "end": 279.82,
+            "text": "understand?"
+        },
+        {
+            "start": 279.82,
+            "end": 285.94,
+            "text": "Thank you."
+        },
+        {
+            "start": 285.94,
+            "end": 289.46,
+            "text": "Thank you."
+        },
+        {
+            "start": 289.46,
+            "end": 290.46,
+            "text": "One minute."
+        }
+    ],
+    "transcript": "Hello, hello, hello. Who? Yes, Radda, Radha, Radha. And how are? How's how? How do. Dill, Hastie, my. Bafai, you know, and you'll hear of. And, what I'll tell you. What's the girl to do? What's the thing? What's the daughter? What? It's, too. It's, too, who's, who's, who'll, from the heart that's the heart too, tell you. Where are you? What are you? Hello? What? What are you? I'm here. I'm at this time India Gate What are you? What are you? He was? What are you? Here? Here, here? Here, a car. Here, crockery, okay. Crocri? Crocri. What? What? Crocary what is? What do you? What do you know? What do you what? What do? What is what is? What is what is? What's the item? What's the item? What are you? What are you? What are you? What are you? Okay. Okay. And then you said, I said, my mother, you know, you've got, you know. Coal cut, cut, cut, and, coal cut, cut, and, my mahi, choddy, you know, I mean, you've got, you know, that you've got a london, you've got to be a lot of, you know? You've got a lot of, yeah, you know, what do you? What, do you? Your coal, all right, I didn't cut, I mean, I didn't. No, no, no, no. No, no. he said he's in a casement of it's made it or who's written what's written in the casement in it, that's written it can't, understand? Thank you. Thank you. One minute.",
+    "status": "success"
+}
