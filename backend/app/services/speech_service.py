@@ -42,7 +42,8 @@ class SpeechService:
             print(f"model name: {getattr(self, 'model_name', 'unknown')}")
             print(f"device: {getattr(self, 'device', 'unknown')}")
             print(f"compute_type: {getattr(self, 'compute_type', 'unknown')}")
-            print("language: hi")
+            resolved_lang = language if language and language != "auto" else "auto"
+            print(f"language: {resolved_lang}")
             print("beam_size: 5")
             print("vad_filter: True")
             print("vad_parameters: {'min_silence_duration_ms': 400}")
