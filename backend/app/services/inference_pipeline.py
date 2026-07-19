@@ -7,6 +7,9 @@ from app.core.logger import logger
 from app.services.speech_service import speech_service
 from app.services.contact_detection import get_engine as get_contact_engine
 from app.services.compliance.engine import ComplianceEngine
+from app.services.transcript_normalizer import transcript_normalizer
+
+DEBUG_NORMALIZER = True
 
 class InferencePipeline:
     def __init__(self):
@@ -33,9 +36,19 @@ class InferencePipeline:
             stt_time = time.time() - stt_start
             logger.info(f"[Pipeline] STT complete in {stt_time:.2f}s")
             
+            # Normalize transcript before passing to Contact Detection
+            normalized_transcript = transcript_normalizer.normalize(transcript)
+            
+            if DEBUG_NORMALIZER:
+                print("\n========== ORIGINAL ==========")
+                print(transcript)
+                print("\n========== NORMALIZED ==========")
+                print(normalized_transcript)
+                print()
+            
             # 2. Contact Detection
             contact_start = time.time()
-            contact_results = self.contact_engine.analyze(transcript, segments, language)
+            contact_results = self.contact_engine.analyze(normalized_transcript, segments, language)
             raw_violations = contact_results.get("violations", [])
             contact_time = time.time() - contact_start
             logger.info(f"[Pipeline] Contact detection complete in {contact_time:.2f}s")
