@@ -40,11 +40,17 @@ class InferencePipeline:
             normalized_transcript = transcript_normalizer.normalize(transcript)
             
             if DEBUG_NORMALIZER:
-                print("\n========== ORIGINAL ==========")
-                print(transcript)
-                print("\n========== NORMALIZED ==========")
-                print(normalized_transcript)
-                print()
+                try:
+                    import os
+                    os.makedirs("logs", exist_ok=True)
+                    with open("logs/normalizer_debug.txt", "w", encoding="utf-8") as f:
+                        f.write("========== ORIGINAL ==========\n")
+                        f.write(transcript + "\n\n")
+                        f.write("========== NORMALIZED ==========\n")
+                        f.write(normalized_transcript + "\n")
+                except Exception as e:
+                    logger.warning(f"Failed to write normalizer debug file: {e}")
+
             
             # 2. Contact Detection
             contact_start = time.time()
