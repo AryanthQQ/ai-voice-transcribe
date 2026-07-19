@@ -29,6 +29,20 @@ class InferencePipeline:
             # 1. Speech-to-Text
             stt_start = time.time()
             segments, info = speech_service.transcribe(audio_path)
+            
+            print("\n==============================")
+            print("SEGMENT COUNT:", len(segments))
+
+            if len(segments) > 0:
+                print("\nFIRST SEGMENT:")
+                print(segments[0])
+
+            if len(segments) > 1:
+                print("\nSECOND SEGMENT:")
+                print(segments[1])
+
+            print("==============================\n")
+            
             language = getattr(info, "language", "en") if info else "en"
             
             # Reconstruct transcript

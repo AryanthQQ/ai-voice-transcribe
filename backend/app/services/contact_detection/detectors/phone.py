@@ -48,6 +48,7 @@ class PhoneDetector(BaseContactDetector):
         return " ".join(normalized)
         
     def detect(self, transcript: str, segments: Optional[List[Dict[str, Any]]] = None, language: Optional[str] = None) -> List[Dict[str, Any]]:
+        print("\n######## PHONE DETECTOR CALLED ########")
         # Regex to capture phone numbers:
         phone_regex = r'(?:(?:\+91|91)[\s-]*)?(?:\d[\s-]*){10}'
         
@@ -56,24 +57,21 @@ class PhoneDetector(BaseContactDetector):
         if segments:
             for segment in segments:
                 text = segment.get("text", "")
+                print(f"\nSEGMENT TEXT:\n{text}")
+                
                 norm_text = self._normalize_spoken_numbers(text, language)
+                print(f"\nNORMALIZED:\n{norm_text}")
                 
-                if DEBUG_PHONE_DETECTOR:
-                    logger.info(f"[DEBUG_PHONE] Original segment text: {text}")
-                    logger.info(f"[DEBUG_PHONE] Normalized text: {norm_text}")
-                
+                print("Searching regex...")
                 for match in re.finditer(phone_regex, norm_text):
                     raw_match = match.group(0)
                     digits_only = re.sub(r'\D', '', raw_match)
                     
-                    if DEBUG_PHONE_DETECTOR:
-                        logger.info(f"[DEBUG_PHONE] Regex match found: {raw_match}")
-                        logger.info(f"[DEBUG_PHONE] Digits extracted: {digits_only}")
+                    print(f"RAW MATCH: {raw_match}")
+                    print(f"DIGITS: {digits_only}")
                     
                     if len(digits_only) == 10 or (len(digits_only) == 12 and digits_only.startswith("91")):
-                        if DEBUG_PHONE_DETECTOR:
-                            logger.info(f"[DEBUG_PHONE] Violation created for digits: {digits_only}")
-                            
+                        print("PHONE VIOLATION CREATED")
                         start_time = segment.get("start", 0.0)
                         minutes = int(start_time // 60)
                         seconds = int(start_time % 60)
@@ -89,27 +87,21 @@ class PhoneDetector(BaseContactDetector):
                             "matched_text": raw_match
                         })
                     else:
-                        if DEBUG_PHONE_DETECTOR:
-                            logger.info(f"[DEBUG_PHONE] Violation skipped for digits: {digits_only}")
+                        print("PHONE VIOLATION SKIPPED")
         else:
             norm_text = self._normalize_spoken_numbers(transcript, language)
             
-            if DEBUG_PHONE_DETECTOR:
-                logger.info(f"[DEBUG_PHONE] Original transcript text: {transcript}")
-                logger.info(f"[DEBUG_PHONE] Normalized text: {norm_text}")
-                
+            print(f"\nNORMALIZED:\n{norm_text}")
+            print("Searching regex...")
             for match in re.finditer(phone_regex, norm_text):
                 raw_match = match.group(0)
                 digits_only = re.sub(r'\D', '', raw_match)
                 
-                if DEBUG_PHONE_DETECTOR:
-                    logger.info(f"[DEBUG_PHONE] Regex match found: {raw_match}")
-                    logger.info(f"[DEBUG_PHONE] Digits extracted: {digits_only}")
+                print(f"RAW MATCH: {raw_match}")
+                print(f"DIGITS: {digits_only}")
                 
                 if len(digits_only) == 10 or (len(digits_only) == 12 and digits_only.startswith("91")):
-                    if DEBUG_PHONE_DETECTOR:
-                        logger.info(f"[DEBUG_PHONE] Violation created for digits: {digits_only}")
-                        
+                    print("PHONE VIOLATION CREATED")
                     violations.append({
                         "type": self.name,
                         "severity": "High",
@@ -119,12 +111,8 @@ class PhoneDetector(BaseContactDetector):
                         "confidence": 0.99,
                         "matched_text": raw_match
                     })
-                    
                 else:
-                    if DEBUG_PHONE_DETECTOR:
-                        logger.info(f"[DEBUG_PHONE] Violation skipped for digits: {digits_only}")
-                        
-        if DEBUG_PHONE_DETECTOR:
-            logger.info(f"[DEBUG_PHONE] Final violations count: {len(violations)}")
-            
+                    print("PHONE VIOLATION SKIPPED")
+                    
+        print(f"TOTAL PHONE VIOLATIONS: {len(violations)}")
         return violations
