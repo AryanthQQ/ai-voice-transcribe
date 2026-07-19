@@ -41,7 +41,6 @@ class InferencePipeline:
             
             if DEBUG_NORMALIZER:
                 try:
-                    import os
                     os.makedirs("logs", exist_ok=True)
                     with open("logs/normalizer_debug.txt", "w", encoding="utf-8") as f:
                         f.write("========== ORIGINAL ==========\n")
