@@ -2,6 +2,9 @@ import re
 from typing import List, Dict, Optional, Any
 from ..base import BaseContactDetector
 from ..i18n.manager import i18n_manager
+from app.core.logger import logger
+
+DEBUG_PHONE_DETECTOR = True
 
 class PhoneDetector(BaseContactDetector):
     @property
@@ -55,11 +58,22 @@ class PhoneDetector(BaseContactDetector):
                 text = segment.get("text", "")
                 norm_text = self._normalize_spoken_numbers(text, language)
                 
+                if DEBUG_PHONE_DETECTOR:
+                    logger.info(f"[DEBUG_PHONE] Original segment text: {text}")
+                    logger.info(f"[DEBUG_PHONE] Normalized text: {norm_text}")
+                
                 for match in re.finditer(phone_regex, norm_text):
                     raw_match = match.group(0)
                     digits_only = re.sub(r'\D', '', raw_match)
                     
+                    if DEBUG_PHONE_DETECTOR:
+                        logger.info(f"[DEBUG_PHONE] Regex match found: {raw_match}")
+                        logger.info(f"[DEBUG_PHONE] Digits extracted: {digits_only}")
+                    
                     if len(digits_only) == 10 or (len(digits_only) == 12 and digits_only.startswith("91")):
+                        if DEBUG_PHONE_DETECTOR:
+                            logger.info(f"[DEBUG_PHONE] Violation created for digits: {digits_only}")
+                            
                         start_time = segment.get("start", 0.0)
                         minutes = int(start_time // 60)
                         seconds = int(start_time % 60)
@@ -74,12 +88,28 @@ class PhoneDetector(BaseContactDetector):
                             "confidence": 0.99,
                             "matched_text": raw_match
                         })
+                    else:
+                        if DEBUG_PHONE_DETECTOR:
+                            logger.info(f"[DEBUG_PHONE] Violation skipped for digits: {digits_only}")
         else:
             norm_text = self._normalize_spoken_numbers(transcript, language)
+            
+            if DEBUG_PHONE_DETECTOR:
+                logger.info(f"[DEBUG_PHONE] Original transcript text: {transcript}")
+                logger.info(f"[DEBUG_PHONE] Normalized text: {norm_text}")
+                
             for match in re.finditer(phone_regex, norm_text):
                 raw_match = match.group(0)
                 digits_only = re.sub(r'\D', '', raw_match)
+                
+                if DEBUG_PHONE_DETECTOR:
+                    logger.info(f"[DEBUG_PHONE] Regex match found: {raw_match}")
+                    logger.info(f"[DEBUG_PHONE] Digits extracted: {digits_only}")
+                
                 if len(digits_only) == 10 or (len(digits_only) == 12 and digits_only.startswith("91")):
+                    if DEBUG_PHONE_DETECTOR:
+                        logger.info(f"[DEBUG_PHONE] Violation created for digits: {digits_only}")
+                        
                     violations.append({
                         "type": self.name,
                         "severity": "High",
@@ -90,4 +120,11 @@ class PhoneDetector(BaseContactDetector):
                         "matched_text": raw_match
                     })
                     
+                else:
+                    if DEBUG_PHONE_DETECTOR:
+                        logger.info(f"[DEBUG_PHONE] Violation skipped for digits: {digits_only}")
+                        
+        if DEBUG_PHONE_DETECTOR:
+            logger.info(f"[DEBUG_PHONE] Final violations count: {len(violations)}")
+            
         return violations
