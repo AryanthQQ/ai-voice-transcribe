@@ -88,6 +88,40 @@ class PhoneDetector(BaseContactDetector):
                         })
                     else:
                         print("PHONE VIOLATION SKIPPED")
+                        
+            # Second pass: Sliding window (2 and 3 segments)
+            found_numbers = {v["value"] for v in violations}
+            norm_segments = [self._normalize_spoken_numbers(seg.get("text", ""), language) for seg in segments]
+            
+            for window_size in [2, 3]:
+                for i in range(len(norm_segments) - window_size + 1):
+                    window_text = " ".join(norm_segments[i:i + window_size])
+                    
+                    # Reconstruct consecutive digits across segments
+                    window_text = re.sub(r'(?<=\d)[\s-]+(?=\d)', '', window_text)
+                    
+                    for match in re.finditer(phone_regex, window_text):
+                        raw_match = match.group(0)
+                        digits_only = re.sub(r'\D', '', raw_match)
+                        
+                        if len(digits_only) == 10 or (len(digits_only) == 12 and digits_only.startswith("91")):
+                            value = digits_only[-10:]
+                            if value not in found_numbers:
+                                found_numbers.add(value)
+                                start_time = segments[i].get("start", 0.0)
+                                minutes = int(start_time // 60)
+                                seconds = int(start_time % 60)
+                                time_str = f"{minutes:02d}:{seconds:02d}"
+                                
+                                violations.append({
+                                    "type": self.name,
+                                    "severity": "High",
+                                    "value": value,
+                                    "timestamp": time_str,
+                                    "speaker": segments[i].get("speaker", "Unknown"),
+                                    "confidence": 0.99,
+                                    "matched_text": raw_match
+                                })
         else:
             norm_text = self._normalize_spoken_numbers(transcript, language)
             
