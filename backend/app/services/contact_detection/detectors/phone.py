@@ -122,6 +122,29 @@ class PhoneDetector(BaseContactDetector):
                                     "confidence": 0.99,
                                     "matched_text": raw_match
                                 })
+                                
+            # Third pass: Global digit reconstruction
+            global_text = " ".join(norm_segments)
+            global_text = re.sub(r'(?<=\d)[\s-]+(?=\d)', '', global_text)
+            
+            for match in re.finditer(phone_regex, global_text):
+                raw_match = match.group(0)
+                digits_only = re.sub(r'\D', '', raw_match)
+                
+                if len(digits_only) == 10 or (len(digits_only) == 12 and digits_only.startswith("91")):
+                    value = digits_only[-10:]
+                    if value not in found_numbers:
+                        found_numbers.add(value)
+                        
+                        violations.append({
+                            "type": self.name,
+                            "severity": "High",
+                            "value": value,
+                            "timestamp": "00:00",
+                            "speaker": "Unknown",
+                            "confidence": 0.99,
+                            "matched_text": raw_match
+                        })
         else:
             norm_text = self._normalize_spoken_numbers(transcript, language)
             
