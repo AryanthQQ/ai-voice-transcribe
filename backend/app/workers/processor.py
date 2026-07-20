@@ -126,7 +126,7 @@ def process_job(job_id: str, payload: Dict[str, Any], worker_id: str):
                     incidents_list.append({
                         "time": v.get("timestamp", "00:00"),
                         "speaker": v.get("speaker", "Unknown"),
-                        "text": v.get("matched_text", ""),
+                        "text": v.get("matched_text") or v.get("value") or "",
                         "violations": [v.get("type", "unknown")]
                     })
 
@@ -144,6 +144,13 @@ def process_job(job_id: str, payload: Dict[str, Any], worker_id: str):
                 }
                 
                 def send_email_with_retry():
+                    logger.info(
+                        f"Email Alert Payload | "
+                        f"advisor={alert_data.get('adviser_id')} "
+                        f"user={alert_data.get('user_id')} "
+                        f"violations={alert_data.get('violations')} "
+                        f"incidents={alert_data.get('incidents')}"
+                    )
                     for attempt in range(3):
                         try:
                             send_violation_alert_email(alert_data)
