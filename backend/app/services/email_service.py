@@ -59,7 +59,10 @@ INCIDENT DETAILS
         msg.set_content(body)
 
         logger.info("Connecting to SMTP server...")
-        server = smtplib.SMTP_SSL(smtp_host, settings.SMTP_PORT)
+        server = smtplib.SMTP(smtp_host, settings.SMTP_PORT)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
         server.login(smtp_user, smtp_pass)
         server.send_message(msg)
         server.quit()
