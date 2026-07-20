@@ -69,6 +69,11 @@ class SpeechService:
             beam_size=5,
         )
         
+        logger.info(f"Detected language: {info.language}")
+        logger.info(f"Probability: {info.language_probability}")
+        logger.info(f"Duration: {info.duration} sec")
+        logger.info(f"Model used: {getattr(self, 'model_name', 'unknown')}")
+        
         segments = []
         for s in segments_gen:
             segments.append({
