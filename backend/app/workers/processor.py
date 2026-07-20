@@ -43,6 +43,19 @@ def process_job(job_id: str, payload: Dict[str, Any], worker_id: str):
             error=error
         )
 
+    from app.core.queue.instance import global_queue
+    stop_heartbeat = threading.Event()
+    
+    def heartbeat_worker():
+        while not stop_heartbeat.wait(15):
+            try:
+                global_queue.heartbeat("default", job_id, worker_id)
+            except Exception as e:
+                logger.error(f"[{worker_id} | Job {job_id}] Heartbeat thread error: {e}")
+                
+    heartbeat_thread = threading.Thread(target=heartbeat_worker, daemon=True)
+    heartbeat_thread.start()
+
     try:
         # DOWNLOADING state
         update("DOWNLOADING", 10, "Downloading Audio")
@@ -154,3 +167,7 @@ def process_job(job_id: str, payload: Dict[str, Any], worker_id: str):
         update("FAILED", 100, "Failed", error=error_data)
         metrics_service.record_job(success=False, processing_time_sec=time.time() - start_total)
         raise e # Re-raise so WorkerPool knows it failed!
+    finally:
+        stop_heartbeat.set()
+        if heartbeat_thread.is_alive():
+            heartbeat_thread.join(timeout=1.0)
