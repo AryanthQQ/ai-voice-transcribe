@@ -56,6 +56,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 app.include_router(transcribe.router, prefix=settings.API_PREFIX, tags=["Transcription"])
 app.include_router(analyze.router, prefix=settings.API_PREFIX, tags=["Analysis"])
 
+worker_pool = None
+
 @app.on_event("startup")
 async def startup_event():
     import time
@@ -90,6 +92,26 @@ async def startup_event():
         logger.info("[OK] Bad words list loaded")
     else:
         logger.warning(f"Bad words file not found at {settings.BAD_WORDS_FILE}")
+
+    # Initialize and start WorkerPool
+    global worker_pool
+    from app.workers.pool import WorkerPool
+    from app.workers.processor import process_job
+    
+    worker_pool = WorkerPool(
+        process_fn=process_job,
+        num_workers=settings.WORKER_COUNT
+    )
+    worker_pool.start()
+    logger.info(f"[OK] WorkerPool started with {settings.WORKER_COUNT} workers")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    global worker_pool
+    if worker_pool:
+        logger.info("Stopping WorkerPool...")
+        worker_pool.stop()
+        logger.info("[OK] WorkerPool stopped")
 
 from app.services.metrics_service import metrics_service
 
