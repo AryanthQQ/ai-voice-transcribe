@@ -58,7 +58,7 @@ class SpeechService:
         segments_gen, info = model.transcribe(
             audio_path,
             language="hi",
-            initial_prompt=prompt,
+            initial_prompt="This audio contains conversational Hindi and Hinglish. Do not translate. Transcribe exactly as spoken. Phone numbers, WhatsApp numbers, UPI IDs and names should be written exactly as spoken. Do not invent English words.",
             condition_on_previous_text=False,
             temperature=[0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
             no_speech_threshold=0.6,
