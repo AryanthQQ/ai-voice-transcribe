@@ -100,7 +100,7 @@ export default function App() {
             <p className="mt-1 text-[10px] text-slate-500">faster-whisper large-v3 · int8 · offline</p>
             <div className="mt-2 flex items-center gap-1.5 text-[10px] text-slate-500">
               <CircleDot size={11} className="text-emerald-500" />
-              localhost:8000, online
+              {import.meta.env.VITE_API_URL ? new URL(import.meta.env.VITE_API_URL).host : "online"}
             </div>
           </div>
         </div>
