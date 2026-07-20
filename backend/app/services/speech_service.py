@@ -57,7 +57,7 @@ class SpeechService:
         # Used only to benchmark Hindi/Hinglish transcription accuracy.
         segments_gen, info = model.transcribe(
             audio_path,
-            language=language if language and language != "auto" else None,
+            language="hi",
             initial_prompt=prompt,
             condition_on_previous_text=False,
             temperature=[0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
