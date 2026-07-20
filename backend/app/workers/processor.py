@@ -121,16 +121,26 @@ def process_job(job_id: str, payload: Dict[str, Any], worker_id: str):
                 transcript_text = result_data.get("transcript", "")
                 transcript_snippet = transcript_text[:500] + "..." if len(transcript_text) > 500 else transcript_text
                 
+                incidents_list = []
+                for v in violations:
+                    incidents_list.append({
+                        "time": v.get("timestamp", "00:00"),
+                        "speaker": v.get("speaker", "Unknown"),
+                        "text": v.get("matched_text", ""),
+                        "violations": [v.get("type", "unknown")]
+                    })
+
                 alert_data = {
                     "call_id": call_id,
-                    "advisor_id": adviser_id,
+                    "adviser_id": adviser_id,
                     "user_id": user_id,
                     "risk_score": risk_score,
                     "overall_risk": overall_risk,
-                    "violation_types": violation_types,
-                    "transcript_snippet": transcript_snippet,
+                    "violations": violation_types,
+                    "transcript": transcript_snippet,
                     "audio_url": voice_url,
-                    "processing_timestamp": time.time()
+                    "time": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "incidents": incidents_list
                 }
                 
                 def send_email_with_retry():
