@@ -56,20 +56,43 @@ class SpeechService:
             print(f"audio path: {audio_path}")
             print("############################\n")
             
+        import subprocess
+        
+        # PREPROCESSING: Convert to 16kHz, mono, PCM 16-bit WAV
+        processed_audio_path = audio_path + ".wav"
+        logger.info(f"Preprocessing audio with ffmpeg: {audio_path} -> {processed_audio_path}")
+        try:
+            subprocess.run([
+                "ffmpeg", "-y", "-i", audio_path,
+                "-acodec", "pcm_s16le",
+                "-ac", "1",
+                "-ar", "16000",
+                processed_audio_path
+            ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except subprocess.CalledProcessError as e:
+            logger.error(f"FFmpeg preprocessing failed: {e}")
+            raise
+
         # TEMPORARY STT EXPERIMENT
         # Used only to benchmark Hindi/Hinglish transcription accuracy.
         segments_gen, info = model.transcribe(
-            audio_path,
+            processed_audio_path,
             language="hi",
-            initial_prompt=prompt,
-            condition_on_previous_text=False,
-            temperature=[0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
-            no_speech_threshold=0.6,
-            vad_filter=True,
-            vad_parameters=dict(
-                min_silence_duration_ms=400,
+            initial_prompt=(
+                "Primary language is Hindi. "
+                "Keep English words exactly as spoken. "
+                "Do not translate English words into Hindi. "
+                "Write phone numbers using digits only. "
+                "Preserve names exactly as spoken."
             ),
             beam_size=5,
+            temperature=0,
+            no_speech_threshold=0.6,
+            condition_on_previous_text=True,
+            vad_filter=True,
+            vad_parameters={
+                "min_silence_duration_ms": 400
+            }
         )
         
         logger.info(f"Detected language: {info.language}")

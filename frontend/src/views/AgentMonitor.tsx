@@ -71,7 +71,7 @@ export function AgentMonitor() {
       fd.append("reciever_ref_code", advId);
       fd.append("voice_url", vUrl);
 
-      const res = await fetch("http://localhost:8001/api/analyze-call", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/analyze-call`, {
         method: "POST",
         body: fd,
         signal: controller.signal,
@@ -91,7 +91,7 @@ export function AgentMonitor() {
         let isDone = false;
         while (!isDone) {
           await new Promise(r => setTimeout(r, 3000)); // Poll every 3 seconds
-          const statusRes = await fetch(`http://localhost:8001/api/analyze-status/${data.job_id}`, {
+          const statusRes = await fetch(`${import.meta.env.VITE_API_URL}/api/analyze-status/${data.job_id}`, {
             signal: controller.signal
           });
           const statusData = await statusRes.json();
