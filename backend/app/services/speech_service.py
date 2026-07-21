@@ -56,26 +56,18 @@ class SpeechService:
             print(f"audio path: {audio_path}")
             print("############################\n")
             
-        # TEMPORARY STT EXPERIMENT
-        # Used only to benchmark Hindi/Hinglish transcription accuracy.
         segments_gen, info = model.transcribe(
             audio_path,
             language="hi",
-            initial_prompt=(
-                "Primary language is Hindi. "
-                "Keep English words exactly as spoken. "
-                "Do not translate English words into Hindi. "
-                "Write phone numbers using digits only. "
-                "Preserve names exactly as spoken."
+            initial_prompt=prompt,
+            condition_on_previous_text=False,
+            temperature=[0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
+            no_speech_threshold=0.6,
+            vad_filter=True,
+            vad_parameters=dict(
+                min_silence_duration_ms=400,
             ),
             beam_size=5,
-            temperature=0,
-            no_speech_threshold=0.6,
-            condition_on_previous_text=True,
-            vad_filter=True,
-            vad_parameters={
-                "min_silence_duration_ms": 400
-            }
         )
         
         logger.info(f"Detected language: {info.language}")
