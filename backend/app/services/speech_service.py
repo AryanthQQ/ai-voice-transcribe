@@ -56,27 +56,10 @@ class SpeechService:
             print(f"audio path: {audio_path}")
             print("############################\n")
             
-        import subprocess
-        
-        # PREPROCESSING: Convert to 16kHz, mono, PCM 16-bit WAV
-        processed_audio_path = audio_path + ".wav"
-        logger.info(f"Preprocessing audio with ffmpeg: {audio_path} -> {processed_audio_path}")
-        try:
-            subprocess.run([
-                "ffmpeg", "-y", "-i", audio_path,
-                "-acodec", "pcm_s16le",
-                "-ac", "1",
-                "-ar", "16000",
-                processed_audio_path
-            ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        except subprocess.CalledProcessError as e:
-            logger.error(f"FFmpeg preprocessing failed: {e}")
-            raise
-
         # TEMPORARY STT EXPERIMENT
         # Used only to benchmark Hindi/Hinglish transcription accuracy.
         segments_gen, info = model.transcribe(
-            processed_audio_path,
+            audio_path,
             language="hi",
             initial_prompt=(
                 "Primary language is Hindi. "
