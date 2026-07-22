@@ -16,6 +16,11 @@ class Settings(BaseSettings):
     MAX_RETRIES: int = 3
     HEARTBEAT_TIMEOUT_SEC: int = 60
     
+    # Kafka Config
+    KAFKA_BOOTSTRAP_SERVERS: str = "localhost:9092"
+    KAFKA_TOPIC_ANALYSIS: str = "speech_analysis"
+    KAFKA_CONSUMER_GROUP: str = "speech_analytics_group"
+    
     # Audio Download Limits
     MAX_AUDIO_FILE_SIZE_MB: int = 50
     MAX_AUDIO_DURATION_SEC: int = 7200 # 2 hours
